@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import {
@@ -46,11 +47,19 @@ function MenuCard({ href, icons, title }) {
 }
 
 export default function UiLayout({ children }) {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
   return (
     <div className="flex flex-row items-center justify-center w-full min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed">
       <div className="flex flex-col items-center justify-start w-1/12 min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] overflow-auto">
         <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-b-2">
-          <button className="flex items-center justify-center w-14 h-14 p-2 border-2 border-[#000000] border-dashed rounded-xl">
+          <button
+            className="flex items-center justify-center w-14 h-14 p-2 border-2 border-[#000000] border-dashed rounded-xl"
+            onClick={toggleSidebar}
+          >
             <DehazeOutlined />
           </button>
           <MenuCard
@@ -106,31 +115,37 @@ export default function UiLayout({ children }) {
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-start w-2/12 min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] overflow-auto">
-        <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed rounded-xl">
-          <Image
-            src="/images/other/company_logo.png"
-            alt="company_logo"
-            width={50}
-            height={50}
-            priority={true}
-          />
-          Channakorn - Cis
+      {sidebarOpen && (
+        <div className="flex flex-col items-center justify-start w-2/12 min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] overflow-auto">
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed rounded-xl">
+            <Image
+              src="/images/other/company_logo.png"
+              alt="company_logo"
+              width={50}
+              height={50}
+              priority={true}
+            />
+            Channakorn - Cis
+          </div>
+          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed rounded-xl">
+            <div className="flex items-center justify-start w-full h-full p-2 border-2 border-[#000000] border-dashed rounded-xl">
+              สาขา
+            </div>
+            <div className="flex items-center justify-start w-full h-full p-2 border-2 border-[#000000] border-dashed rounded-xl">
+              ฝ่าย
+            </div>
+            <div className="flex items-center justify-start w-full h-full p-2 border-2 border-[#000000] border-dashed rounded-xl">
+              แผนก
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed rounded-xl">
-          <div className="flex items-center justify-start w-full h-full p-2 border-2 border-[#000000] border-dashed rounded-xl">
-            สาขา
-          </div>
-          <div className="flex items-center justify-start w-full h-full p-2 border-2 border-[#000000] border-dashed rounded-xl">
-            ฝ่าย
-          </div>
-          <div className="flex items-center justify-start w-full h-full p-2 border-2 border-[#000000] border-dashed rounded-xl">
-            แผนก
-          </div>
-        </div>
-      </div>
+      )}
 
-      <div className="flex flex-colitems-center justify-center w-9/12 min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed">
+      <div
+        className={`flex flex-col items-center justify-center ${
+          sidebarOpen ? "w-9/12" : "w-full"
+        } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed`}
+      >
         01
       </div>
     </div>
