@@ -46,6 +46,17 @@ function MenuCard({ href, icons, title }) {
   );
 }
 
+function SubMenuCard({ href, text }) {
+  return (
+    <Link
+      href={href}
+      className="flex items-center justify-start w-full h-full p-2 text-[#000000] hover:text-[#635bff] rounded-xl border-2 border-[#000000] border-dashed"
+    >
+      {text}
+    </Link>
+  );
+}
+
 export default function UiLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isClicked, setIsClicked] = useState(false);
@@ -139,15 +150,9 @@ export default function UiLayout({ children }) {
             Channakorn - Cis
           </div>
           <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed rounded-xl">
-            <div className="flex items-center justify-start w-full h-full p-2 border-2 border-[#000000] border-dashed rounded-xl">
-              สาขา
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 border-2 border-[#000000] border-dashed rounded-xl">
-              ฝ่าย
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 border-2 border-[#000000] border-dashed rounded-xl">
-              แผนก
-            </div>
+              <SubMenuCard href="/hr/branch" text="สาขา" />
+              <SubMenuCard href="/hr/division" text="ฝ่าย" />
+              <SubMenuCard href="/hr/department" text="แผนก" />
           </div>
         </div>
       )}
