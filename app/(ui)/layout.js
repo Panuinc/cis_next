@@ -17,6 +17,8 @@ import {
   ExitToAppOutlined,
 } from "@mui/icons-material";
 import { menuHeader, menuItems } from "@/utils/menuConfig";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const CustomTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -55,7 +57,7 @@ function SubMenuCard({ href, text }) {
   return (
     <Link
       href={href}
-      className="flex items-center justify-start w-full h-full p-2 text-[#000000] hover:text-[#635bff] rounded-xl border-2 border-[#000000] border-dashed"
+      className="flex items-center justify-start w-full h-full p-2 text-[#000000] text-md font-[300] hover:text-[#635bff] rounded-xl border-2 border-[#000000] border-dashed"
     >
       {text}
     </Link>
@@ -189,11 +191,19 @@ export default function UiLayout({ children }) {
       )}
 
       <div
-        className={`flex flex-col items-center justify-center ${
+        className={`flex flex-col items-center justify-between ${
           sidebarOpen ? "w-9/12" : "w-full"
         } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed`}
       >
-        {children}
+        <div className="flex items-center justify-center w-full h-full bg-[#FFFFFF]">
+          <Header />
+        </div>
+        <div className="flex items-center justify-center w-full min-h-96 p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] rounded-3xl">
+          {children}
+        </div>
+        <div className="flex items-center justify-center w-full h-full bg-[#FFFFFF]">
+          <Footer />
+        </div>
       </div>
     </div>
   );
