@@ -48,16 +48,22 @@ function MenuCard({ href, icons, title }) {
 
 export default function UiLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isClicked, setIsClicked] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
+    setIsClicked(true);
+    setTimeout(() => setIsClicked(false), 300);
   };
+
   return (
     <div className="flex flex-row items-center justify-center w-full min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed">
       <div className="flex flex-col items-center justify-start w-1/12 min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] overflow-auto">
         <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-b-2">
           <button
-            className="flex items-center justify-center w-14 h-14 p-2 border-2 border-[#000000] border-dashed rounded-xl"
+            className={`flex items-center justify-center w-14 h-14 p-2 border-2 border-[#000000] border-dashed rounded-xl ${
+              isClicked ? "animate-click" : ""
+            }`}
             onClick={toggleSidebar}
           >
             <DehazeOutlined />
@@ -108,7 +114,7 @@ export default function UiLayout({ children }) {
           />
           <button
             href="/#"
-            className="flex items-center justify-center w-14 h-14 p-2 text-[#FFFFFF] bg-[#635bff] rounded-xl"
+            className="flex items-center justify-center w-14 h-14 p-2 text-[#FFFFFF] bg-[#635bff] hover:bg-[#635bff]/50 rounded-xl"
           >
             <ExitToAppOutlined />
           </button>
@@ -116,7 +122,12 @@ export default function UiLayout({ children }) {
       </div>
 
       {sidebarOpen && (
-        <div className="flex flex-col items-center justify-start w-2/12 min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] overflow-auto">
+        <div
+          className={`flex flex-col items-center justify-start min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] overflow-auto transition-all duration-500 ease-in-out transform ${
+            sidebarOpen ? "w-2/12 opacity-100" : "w-0 opacity-0"
+          }`}
+          style={{ transition: "width 0.5s ease, opacity 0.5s ease" }}
+        >
           <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed rounded-xl">
             <Image
               src="/images/other/company_logo.png"

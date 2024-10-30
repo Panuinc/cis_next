@@ -8,12 +8,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(13deg, #F3F7FB 14%, #F3F7FB 64%);
+  background: linear-gradient(13deg, #f3f7fb 14%, #f3f7fb 64%);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(13deg, #F3F7FB 14%, #F3F7FB 64%);
+  background: linear-gradient(13deg, #f3f7fb 14%, #f3f7fb 64%);
 }
 
 ::-webkit-scrollbar-track {
@@ -23,8 +23,23 @@
 }
 
 ::selection {
-  background: #F3F7FB;
+  background: #f3f7fb;
   color: #ffffff;
   text-shadow: none;
 }
 
+.animate-click {
+  animation: clickEffect 0.3s ease-in-out;
+}
+
+@keyframes clickEffect {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(20deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
