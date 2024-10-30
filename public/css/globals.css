@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(13deg, #F3F7FB 14%, #F3F7FB 64%);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(13deg, #F3F7FB 14%, #F3F7FB 64%);
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: inset 7px 10px 12px #ffffff;
+}
+
+::selection {
+  background: #F3F7FB;
+  color: #ffffff;
+  text-shadow: none;
+}
+
