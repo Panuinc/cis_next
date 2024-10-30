@@ -146,7 +146,7 @@ export default function UiLayout({ children }) {
 
       {sidebarOpen && (
         <div
-          className={`flex flex-col items-center justify-start min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] overflow-auto transition-all duration-500 ease-in-out transform ${
+          className={`flex flex-col items-center justify-start min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#FFFFFF] overflow-auto transition-all duration-500 ease-in-out transform ${
             sidebarOpen ? "w-2/12 opacity-100" : "w-0 opacity-0"
           }`}
           style={{ transition: "width 0.5s ease, opacity 0.5s ease" }}
