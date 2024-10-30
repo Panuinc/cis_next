@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import Tooltip from "@mui/material/Tooltip";
+import { styled } from "@mui/material/styles";
 import {
   DehazeOutlined,
   AutoGraphOutlined,
@@ -8,25 +10,38 @@ import {
   DocumentScannerOutlined,
   SlowMotionVideoOutlined,
   CottageOutlined,
-  SettingsSuggestOutlined,
-  FilterDramaOutlined,
-  CalendarMonthOutlined,
-  RingVolumeOutlined,
-  ExtensionOutlined,
   PersonOutlineOutlined,
   ComputerOutlined,
   Face5Outlined,
   ExitToAppOutlined,
 } from "@mui/icons-material";
 
-function MenuCard({ href, icons, onClick }) {
+const CustomTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .MuiTooltip-tooltip`]: {
+    backgroundColor: "#16cdc7",
+    color: "#FFFFFF",
+    fontSize: "0.875rem", 
+    padding: "8px 12px",
+    borderRadius: "50px",
+    boxShadow: theme.shadows[1],
+  },
+  [`& .MuiTooltip-arrow`]: {
+    color: "#16cdc7",
+  },
+}));
+
+function MenuCard({ href, icons, title }) {
   return (
-    <Link
-      href={href}
-      className="flex items-center justify-center w-14 h-14 p-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed"
-    >
-      {icons}
-    </Link>
+    <CustomTooltip title={title} arrow placement="right">
+      <Link
+        href={href}
+        className="flex items-center justify-center w-14 h-14 p-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed"
+      >
+        {icons}
+      </Link>
+    </CustomTooltip>
   );
 }
 
@@ -42,42 +57,51 @@ export default function UiLayout({ children }) {
             <MenuCard
               href="/"
               icons={<AutoGraphOutlined style={{ fontSize: "1.5rem" }} />}
+              title="Auto Graph"
             />
             <MenuCard
               href="/"
               icons={<CampaignOutlined style={{ fontSize: "1.5rem" }} />}
+              title="Campaign"
             />
             <MenuCard
               href="/"
               icons={<DocumentScannerOutlined style={{ fontSize: "1.5rem" }} />}
+              title="Document Scanner"
             />
             <MenuCard
               href="/"
               icons={<SlowMotionVideoOutlined style={{ fontSize: "1.5rem" }} />}
+              title="Slow Motion Video"
             />
           </div>
           <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-b-2">
             <MenuCard
               href="/"
               icons={<CottageOutlined style={{ fontSize: "1.5rem" }} />}
+              title="Home"
             />
             <MenuCard
               href="/hr"
               icons={<PersonOutlineOutlined style={{ fontSize: "1.5rem" }} />}
+              title="HR"
             />
             <MenuCard
               href="/it"
               icons={<ComputerOutlined style={{ fontSize: "1.5rem" }} />}
+              title="IT"
             />
           </div>
           <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-b-2">
             <MenuCard
               href="/"
               icons={<Face5Outlined style={{ fontSize: "2rem" }} />}
+              title="Profile"
             />
             <button
               href="/#"
               className="flex items-center justify-center w-14 h-14 p-2 text-[#FFFFFF] bg-[#635bff] rounded-xl"
+              title="Logout"
             >
               <ExitToAppOutlined />
             </button>
