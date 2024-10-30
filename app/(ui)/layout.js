@@ -6,6 +6,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import {
   DehazeOutlined,
+  CottageOutlined,
   AutoGraphOutlined,
   CampaignOutlined,
   DocumentScannerOutlined,
@@ -110,6 +111,11 @@ export default function UiLayout({ children }) {
           />
         </div>
         <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-b-2">
+          <MenuCard
+            href="/"
+            icons={<CottageOutlined style={{ fontSize: "1.5rem" }} />}
+            title="หน้าหลัก"
+          />
           <MenuCard
             icons={<PersonOutlineOutlined style={{ fontSize: "1.5rem" }} />}
             title="บุคคล"
