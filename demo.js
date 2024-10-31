@@ -19,6 +19,7 @@ import {
   WorkspacesOutlined,
   DarkModeOutlined,
   NotificationsActiveOutlined,
+  LayersOutlined,
 } from "@mui/icons-material";
 import { menuHeader, menuItems } from "@/utils/menuConfig";
 
@@ -43,7 +44,7 @@ function MenuCard({ href, icons, title, onClick, disableLink }) {
     <CustomTooltip title={title} arrow placement="right">
       <Link
         href={href || "#"}
-        className="flex items-center justify-center w-14 h-14 p-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl"
+        className="flex items-center justify-center w-14 h-14 p-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed"
         onClick={(e) => {
           if (disableLink) e.preventDefault();
           if (onClick) onClick();
@@ -59,7 +60,7 @@ function SubMenuCard({ href, text }) {
   return (
     <Link
       href={href}
-      className="flex items-center justify-start w-full h-full p-2 text-[#000000] text-md font-[300] hover:text-[#635bff]"
+      className="flex items-center justify-start w-full h-full p-2 text-[#000000] text-md font-[300] hover:text-[#635bff] rounded-xl border-2 border-[#000000] border-dashed"
     >
       {text}
     </Link>
@@ -70,6 +71,7 @@ export default function UiLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isClicked, setIsClicked] = useState(false);
   const [subMenuOpen, setSubMenuOpen] = useState(null);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false); // สำหรับมือถือ
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -77,25 +79,31 @@ export default function UiLayout({ children }) {
     setTimeout(() => setIsClicked(false), 300);
   };
 
+  const toggleMobileSidebar = () => {
+    setMobileSidebarOpen(!mobileSidebarOpen); // ฟังก์ชันเปิดปิดมือถือ
+  };
+
   const handleMenuClick = (menuKey) => {
     setSubMenuOpen(subMenuOpen === menuKey ? null : menuKey);
   };
 
   return (
-    <div className="flex flex-row items-start justify-center w-full min-h-screen">
+    <div className="flex flex-row items-start justify-center w-full min-h-screen gap-2">
       <div
-        className={`flex flex-row items-center justify-start ${
+        className={`${
+          mobileSidebarOpen ? "flex" : "hidden"
+        } xl:flex flex-row items-start justify-center ${
           sidebarOpen ? "w-3/12" : "w-1/12"
-        } min-h-screen bg-[#FFFFFF] transition-all duration-500 ease-in-out fixed left-0 top-0 z-10`}
+        } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#FFFFFF] transition-all duration-500 ease-in-out fixed left-0 top-0 z-10`}
       >
-        <div
+       <div
           className={`flex flex-col items-center justify-start ${
             sidebarOpen ? "w-3/12" : "w-full"
-          } min-h-screen bg-[#F3F7FB] overflow-auto transition-all duration-500 ease-in-out`}
+          } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] overflow-auto transition-all duration-500 ease-in-out`}
         >
           <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-b-2">
             <button
-              className={`flex items-center justify-center w-14 h-14 p-2 ${
+              className={`flex items-center justify-center w-14 h-14 p-2 border-2 border-[#000000] border-dashed rounded-xl ${
                 isClicked ? "animate-click" : ""
               }`}
               onClick={toggleSidebar}
@@ -161,9 +169,9 @@ export default function UiLayout({ children }) {
           <div
             className={`flex flex-col items-center justify-start ${
               sidebarOpen ? "w-9/12" : "w-0"
-            } min-h-screen p-2 gap-2 bg-[#FFFFFF] overflow-auto transition-all duration-500 ease-in-out`}
+            } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#FFFFFF] overflow-auto transition-all duration-500 ease-in-out`}
           >
-            <div className="flex flex-row items-center justify-center w-full h-full p-2">
+            <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed rounded-xl">
               <Image
                 src="/images/other/company_logo.png"
                 alt="company_logo"
@@ -175,7 +183,7 @@ export default function UiLayout({ children }) {
             </div>
 
             {subMenuOpen === "hr" && (
-              <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed rounded-xl">
                 {menuItems.hr.map((item) => (
                   <SubMenuCard
                     key={item.link}
@@ -187,7 +195,7 @@ export default function UiLayout({ children }) {
             )}
 
             {subMenuOpen === "it" && (
-              <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed rounded-xl">
                 {menuItems.it.map((item) => (
                   <SubMenuCard
                     key={item.link}
@@ -202,14 +210,17 @@ export default function UiLayout({ children }) {
       </div>
 
       <div
-        className={`flex flex-col items-center justify-start ${
-          sidebarOpen ? "w-9/12 ml-[25%]" : "w-full ml-[9%]"
-        } min-h-screen p-4 gap-2 border-2 border-[#000000] border-dashed bg-[#FFFFFF] overflow-auto transition-all duration-500 ease-in-out`}
+        className={`flex flex-col items-center justify-start w-full ${
+          sidebarOpen ? "xl:w-9/12 xl:ml-[25%]" : "xl:w-full xl:ml-[8.3%]"
+        } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] overflow-auto transition-all duration-500 ease-in-out`}
       >
         <div className="flex flex-row items-center justify-between w-full h-16 bg-[#FFFFFF]">
           <div className="flex flex-row items-center justify-start w-full h-full p-2 gap-2 bg-[#FFFFFF] border-2 border-[#000000] border-dashed">
-            <button className="xl:hidden flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed">
-              <DehazeOutlined style={{ fontSize: "1.5rem" }} />
+          <button
+              className="xl:hidden flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed"
+              onClick={toggleMobileSidebar}
+            >
+              <LayersOutlined style={{ fontSize: "1.5rem" }} />
             </button>
             <button className="flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed">
               <SearchOutlined style={{ fontSize: "1.5rem" }} />

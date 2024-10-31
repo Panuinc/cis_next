@@ -71,11 +71,16 @@ export default function UiLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isClicked, setIsClicked] = useState(false);
   const [subMenuOpen, setSubMenuOpen] = useState(null);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false); // สำหรับมือถือ
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
     setIsClicked(true);
     setTimeout(() => setIsClicked(false), 300);
+  };
+
+  const toggleMobileSidebar = () => {
+    setMobileSidebarOpen(!mobileSidebarOpen); // ฟังก์ชันเปิดปิดมือถือ
   };
 
   const handleMenuClick = (menuKey) => {
@@ -85,11 +90,13 @@ export default function UiLayout({ children }) {
   return (
     <div className="flex flex-row items-start justify-center w-full min-h-screen gap-2">
       <div
-        className={`hidden xl:flex flex-row items-start justify-center ${
+        className={`${
+          mobileSidebarOpen ? "flex" : "hidden"
+        } xl:flex flex-row items-start justify-center ${
           sidebarOpen ? "w-3/12" : "w-1/12"
         } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#FFFFFF] transition-all duration-500 ease-in-out fixed left-0 top-0 z-10`}
       >
-        <div
+       <div
           className={`flex flex-col items-center justify-start ${
             sidebarOpen ? "w-3/12" : "w-full"
           } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] overflow-auto transition-all duration-500 ease-in-out`}
@@ -209,7 +216,10 @@ export default function UiLayout({ children }) {
       >
         <div className="flex flex-row items-center justify-between w-full h-16 bg-[#FFFFFF]">
           <div className="flex flex-row items-center justify-start w-full h-full p-2 gap-2 bg-[#FFFFFF] border-2 border-[#000000] border-dashed">
-            <button className="xl:hidden flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed">
+          <button
+              className="xl:hidden flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed"
+              onClick={toggleMobileSidebar}
+            >
               <LayersOutlined style={{ fontSize: "1.5rem" }} />
             </button>
             <button className="flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed">
