@@ -107,18 +107,18 @@ export default function UiLayout({ children }) {
   };
 
   return (
-    <div className="flex flex-row items-start justify-center w-full min-h-screen gap-2">
+    <div className="flex flex-row items-start justify-center w-full min-h-screen">
       <div
         ref={sidebarRef}
         className={`${
           mobileSidebarOpen ? "flex" : "hidden"
         } xl:flex flex-row items-start justify-center ${
-          sidebarOpen ? "w-9/12 xl:w-3/12" : "w-1/12"
+          sidebarOpen ? "w-[75%] xl:w-[20%]" : "w-[5%]"
         } min-h-screen transition-all duration-500 ease-in-out fixed left-0 top-0 z-10`}
       >
         <div
           className={`flex flex-col items-center justify-start ${
-            sidebarOpen ? "w-3/12" : "w-full"
+            sidebarOpen ? "w-[25%]" : "w-[100%]"
           } min-h-screen p-2 bg-[#F3F7FB] overflow-auto transition-all duration-500 ease-in-out`}
         >
           <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-b-2">
@@ -188,7 +188,7 @@ export default function UiLayout({ children }) {
         {sidebarOpen && (
           <div
             className={`flex flex-col items-center justify-start ${
-              sidebarOpen ? "w-9/12" : "w-0"
+              sidebarOpen ? "w-[75%]" : "w-[0%]"
             } min-h-screen p-2 gap-4 bg-[#FFFFFF] overflow-auto transition-all duration-500 ease-in-out`}
           >
             <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
@@ -245,7 +245,7 @@ export default function UiLayout({ children }) {
 
       <div
         className={`flex flex-col items-center justify-start w-full ${
-          sidebarOpen ? "xl:w-9/12 xl:ml-[25%]" : "xl:w-full xl:ml-[8.3%]"
+          sidebarOpen ? "xl:w-[80%] xl:ml-[20%]" : "xl:w-[95%] xl:ml-[5%]"
         } min-h-screen gap-2 bg-[#FFFFFF] overflow-auto transition-all duration-500 ease-in-out`}
       >
         <div className="flex flex-row items-center justify-between w-full h-20 bg-[#FFFFFF]">
@@ -264,7 +264,7 @@ export default function UiLayout({ children }) {
             </button>
           </div>
           <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
-            Channakorn Engineering
+            Channakorn
           </div>
           <div className="flex flex-row items-center justify-end w-full h-full p-2 gap-2">
             <button className="flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
@@ -281,8 +281,10 @@ export default function UiLayout({ children }) {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center w-full min-h-screen bg-[#F3F7FB] rounded-3xl">
-          {children}
+        <div className="flex items-center justify-center w-full p-4 min-h-screen">
+          <div className="flex items-center justify-center w-full min-h-screen bg-[#F3F7FB] rounded-3xl">
+            {children}
+          </div>
         </div>
       </div>
     </div>
