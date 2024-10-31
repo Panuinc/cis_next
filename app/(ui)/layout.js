@@ -108,7 +108,7 @@ export default function UiLayout({ children }) {
 
   return (
     <div className="flex flex-row items-start justify-center w-full min-h-screen gap-2">
-     <div
+      <div
         ref={sidebarRef}
         className={`${
           mobileSidebarOpen ? "flex" : "hidden"
@@ -236,7 +236,7 @@ export default function UiLayout({ children }) {
       >
         <div className="flex flex-row items-center justify-between w-full h-16 bg-[#FFFFFF]">
           <div className="flex flex-row items-center justify-start w-full h-full p-2 gap-2 bg-[#FFFFFF] border-2 border-[#000000] border-dashed">
-          <button
+            <button
               className="xl:hidden flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed"
               onClick={toggleMobileSidebar}
             >
