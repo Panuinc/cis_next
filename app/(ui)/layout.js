@@ -113,7 +113,7 @@ export default function UiLayout({ children }) {
         className={`${
           mobileSidebarOpen ? "flex" : "hidden"
         } xl:flex flex-row items-start justify-center ${
-          sidebarOpen ? "w-3/12" : "w-1/12"
+          sidebarOpen ? "w-9/12 xl:w-3/12" : "w-1/12"
         } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#FFFFFF] transition-all duration-500 ease-in-out fixed left-0 top-0 z-10`}
       >
         <div
