@@ -19,6 +19,7 @@ import {
   WorkspacesOutlined,
   DarkModeOutlined,
   NotificationsActiveOutlined,
+  LayersOutlined,
 } from "@mui/icons-material";
 import { menuHeader, menuItems } from "@/utils/menuConfig";
 
@@ -209,7 +210,7 @@ export default function UiLayout({ children }) {
         <div className="flex flex-row items-center justify-between w-full h-16 bg-[#FFFFFF]">
           <div className="flex flex-row items-center justify-start w-full h-full p-2 gap-2 bg-[#FFFFFF] border-2 border-[#000000] border-dashed">
             <button className="xl:hidden flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed">
-              <DehazeOutlined style={{ fontSize: "1.5rem" }} />
+              <LayersOutlined style={{ fontSize: "1.5rem" }} />
             </button>
             <button className="flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed">
               <SearchOutlined style={{ fontSize: "1.5rem" }} />
