@@ -113,7 +113,7 @@ export default function UiLayout({ children }) {
         </div>
         <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-b-2">
           <MenuCard
-            href="/"
+            href="/home"
             icons={<CottageOutlined style={{ fontSize: "1.5rem" }} />}
             title="หน้าหลัก"
           />
