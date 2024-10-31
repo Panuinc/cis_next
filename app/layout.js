@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
         </head>
 
         <body className={(inter.className, prompt.variable)}>
-          <div className="font-prompt bg-[#FFFFFF]">
+          <div className="font-prompt w-full min-h-screen bg-[#FFFFFF]">
             {children}
           </div>
         </body>
