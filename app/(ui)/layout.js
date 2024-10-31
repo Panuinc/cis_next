@@ -84,7 +84,7 @@ export default function UiLayout({ children }) {
   return (
     <div className="flex flex-row items-start justify-center w-full min-h-screen gap-2">
       <div
-        className={`flex flex-row items-center justify-start ${
+        className={`hidden xl:flex flex-row items-start justify-center ${
           sidebarOpen ? "w-3/12" : "w-1/12"
         } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#FFFFFF] transition-all duration-500 ease-in-out fixed left-0 top-0 z-10`}
       >
@@ -202,10 +202,10 @@ export default function UiLayout({ children }) {
       </div>
 
       <div
-          className={`flex flex-col items-center justify-start ${
-            sidebarOpen ? "w-9/12 ml-[25%]" : "w-full ml-[8.3%]"
-          } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] overflow-auto transition-all duration-500 ease-in-out`}
-        >
+        className={`flex flex-col items-center justify-start w-full ${
+          sidebarOpen ? "xl:w-9/12 xl:ml-[25%]" : "xl:w-full xl:ml-[8.3%]"
+        } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] overflow-auto transition-all duration-500 ease-in-out`}
+      >
         <div className="flex flex-row items-center justify-between w-full h-16 bg-[#FFFFFF]">
           <div className="flex flex-row items-center justify-start w-full h-full p-2 gap-2 bg-[#FFFFFF] border-2 border-[#000000] border-dashed">
             <button className="xl:hidden flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed">
