@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import {
@@ -72,6 +72,7 @@ export default function UiLayout({ children }) {
   const [isClicked, setIsClicked] = useState(false);
   const [subMenuOpen, setSubMenuOpen] = useState(null);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false); // สำหรับมือถือ
+  const sidebarRef = useRef(null); // สำหรับอ้างอิง sidebar
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -83,20 +84,39 @@ export default function UiLayout({ children }) {
     setMobileSidebarOpen(!mobileSidebarOpen); // ฟังก์ชันเปิดปิดมือถือ
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setMobileSidebarOpen(false);
+      }
+    };
+
+    if (mobileSidebarOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [mobileSidebarOpen]);
+
   const handleMenuClick = (menuKey) => {
     setSubMenuOpen(subMenuOpen === menuKey ? null : menuKey);
   };
 
   return (
     <div className="flex flex-row items-start justify-center w-full min-h-screen gap-2">
-      <div
+     <div
+        ref={sidebarRef}
         className={`${
           mobileSidebarOpen ? "flex" : "hidden"
         } xl:flex flex-row items-start justify-center ${
           sidebarOpen ? "w-3/12" : "w-1/12"
         } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#FFFFFF] transition-all duration-500 ease-in-out fixed left-0 top-0 z-10`}
       >
-       <div
+        <div
           className={`flex flex-col items-center justify-start ${
             sidebarOpen ? "w-3/12" : "w-full"
           } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] overflow-auto transition-all duration-500 ease-in-out`}
