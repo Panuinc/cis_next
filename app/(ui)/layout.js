@@ -44,7 +44,7 @@ function MenuCard({ href, icons, title, onClick, disableLink }) {
     <CustomTooltip title={title} arrow placement="right">
       <Link
         href={href || "#"}
-        className="flex items-center justify-center w-14 h-14 p-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl"
+        className="flex items-center justify-center w-12 h-12 p-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl"
         onClick={(e) => {
           if (disableLink) e.preventDefault();
           if (onClick) onClick();
@@ -114,16 +114,16 @@ export default function UiLayout({ children }) {
           mobileSidebarOpen ? "flex" : "hidden"
         } xl:flex flex-row items-start justify-center ${
           sidebarOpen ? "w-[75%] xl:w-[20%]" : "w-[5%]"
-        } min-h-screen transition-all duration-500 ease-in-out fixed left-0 top-0 z-10`}
+        } min-h-screen transition-all duration-500 ease-in-out fixed left-1 top-1 z-12`}
       >
         <div
           className={`flex flex-col items-center justify-start ${
             sidebarOpen ? "w-[25%]" : "w-[100%]"
           } min-h-screen p-2 bg-[#F3F7FB] overflow-auto transition-all duration-500 ease-in-out`}
         >
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-b-2">
+          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
             <button
-              className={`flex items-center justify-center w-14 h-14 p-2 ${
+              className={`flex items-center justify-center w-12 h-12 p-2 ${
                 isClicked ? "animate-click" : ""
               }`}
               onClick={toggleSidebar}
@@ -178,7 +178,7 @@ export default function UiLayout({ children }) {
             />
             <button
               href="/#"
-              className="flex items-center justify-center w-14 h-14 p-2 text-[#FFFFFF] bg-[#635bff] hover:bg-[#635bff]/50 rounded-xl"
+              className="flex items-center justify-center w-12 h-12 p-2 text-[#FFFFFF] bg-[#635bff] hover:bg-[#635bff]/50 rounded-xl"
             >
               <ExitToAppOutlined style={{ fontSize: "1.5rem" }} />
             </button>
@@ -199,7 +199,7 @@ export default function UiLayout({ children }) {
                 height={50}
                 priority={true}
               />
-              Channakorn - Cis
+              <p className="p-2 text-[#16cdc7] text-xl font-[600]">Channakorn</p>
             </div>
 
             {subMenuOpen === "hr" && (
@@ -212,7 +212,7 @@ export default function UiLayout({ children }) {
                       <>
                         <FiberManualRecord
                           style={{ fontSize: "0.5rem", marginRight: "0.5rem" }}
-                        />{" "}
+                        />
                         {item.nameTH}
                       </>
                     }
@@ -248,7 +248,7 @@ export default function UiLayout({ children }) {
           sidebarOpen ? "xl:w-[80%] xl:ml-[20%]" : "xl:w-[95%] xl:ml-[5%]"
         } min-h-screen gap-2 bg-[#FFFFFF] overflow-auto transition-all duration-500 ease-in-out`}
       >
-        <div className="flex flex-row items-center justify-between w-full h-20 bg-[#FFFFFF]">
+        <div className="flex flex-row items-center justify-between w-full h-16 bg-[#FFFFFF]">
           <div className="flex flex-row items-center justify-start w-full h-full p-2 gap-2">
             <button
               className="xl:hidden flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full"
@@ -256,26 +256,26 @@ export default function UiLayout({ children }) {
             >
               <LayersOutlined style={{ fontSize: "1.5rem" }} />
             </button>
-            <button className="flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
+            <button className="flex items-center justify-center w-12 h-12 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
               <SearchOutlined style={{ fontSize: "1.5rem" }} />
             </button>
-            <button className="flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
+            <button className="flex items-center justify-center w-12 h-12 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
               <WorkspacesOutlined style={{ fontSize: "1.5rem" }} />
             </button>
           </div>
-          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+          <div className="xl:hidden flex flex-row items-center justify-center w-full h-full p-2 gap-2">
             Channakorn
           </div>
           <div className="flex flex-row items-center justify-end w-full h-full p-2 gap-2">
-            <button className="flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
+            <button className="flex items-center justify-center w-12 h-12 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
               <NotificationsActiveOutlined style={{ fontSize: "1.5rem" }} />
             </button>
-            <div className="flex items-center justify-center w-12 h-12 p-2 gap-2 rounded-xl">
+            <div className="flex items-center justify-center w-12 h-12 ">
               <Image
                 src="/images/other/company_logo.png"
                 alt="company_logo"
                 width={500}
-                height={100}
+                height={120}
                 priority={true}
               />
             </div>
