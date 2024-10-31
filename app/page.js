@@ -59,7 +59,7 @@ export default function page() {
     return (
       <div className="flex items-center justify-center w-full min-h-screen p-2">
         <Toaster position="top-right" reverseOrder={false} />
-        <form className="flex flex-col items-center justify-center w-full h-full lg:w-4/12 lg:h-4/12 p-2 gap-2 border-2 bg-[#FFFFFF] shadow-md rounded-3xl">
+        <form className="flex flex-col items-center justify-center w-full h-full xl:w-4/12 xl:h-4/12 p-2 gap-2 border-2 bg-[#FFFFFF] shadow-md rounded-3xl">
           <div className="flex items-center justify-center w-full h-full p-2">
             <Image
               src="/images/other/company_logo.png"

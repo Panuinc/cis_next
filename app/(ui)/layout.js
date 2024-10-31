@@ -18,7 +18,6 @@ import {
 } from "@mui/icons-material";
 import { menuHeader, menuItems } from "@/utils/menuConfig";
 import Header from "../components/Header";
-import Footer from "../components/Footer";
 
 const CustomTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -191,18 +190,15 @@ export default function UiLayout({ children }) {
       )}
 
       <div
-        className={`flex flex-col items-center justify-between ${
+        className={`flex flex-col items-center justify-start ${
           sidebarOpen ? "w-9/12" : "w-full"
         } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed`}
       >
         <div className="flex items-center justify-center w-full h-full bg-[#FFFFFF]">
           <Header />
         </div>
-        <div className="flex items-center justify-center w-full min-h-96 p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] rounded-3xl">
+        <div className="flex items-center justify-center w-full min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] rounded-3xl overflow-auto">
           {children}
-        </div>
-        <div className="flex items-center justify-center w-full h-full bg-[#FFFFFF]">
-          <Footer />
         </div>
       </div>
     </div>
