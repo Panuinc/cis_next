@@ -17,9 +17,9 @@ import {
   ExitToAppOutlined,
   SearchOutlined,
   WorkspacesOutlined,
-  DarkModeOutlined,
   NotificationsActiveOutlined,
   LayersOutlined,
+  FiberManualRecord,
 } from "@mui/icons-material";
 import { menuHeader, menuItems } from "@/utils/menuConfig";
 
@@ -44,7 +44,7 @@ function MenuCard({ href, icons, title, onClick, disableLink }) {
     <CustomTooltip title={title} arrow placement="right">
       <Link
         href={href || "#"}
-        className="flex items-center justify-center w-14 h-14 p-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed"
+        className="flex items-center justify-center w-12 h-12 p-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl"
         onClick={(e) => {
           if (disableLink) e.preventDefault();
           if (onClick) onClick();
@@ -60,7 +60,7 @@ function SubMenuCard({ href, text }) {
   return (
     <Link
       href={href}
-      className="flex items-center justify-start w-full h-full p-2 text-[#000000] text-md font-[300] hover:text-[#635bff] rounded-xl border-2 border-[#000000] border-dashed"
+      className="flex items-center justify-start w-full h-full p-2 text-[#000000] text-md font-[300] hover:text-[#635bff]"
     >
       {text}
     </Link>
@@ -71,8 +71,8 @@ export default function UiLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isClicked, setIsClicked] = useState(false);
   const [subMenuOpen, setSubMenuOpen] = useState(null);
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false); // สำหรับมือถือ
-  const sidebarRef = useRef(null); // สำหรับอ้างอิง sidebar
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const sidebarRef = useRef(null);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -81,7 +81,7 @@ export default function UiLayout({ children }) {
   };
 
   const toggleMobileSidebar = () => {
-    setMobileSidebarOpen(!mobileSidebarOpen); // ฟังก์ชันเปิดปิดมือถือ
+    setMobileSidebarOpen(!mobileSidebarOpen);
   };
 
   useEffect(() => {
@@ -107,23 +107,23 @@ export default function UiLayout({ children }) {
   };
 
   return (
-    <div className="flex flex-row items-start justify-center w-full min-h-screen gap-2">
-     <div
+    <div className="flex flex-row items-start justify-center w-full min-h-screen">
+      <div
         ref={sidebarRef}
         className={`${
           mobileSidebarOpen ? "flex" : "hidden"
         } xl:flex flex-row items-start justify-center ${
-          sidebarOpen ? "w-3/12" : "w-1/12"
-        } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#FFFFFF] transition-all duration-500 ease-in-out fixed left-0 top-0 z-10`}
+          sidebarOpen ? "w-[75%] xl:w-[20%]" : "w-[5%]"
+        } min-h-screen  fixed left-1 top-1 z-12`}
       >
         <div
           className={`flex flex-col items-center justify-start ${
-            sidebarOpen ? "w-3/12" : "w-full"
-          } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] overflow-auto transition-all duration-500 ease-in-out`}
+            sidebarOpen ? "w-[25%]" : "w-[100%]"
+          } min-h-screen p-2 bg-[#F3F7FB] overflow-auto `}
         >
           <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-b-2">
             <button
-              className={`flex items-center justify-center w-14 h-14 p-2 border-2 border-[#000000] border-dashed rounded-xl ${
+              className={`flex items-center justify-center w-12 h-12 p-2 ${
                 isClicked ? "animate-click" : ""
               }`}
               onClick={toggleSidebar}
@@ -132,55 +132,43 @@ export default function UiLayout({ children }) {
             </button>
             <MenuCard
               href="/"
-              icons={<AutoGraphOutlined style={{ fontSize: "1.5rem" }} />}
+              icons={<AutoGraphOutlined />}
               title="ไฟฟ้าและน้ำ"
             />
+            <MenuCard href="/" icons={<CampaignOutlined />} title="ประกาศ" />
             <MenuCard
               href="/"
-              icons={<CampaignOutlined style={{ fontSize: "1.5rem" }} />}
-              title="ประกาศ"
-            />
-            <MenuCard
-              href="/"
-              icons={<DocumentScannerOutlined style={{ fontSize: "1.5rem" }} />}
+              icons={<DocumentScannerOutlined />}
               title="เอกสารล่าสุด"
             />
             <MenuCard
               href="/"
-              icons={<SlowMotionVideoOutlined style={{ fontSize: "1.5rem" }} />}
+              icons={<SlowMotionVideoOutlined />}
               title="คู่มือการใช้งาน"
             />
           </div>
           <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-b-2">
+            <MenuCard href="/" icons={<CottageOutlined />} title="หน้าหลัก" />
             <MenuCard
-              href="/"
-              icons={<CottageOutlined style={{ fontSize: "1.5rem" }} />}
-              title="หน้าหลัก"
-            />
-            <MenuCard
-              icons={<PersonOutlineOutlined style={{ fontSize: "1.5rem" }} />}
+              icons={<PersonOutlineOutlined />}
               title="บุคคล"
               onClick={() => handleMenuClick("hr")}
               disableLink={true}
             />
             <MenuCard
-              icons={<ComputerOutlined style={{ fontSize: "1.5rem" }} />}
+              icons={<ComputerOutlined />}
               title="เทคโนโลยีสารสนเทศ"
               onClick={() => handleMenuClick("it")}
               disableLink={true}
             />
           </div>
           <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-b-2">
-            <MenuCard
-              href="/"
-              icons={<Face5Outlined style={{ fontSize: "1.5rem" }} />}
-              title="โปรไฟล์"
-            />
+            <MenuCard href="/" icons={<Face5Outlined />} title="โปรไฟล์" />
             <button
               href="/#"
-              className="flex items-center justify-center w-14 h-14 p-2 text-[#FFFFFF] bg-[#635bff] hover:bg-[#635bff]/50 rounded-xl"
+              className="flex items-center justify-center w-12 h-12 p-2 text-[#FFFFFF] bg-[#635bff] hover:bg-[#635bff]/50 rounded-xl"
             >
-              <ExitToAppOutlined style={{ fontSize: "1.5rem" }} />
+              <ExitToAppOutlined />
             </button>
           </div>
         </div>
@@ -188,10 +176,10 @@ export default function UiLayout({ children }) {
         {sidebarOpen && (
           <div
             className={`flex flex-col items-center justify-start ${
-              sidebarOpen ? "w-9/12" : "w-0"
-            } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#FFFFFF] overflow-auto transition-all duration-500 ease-in-out`}
+              sidebarOpen ? "w-[75%]" : "w-[0%]"
+            } min-h-screen p-2 gap-4 bg-[#FFFFFF] overflow-auto `}
           >
-            <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed rounded-xl">
+            <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
               <Image
                 src="/images/other/company_logo.png"
                 alt="company_logo"
@@ -199,28 +187,44 @@ export default function UiLayout({ children }) {
                 height={50}
                 priority={true}
               />
-              Channakorn - Cis
+              <p className="p-2 text-[#635bff] text-xl font-[600]">
+                Channakorn
+              </p>
             </div>
 
             {subMenuOpen === "hr" && (
-              <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed rounded-xl">
+              <div className="flex flex-col items-center justify-center w-full h-full gap-2">
                 {menuItems.hr.map((item) => (
                   <SubMenuCard
                     key={item.link}
                     href={`/hr/${item.link}`}
-                    text={item.nameTH}
+                    text={
+                      <>
+                        <FiberManualRecord
+                          style={{ fontSize: "0.5rem", marginRight: "0.5rem" }}
+                        />
+                        {item.nameTH}
+                      </>
+                    }
                   />
                 ))}
               </div>
             )}
 
             {subMenuOpen === "it" && (
-              <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed rounded-xl">
+              <div className="flex flex-col items-center justify-center w-full h-full gap-2">
                 {menuItems.it.map((item) => (
                   <SubMenuCard
                     key={item.link}
                     href={`/it/${item.link}`}
-                    text={item.nameTH}
+                    text={
+                      <>
+                        <FiberManualRecord
+                          style={{ fontSize: "0.5rem", marginRight: "0.5rem" }}
+                        />
+                        {item.nameTH}
+                      </>
+                    }
                   />
                 ))}
               </div>
@@ -231,44 +235,46 @@ export default function UiLayout({ children }) {
 
       <div
         className={`flex flex-col items-center justify-start w-full ${
-          sidebarOpen ? "xl:w-9/12 xl:ml-[25%]" : "xl:w-full xl:ml-[8.3%]"
-        } min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] overflow-auto transition-all duration-500 ease-in-out`}
+          sidebarOpen ? "xl:w-[80%] xl:ml-[20%]" : "xl:w-[95%] xl:ml-[5%]"
+        } min-h-screen gap-2 bg-[#FFFFFF] overflow-auto `}
       >
         <div className="flex flex-row items-center justify-between w-full h-16 bg-[#FFFFFF]">
-          <div className="flex flex-row items-center justify-start w-full h-full p-2 gap-2 bg-[#FFFFFF] border-2 border-[#000000] border-dashed">
-          <button
-              className="xl:hidden flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed"
+          <div className="flex flex-row items-center justify-start w-full h-full p-2 gap-2">
+            <button
+              className="xl:hidden flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full"
               onClick={toggleMobileSidebar}
             >
-              <LayersOutlined style={{ fontSize: "1.5rem" }} />
+              <LayersOutlined />
             </button>
-            <button className="flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed">
-              <SearchOutlined style={{ fontSize: "1.5rem" }} />
+            <button className="xl:flex hidden items-center justify-center w-12 h-12 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
+              <SearchOutlined />
             </button>
-            <button className="flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed">
-              <WorkspacesOutlined style={{ fontSize: "1.5rem" }} />
+            <button className="flex items-center justify-center w-12 h-12 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
+              <WorkspacesOutlined />
             </button>
           </div>
-          <div className="flex flex-row items-center justify-end w-full h-full p-2 gap-2 bg-[#FFFFFF] border-2 border-[#000000] border-dashed">
-            <button className="flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed">
-              <DarkModeOutlined style={{ fontSize: "1.5rem" }} />
+          <div className="xl:hidden flex flex-row items-center justify-center w-full h-full p-2 gap-2 text-[#635bff] text-xl font-[600]">
+            Channakorn
+          </div>
+          <div className="flex flex-row items-center justify-end w-full h-full p-2 gap-2">
+            <button className="flex items-center justify-center w-12 h-12 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
+              <NotificationsActiveOutlined />
             </button>
-            <button className="flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-xl border-2 border-[#000000] border-dashed">
-              <NotificationsActiveOutlined style={{ fontSize: "1.5rem" }} />
-            </button>
-            <div className="flex items-center justify-center w-12 h-12 p-2 gap-2 border-2 border-[#000000] border-dashed rounded-xl">
+            <div className="flex items-center justify-center w-12 h-12 ">
               <Image
                 src="/images/other/company_logo.png"
                 alt="company_logo"
                 width={500}
-                height={100}
+                height={120}
                 priority={true}
               />
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center w-full min-h-screen p-2 gap-2 border-2 border-[#000000] border-dashed bg-[#F3F7FB] rounded-3xl overflow-auto">
-          {children}
+        <div className="flex items-center justify-center w-full p-4 min-h-screen">
+          <div className="flex items-center justify-center w-full min-h-screen bg-[#F3F7FB] rounded-3xl">
+            {children}
+          </div>
         </div>
       </div>
     </div>
