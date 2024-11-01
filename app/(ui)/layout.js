@@ -114,14 +114,14 @@ export default function UiLayout({ children }) {
           mobileSidebarOpen ? "flex" : "hidden"
         } xl:flex flex-row items-start justify-center ${
           sidebarOpen ? "w-[75%] xl:w-[20%]" : "w-[5%]"
-        } min-h-screen transition-all duration-500 ease-in-out fixed left-1 top-1 z-12`}
+        } min-h-screen  fixed left-1 top-1 z-12`}
       >
         <div
           className={`flex flex-col items-center justify-start ${
             sidebarOpen ? "w-[25%]" : "w-[100%]"
-          } min-h-screen p-2 bg-[#F3F7FB] overflow-auto transition-all duration-500 ease-in-out`}
+          } min-h-screen p-2 bg-[#F3F7FB] overflow-auto `}
         >
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-b-2">
             <button
               className={`flex items-center justify-center w-12 h-12 p-2 ${
                 isClicked ? "animate-click" : ""
@@ -132,55 +132,43 @@ export default function UiLayout({ children }) {
             </button>
             <MenuCard
               href="/"
-              icons={<AutoGraphOutlined style={{ fontSize: "1.5rem" }} />}
+              icons={<AutoGraphOutlined />}
               title="ไฟฟ้าและน้ำ"
             />
+            <MenuCard href="/" icons={<CampaignOutlined />} title="ประกาศ" />
             <MenuCard
               href="/"
-              icons={<CampaignOutlined style={{ fontSize: "1.5rem" }} />}
-              title="ประกาศ"
-            />
-            <MenuCard
-              href="/"
-              icons={<DocumentScannerOutlined style={{ fontSize: "1.5rem" }} />}
+              icons={<DocumentScannerOutlined />}
               title="เอกสารล่าสุด"
             />
             <MenuCard
               href="/"
-              icons={<SlowMotionVideoOutlined style={{ fontSize: "1.5rem" }} />}
+              icons={<SlowMotionVideoOutlined />}
               title="คู่มือการใช้งาน"
             />
           </div>
           <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-b-2">
+            <MenuCard href="/" icons={<CottageOutlined />} title="หน้าหลัก" />
             <MenuCard
-              href="/"
-              icons={<CottageOutlined style={{ fontSize: "1.5rem" }} />}
-              title="หน้าหลัก"
-            />
-            <MenuCard
-              icons={<PersonOutlineOutlined style={{ fontSize: "1.5rem" }} />}
+              icons={<PersonOutlineOutlined />}
               title="บุคคล"
               onClick={() => handleMenuClick("hr")}
               disableLink={true}
             />
             <MenuCard
-              icons={<ComputerOutlined style={{ fontSize: "1.5rem" }} />}
+              icons={<ComputerOutlined />}
               title="เทคโนโลยีสารสนเทศ"
               onClick={() => handleMenuClick("it")}
               disableLink={true}
             />
           </div>
           <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-b-2">
-            <MenuCard
-              href="/"
-              icons={<Face5Outlined style={{ fontSize: "1.5rem" }} />}
-              title="โปรไฟล์"
-            />
+            <MenuCard href="/" icons={<Face5Outlined />} title="โปรไฟล์" />
             <button
               href="/#"
               className="flex items-center justify-center w-12 h-12 p-2 text-[#FFFFFF] bg-[#635bff] hover:bg-[#635bff]/50 rounded-xl"
             >
-              <ExitToAppOutlined style={{ fontSize: "1.5rem" }} />
+              <ExitToAppOutlined />
             </button>
           </div>
         </div>
@@ -189,7 +177,7 @@ export default function UiLayout({ children }) {
           <div
             className={`flex flex-col items-center justify-start ${
               sidebarOpen ? "w-[75%]" : "w-[0%]"
-            } min-h-screen p-2 gap-4 bg-[#FFFFFF] overflow-auto transition-all duration-500 ease-in-out`}
+            } min-h-screen p-2 gap-4 bg-[#FFFFFF] overflow-auto `}
           >
             <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
               <Image
@@ -199,7 +187,9 @@ export default function UiLayout({ children }) {
                 height={50}
                 priority={true}
               />
-              <p className="p-2 text-[#16cdc7] text-xl font-[600]">Channakorn</p>
+              <p className="p-2 text-[#16cdc7] text-xl font-[600]">
+                Channakorn
+              </p>
             </div>
 
             {subMenuOpen === "hr" && (
@@ -246,7 +236,7 @@ export default function UiLayout({ children }) {
       <div
         className={`flex flex-col items-center justify-start w-full ${
           sidebarOpen ? "xl:w-[80%] xl:ml-[20%]" : "xl:w-[95%] xl:ml-[5%]"
-        } min-h-screen gap-2 bg-[#FFFFFF] overflow-auto transition-all duration-500 ease-in-out`}
+        } min-h-screen gap-2 bg-[#FFFFFF] overflow-auto `}
       >
         <div className="flex flex-row items-center justify-between w-full h-16 bg-[#FFFFFF]">
           <div className="flex flex-row items-center justify-start w-full h-full p-2 gap-2">
@@ -254,13 +244,13 @@ export default function UiLayout({ children }) {
               className="xl:hidden flex items-center justify-center w-12 h-12 p-2 gap-2 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full"
               onClick={toggleMobileSidebar}
             >
-              <LayersOutlined style={{ fontSize: "1.5rem" }} />
+              <LayersOutlined />
+            </button>
+            <button className="xl:flex hidden items-center justify-center w-12 h-12 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
+              <SearchOutlined />
             </button>
             <button className="flex items-center justify-center w-12 h-12 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
-              <SearchOutlined style={{ fontSize: "1.5rem" }} />
-            </button>
-            <button className="flex items-center justify-center w-12 h-12 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
-              <WorkspacesOutlined style={{ fontSize: "1.5rem" }} />
+              <WorkspacesOutlined />
             </button>
           </div>
           <div className="xl:hidden flex flex-row items-center justify-center w-full h-full p-2 gap-2">
@@ -268,7 +258,7 @@ export default function UiLayout({ children }) {
           </div>
           <div className="flex flex-row items-center justify-end w-full h-full p-2 gap-2">
             <button className="flex items-center justify-center w-12 h-12 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
-              <NotificationsActiveOutlined style={{ fontSize: "1.5rem" }} />
+              <NotificationsActiveOutlined />
             </button>
             <div className="flex items-center justify-center w-12 h-12 ">
               <Image
