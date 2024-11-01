@@ -74,7 +74,7 @@ export async function POST(request) {
     );
 
     const [parent] = await promisePool.query(
-      `SELECT CONCAT(user_firstname, ' ', user_lastname) AS full_name FROM user WHERE user_id = ?`,
+      `SELECT CONCAT(user_firstname, ' ', user_lastname) AS parent_name FROM user WHERE user_id = ?`,
       [user.user_parent_id]
     );
 
@@ -96,7 +96,7 @@ export async function POST(request) {
 
         user_position_name: position[0]?.position_name,
         user_role_name: role[0]?.role_name,
-        user_parent_firstname: parent[0]?.full_name,
+        user_parent_name: parent[0]?.parent_name,
         user_type: user.user_type,
         user_id_card: user.user_id_card,
         user_citizen: user.user_citizen,

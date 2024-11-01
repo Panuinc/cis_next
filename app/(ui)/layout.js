@@ -46,9 +46,11 @@ const CustomTooltip = styled(({ className, ...props }) => (
   },
 }));
 
+import { usePathname } from "next/navigation";
+
 function MenuCard({ href = "", icons, title, onClick, disableLink }) {
-  const currentSegment = useSelectedLayoutSegment();
-  const isActive = currentSegment === href?.split("/")[1];
+  const pathname = usePathname();
+  const isActive = pathname === href;
 
   return (
     <CustomTooltip title={title} arrow placement="right">
@@ -227,9 +229,9 @@ export default function UiLayout({ children }) {
           </div>
           <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
             <MenuCard
-              href="/account"
+              href="/profile"
               icons={<Face5Outlined />}
-              title="การตั้งค่าบัญชี"
+              title="โปรไฟล์"
             />
             <MenuCard
               href="/#"
@@ -323,10 +325,10 @@ export default function UiLayout({ children }) {
                   </div>
                   <ul className="mt-3 space-y-2 text-gray-700">
                     <li className="hover:bg-gray-100 p-2 rounded-md cursor-pointer">
-                      My Profile
+                      <a href="/profile">My Profile</a>
                     </li>
                     <li className="hover:bg-gray-100 p-2 rounded-md cursor-pointer">
-                      Account Settings
+                      <a href="/account">Account Setting</a>
                     </li>
                   </ul>
                 </div>
@@ -335,7 +337,7 @@ export default function UiLayout({ children }) {
           </div>
         </div>
         <div className="w-full min-h-screen px-4 py-2">
-          <div className="flex items-center justify-center w-full min-h-screen px-4 py-6 gap-2 bg-[#F3F7FB] rounded-3xl border-2 border-[#000000] border-dashed">
+          <div className="flex items-center justify-center w-full min-h-screen px-4 py-6 gap-2 bg-[#F3F7FB] rounded-3xl">
             {children}
           </div>
         </div>

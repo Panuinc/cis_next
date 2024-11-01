@@ -27,7 +27,7 @@ export const authOptions = {
 
         if (response.status === "ok") {
           const user = response.user;
-
+console.log(user)
           const promisePool = mysqlPool.promise();
           await promisePool.query(
             `INSERT INTO user_log (user_id, login_time, status) VALUES (?, NOW(), 'online')`,
