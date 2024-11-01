@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { Input, Button } from "@nextui-org/react";
 import CottageOutlinedIcon from "@mui/icons-material/CottageOutlined";
+import Link from "next/link";
 
 export default function Account() {
   const { data: session } = useSession();
@@ -14,12 +15,12 @@ export default function Account() {
         <div className="flex items-center justify-start w-full h-full px-4 py-2 gap-2 text-[#000000] text-md font-[600]">
           Account Setting
         </div>
-        <div className="flex items-center justify-end w-full h-full px-4 py-2 gap-2 text-[#000000] text-sm font-[300]">
+        <Link href="/home" className="flex items-center justify-end w-full h-full px-4 py-2 gap-2 text-[#000000] text-sm font-[300]">
           <CottageOutlinedIcon />
           <span className="text-[#635bff] bg-[#635bff]/25 px-2 py-1 rounded-lg">
             Account Setting
           </span>
-        </div>
+        </Link>
       </div>
       <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 bg-[#FFFFFF] shadow-sm rounded-xl">
         <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-6">
