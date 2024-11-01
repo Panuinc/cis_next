@@ -22,7 +22,7 @@ export default function Account() {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 bg-[#FFFFFF] shadow-sm rounded-xl">
-        <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
+        <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-6">
           <div className="flex flex-col items-center justify-center w-full h-[520px] p-2 border-2 rounded-xl">
             <div className="flex items-center justify-center w-40 h-40 p-2 rounded-full bg-[#635bff]/25">
               <Image
@@ -88,6 +88,13 @@ export default function Account() {
               >
                 Submit
               </Button>
+              <Button
+                // onClick={handlerLogin}
+                size="md"
+                className=" bg-[#ff6692]/25 text-[#ff6692]"
+              >
+                Cancel
+              </Button>
             </div>
           </div>
         </div>
@@ -100,7 +107,6 @@ export default function Account() {
               To change your personal detail , edit and save from here
             </div>
             <div className="flex flex-col items-center justify-start w-full h-full p-2 gap-2 ">
-
               <div className="flex flex-col xl:flex-row items-center justify-start w-full h-full p-2 gap-2 ">
                 <div className="flex flex-col items-center justify-start w-full h-full p-2 gap-2 ">
                   <div className="flex items-center justify-start w-full h-full p-2 gap-2 text-[#000000] text-sm font-[300] ">
@@ -298,7 +304,7 @@ export default function Account() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex flex-col xl:flex-row items-center justify-start w-full h-full p-2 gap-2 ">
                 <div className="flex flex-col items-center justify-start w-full h-full p-2 gap-2 ">
                   <div className="flex items-center justify-start w-full h-full p-2 gap-2 text-[#000000] text-sm font-[300] ">
@@ -332,6 +338,22 @@ export default function Account() {
                 </div>
               </div>
 
+              <div className="flex items-center justify-end w-full h-full p-2 gap-2">
+                <Button
+                  // onClick={handlerLogin}
+                  size="md"
+                  className=" bg-[#635bff] text-[#FFFFFF]"
+                >
+                  Submit
+                </Button>
+                <Button
+                  // onClick={handlerLogin}
+                  size="md"
+                  className=" bg-[#ff6692]/25 text-[#ff6692]"
+                >
+                  Cancel
+                </Button>
+              </div>
             </div>
           </div>
         </div>
