@@ -24,10 +24,9 @@ import {
   WorkspacesOutlined,
   NotificationsActiveOutlined,
   LayersOutlined,
-  FiberManualRecord,
   CurrencyExchangeOutlined,
   EngineeringOutlined,
-  NightlightRoundOutlined,
+  DarkModeOutlined,
 } from "@mui/icons-material";
 
 const CustomTooltip = styled(({ className, ...props }) => (
@@ -80,6 +79,19 @@ export default function UiLayout({ children }) {
   const [subMenuOpen, setSubMenuOpen] = useState(null);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const toggleDropdown = () => setIsOpen(!isOpen);
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     if (status === "loading") return;
@@ -169,10 +181,10 @@ export default function UiLayout({ children }) {
       >
         <div
           className={`flex flex-col items-center justify-start ${
-            sidebarOpen ? "w-[25%]" : "w-[100%]"
+            sidebarOpen ? "w-[25%]" : "w-full"
           } h-screen bg-[#F3F7FB] overflow-auto `}
         >
-          <div className="flex flex-col items-center justify-center w-[100%] p-2 gap-2">
+          <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
             <button
               className={`flex items-center justify-center w-12 h-12 p-2 gap-2 ${
                 isClicked ? "animate-click" : ""
@@ -182,7 +194,7 @@ export default function UiLayout({ children }) {
               <DehazeOutlined />
             </button>
           </div>
-          <div className="flex flex-col items-center justify-center w-[100%] p-2 gap-2">
+          <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
             <MenuCard
               href="/home"
               icons={<CottageOutlined />}
@@ -213,7 +225,7 @@ export default function UiLayout({ children }) {
               disableLink={true}
             />
           </div>
-          <div className="flex flex-col items-center justify-center w-[100%] p-2 gap-2">
+          <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
             <MenuCard
               href="/profile"
               icons={<Face5Outlined />}
@@ -231,9 +243,9 @@ export default function UiLayout({ children }) {
           <div
             className={`flex flex-col items-center justify-start ${
               sidebarOpen ? "w-[75%]" : "w-[0%]"
-            } min-h-screen p-2 gap-2 overflow-auto border-2 border-[#000000] border-dashed`}
+            } min-h-screen p-2 gap-2 overflow-auto bg-[#FFFFFF]`}
           >
-            <div className="flex items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2 text-[#635bff] text-xl font-[600]">
               Channakorn
             </div>
             <div className="flex items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed">
@@ -243,12 +255,12 @@ export default function UiLayout({ children }) {
         )}
       </div>
       <div
-        className={`flex flex-col items-center justify-between w-[100%] ${
+        className={`flex flex-col items-center justify-between w-full ${
           sidebarOpen ? "xl:w-[80%] xl:ml-[20%]" : "xl:w-[95%] xl:ml-[5%]"
         } min-h-screen gap-2 `}
       >
-        <div className="flex flex-row items-center justify-center w-[100%] h-full p-2">
-          <div className="flex flex-row items-center justify-start w-[100%] h-full gap-2">
+        <div className="flex flex-row items-center justify-center w-full h-full p-2">
+          <div className="flex flex-row items-center justify-start w-full h-full gap-2">
             <button
               onClick={toggleMobileSidebar}
               className=" xl:hidden flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full"
@@ -256,26 +268,69 @@ export default function UiLayout({ children }) {
               <LayersOutlined />
             </button>
             <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
+              <SearchOutlined />
+            </button>
+            <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
               <WorkspacesOutlined />
             </button>
           </div>
-          <div className="flex flex-row items-center justify-center w-[100%] h-full p-2 gap-2">
+          <div className="xl:hidden flex flex-row items-center justify-center w-full h-full p-2 gap-2 text-[#635bff] text-xl font-[600]">
             Channakorn
           </div>
-          <div className="flex flex-row items-center justify-end w-[100%] h-full gap-2">
+          <div className="flex flex-row items-center justify-end w-full h-full gap-2">
             <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
-              <NightlightRoundOutlined />
+              <DarkModeOutlined />
             </button>
             <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
               <NotificationsActiveOutlined />
             </button>
-            <div className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
-              {session?.user?.user_firstname} {session?.user?.user_lastname}
+            <div ref={dropdownRef} className="relative">
+              <div
+                className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full cursor-pointer"
+                onClick={toggleDropdown}
+              >
+                <Image
+                  src={`/images/user_picture/${session?.user?.user_picture_file}`}
+                  alt="company_logo"
+                  width={30}
+                  height={30}
+                  priority={true}
+                />
+              </div>
+
+              {isOpen && (
+                <div className="absolute right-0 mt-2 w-80 bg-[#FFFFFF] rounded-xl shadow-lg p-4 z-20">
+                  <div className="flex items-center space-x-3 pb-3 border-b">
+                    <Image
+                      src={`/images/user_picture/${session?.user?.user_picture_file}`}
+                      alt="profile_picture"
+                      width={50}
+                      height={50}
+                      className="rounded-full"
+                    />
+                    <div>
+                      <p className="font-semibold">
+                      {session?.user?.user_firstname} {session?.user?.user_lastname}{" "}
+                        <span className="text-[#16cdc7]">{session?.user?.user_nickname}</span>
+                      </p>
+                      <p className="text-sm text-gray-500">{session?.user?.user_email}</p>
+                    </div>
+                  </div>
+                  <ul className="mt-3 space-y-2 text-gray-700">
+                    <li className="hover:bg-gray-100 p-2 rounded-md cursor-pointer">
+                      My Profile
+                    </li>
+                    <li className="hover:bg-gray-100 p-2 rounded-md cursor-pointer">
+                      Account Settings
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </div>
-        <div className="w-[100%] min-h-screen px-4 py-6">
-          <div className="flex items-center justify-center w-[100%] min-h-screen p-2 gap-2 bg-[#F3F7FB] border-2 border-[#000000] border-dashed rounded-3xl">
+        <div className="w-full min-h-screen px-4 py-2">
+          <div className="flex items-center justify-center w-full min-h-screen p-2 gap-2 bg-[#F3F7FB] rounded-3xl">
             {children}
           </div>
         </div>
