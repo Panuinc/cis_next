@@ -80,6 +80,35 @@ export default function UiLayout({ children }) {
   const [subMenuOpen, setSubMenuOpen] = useState(null);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
+
+  useEffect(() => {
+    if (status === "loading") return;
+    if (!session) {
+      toast.error("You Are Not Logged In Yet. Please Log In.", {
+        duration: 1000,
+      });
+      router.push("/");
+    }
+  }, [session, status, router]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setMobileSidebarOpen(false);
+      }
+    };
+
+    if (mobileSidebarOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [mobileSidebarOpen]);
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
     setIsClicked(true);
@@ -115,16 +144,6 @@ export default function UiLayout({ children }) {
     }
   };
 
-  useEffect(() => {
-    if (status === "loading") return;
-    if (!session) {
-      toast.error("You Are Not Logged In Yet. Please Log In.", {
-        duration: 1000,
-      });
-      router.push("/");
-    }
-  }, [session, status, router]);
-
   if (status === "loading") {
     return (
       <div className="flex items-center justify-center w-full min-h-screen">
@@ -136,24 +155,6 @@ export default function UiLayout({ children }) {
   if (!session) {
     return null;
   }
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-        setMobileSidebarOpen(false);
-      }
-    };
-
-    if (mobileSidebarOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [mobileSidebarOpen]);
 
   return (
     <div className="flex flex-row items-start justify-center w-full min-h-screen gap-2">

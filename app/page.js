@@ -2,11 +2,11 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "react-hot-toast";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { Input, Button } from "@nextui-org/react";
 import { useSession, signIn } from "next-auth/react";
 
-export default function page() {
+export default function Index() {
   const { data: session } = useSession();
   const router = useRouter();
   const useridcardRef = useRef(null);
