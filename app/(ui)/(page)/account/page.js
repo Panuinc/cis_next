@@ -22,7 +22,7 @@ export default function Account() {
           </div>
         </div>
         <div className="flex items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed">
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed">
+          <div className="flex flex-col items-center justify-center w-full min-h-96 p-2 gap-2 border-2 border-[#000000] border-dashed">
             01
           </div>
         </div>
