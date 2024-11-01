@@ -7,9 +7,6 @@ import { Input, Button } from "@nextui-org/react";
 import { useSession, signIn } from "next-auth/react";
 
 export default function page() {
-  const [isVisible, setIsVisible] = useState(false);
-  const toggleVisibility = () => setIsVisible(!isVisible);
-
   const { data: session } = useSession();
   const router = useRouter();
   const useridcardRef = useRef(null);
@@ -28,8 +25,12 @@ export default function page() {
     const userPassword = userPasswordRef.current?.value?.trim();
     const secretToken = process.env.NEXT_PUBLIC_SECRET_TOKEN;
 
-    if (!useridcard || !userPassword) {
-      toast.error("Please Enter Your User Id card And Password");
+    if (!useridcard) {
+      toast.error("กรุณาระบุ เลขประจำบัตรประชาชน");
+      return;
+    }
+    if (!userPassword) {
+      toast.error("กรุณาระบุ รหัสผ่าน");
       return;
     }
 
