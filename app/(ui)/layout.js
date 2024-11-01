@@ -227,9 +227,9 @@ export default function UiLayout({ children }) {
           </div>
           <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
             <MenuCard
-              href="/profile"
+              href="/account"
               icons={<Face5Outlined />}
-              title="โปรไฟล์"
+              title="การตั้งค่าบัญชี"
             />
             <MenuCard
               href="/#"
@@ -310,10 +310,15 @@ export default function UiLayout({ children }) {
                     />
                     <div>
                       <p className="font-semibold">
-                      {session?.user?.user_firstname} {session?.user?.user_lastname}{" "}
-                        <span className="text-[#16cdc7]">{session?.user?.user_nickname}</span>
+                        {session?.user?.user_firstname}{" "}
+                        {session?.user?.user_lastname}{" "}
+                        <span className="text-[#16cdc7]">
+                          {session?.user?.user_nickname}
+                        </span>
                       </p>
-                      <p className="text-sm text-gray-500">{session?.user?.user_email}</p>
+                      <p className="text-sm text-gray-500">
+                        {session?.user?.user_email}
+                      </p>
                     </div>
                   </div>
                   <ul className="mt-3 space-y-2 text-gray-700">
@@ -330,7 +335,7 @@ export default function UiLayout({ children }) {
           </div>
         </div>
         <div className="w-full min-h-screen px-4 py-2">
-          <div className="flex items-center justify-center w-full min-h-screen p-2 gap-2 bg-[#F3F7FB] rounded-3xl">
+          <div className="flex items-center justify-center w-full min-h-screen px-4 py-6 gap-2 bg-[#F3F7FB] rounded-3xl border-2 border-[#000000] border-dashed">
             {children}
           </div>
         </div>
