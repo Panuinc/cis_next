@@ -12,12 +12,12 @@ export default function Profile() {
     <div className="flex flex-col items-center justify-start w-full min-h-screen p-2 gap-6">
       <div className="flex flex-row items-center justify-between w-full h-full p-2 gap-2 bg-[#FFFFFF] shadow-sm rounded-xl">
         <div className="flex items-center justify-start w-full h-full px-4 py-2 gap-2 text-[#000000] text-md font-[600]">
-          Account Setting
+          User Profile
         </div>
         <div className="flex items-center justify-end w-full h-full px-4 py-2 gap-2 text-[#000000] text-sm font-[300]">
           <CottageOutlinedIcon />
           <span className="text-[#635bff] bg-[#635bff]/25 px-2 py-1 rounded-lg">
-            Account Setting
+            User Profile
           </span>
         </div>
       </div>
@@ -61,7 +61,6 @@ export default function Profile() {
                       placeholder={session?.user?.user_number}
                       size="md"
                       variant="bordered"
-                      // ref={useridcardRef}
                       readOnly
                     />
                   </div>
@@ -76,7 +75,6 @@ export default function Profile() {
                       placeholder={session?.user?.user_nickname}
                       size="md"
                       variant="bordered"
-                      // ref={useridcardRef}
                       readOnly
                     />
                   </div>
@@ -94,7 +92,6 @@ export default function Profile() {
                       placeholder={session?.user?.user_firstname}
                       size="md"
                       variant="bordered"
-                      // ref={useridcardRef}
                       readOnly
                     />
                   </div>
@@ -109,7 +106,6 @@ export default function Profile() {
                       placeholder={session?.user?.user_lastname}
                       size="md"
                       variant="bordered"
-                      // ref={useridcardRef}
                       readOnly
                     />
                   </div>
@@ -127,7 +123,6 @@ export default function Profile() {
                       placeholder={session?.user?.user_branch_name}
                       size="md"
                       variant="bordered"
-                      // ref={useridcardRef}
                       readOnly
                     />
                   </div>
@@ -142,7 +137,6 @@ export default function Profile() {
                       placeholder={session?.user?.user_site_name}
                       size="md"
                       variant="bordered"
-                      // ref={useridcardRef}
                       readOnly
                     />
                   </div>
@@ -160,7 +154,6 @@ export default function Profile() {
                       placeholder={session?.user?.user_division_name}
                       size="md"
                       variant="bordered"
-                      // ref={useridcardRef}
                       readOnly
                     />
                   </div>
@@ -175,7 +168,6 @@ export default function Profile() {
                       placeholder={session?.user?.user_department_name}
                       size="md"
                       variant="bordered"
-                      // ref={useridcardRef}
                       readOnly
                     />
                   </div>
@@ -193,7 +185,6 @@ export default function Profile() {
                       placeholder={session?.user?.user_position_name}
                       size="md"
                       variant="bordered"
-                      // ref={useridcardRef}
                       readOnly
                     />
                   </div>
@@ -208,7 +199,6 @@ export default function Profile() {
                       placeholder={session?.user?.user_role_name}
                       size="md"
                       variant="bordered"
-                      // ref={useridcardRef}
                       readOnly
                     />
                   </div>
@@ -226,7 +216,6 @@ export default function Profile() {
                       placeholder={session?.user?.user_parent_name}
                       size="md"
                       variant="bordered"
-                      // ref={useridcardRef}
                       readOnly
                     />
                   </div>
@@ -241,7 +230,6 @@ export default function Profile() {
                       placeholder={session?.user?.user_id_card}
                       size="md"
                       variant="bordered"
-                      // ref={useridcardRef}
                       readOnly
                     />
                   </div>
@@ -259,7 +247,6 @@ export default function Profile() {
                       placeholder={session?.user?.user_email}
                       size="md"
                       variant="bordered"
-                      // ref={useridcardRef}
                       readOnly
                     />
                   </div>
@@ -274,7 +261,6 @@ export default function Profile() {
                       placeholder={session?.user?.user_tel}
                       size="md"
                       variant="bordered"
-                      // ref={useridcardRef}
                       readOnly
                     />
                   </div>
