@@ -15,19 +15,16 @@ export default function Profile() {
         <div className="flex items-center justify-start w-full h-full p-2 gap-2 text-[#000000] text-lg font-[600]">
           โปรไฟล์
         </div>
-        <Link
-          href="/home"
-          className="flex items-center justify-center h-full p-2 gap-2"
-        >
+        <div className="flex items-center justify-end w-full h-full p-2 gap-2">
           <CottageOutlinedIcon />
           <span className="px-4 bg-[#635bff]/25 text-[#635bff] text-md font-[300] rounded-xl">
             โปรไฟล์
           </span>
-        </Link>
+        </div>
       </div>
       <div className="flex flex-col items-center justify-center w-full h-full p-4 gap-6 bg-[#FFFFFF] rounded-xl shadow-sm">
         <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full gap-6">
-          <div className="flex flex-col items-center justify-center w-full min-h-[450px] p-2 gap-2 border-2 rounded-xl shadow-sm">
+          <div className="flex flex-col items-center justify-center w-full min-h-80 p-2 gap-2 border-2 rounded-xl shadow-sm">
             <div className="flex items-center justify-center min-w-40 min-h-40 p-2 gap-2 bg-[#635bff]/25 rounded-full">
               <Image
                 src={`/images/user_picture/${session?.user?.user_picture_file}`}
@@ -38,15 +35,14 @@ export default function Profile() {
               />
             </div>
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-              <Button size="lg" className="w-2/12 bg-[#635bff] text-[#FFFFFF] text-md font-[300]">
+              <Button
+                size="lg"
+                className="w-2/12 bg-[#635bff] text-[#FFFFFF] text-md font-[300]"
+              >
                 <a href={`/profile/${session?.user?.user_id}`}>ตั้งค่าบัญชี</a>
               </Button>
             </div>
           </div>
-
-          {/* <div className="flex flex-col items-center justify-center w-full min-h-[450px] p-2 gap-2 border-2 rounded-xl shadow-sm">
-            01
-          </div> */}
         </div>
         <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-2 rounded-xl shadow-sm">
           <div className="flex items-center justify-start w-full h-full p-2 gap-2text-[#000000] text-lg font-[600]">

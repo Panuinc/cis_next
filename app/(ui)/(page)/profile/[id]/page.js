@@ -13,17 +13,14 @@ export default function Profile() {
     <div className="flex flex-col items-center justify-center w-full h-full p-4 gap-6">
       <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
         <div className="flex items-center justify-start w-full h-full p-2 gap-2 text-[#000000] text-lg font-[600]">
-          โปรไฟล์
+          ตั้งค่าโปรไฟล์
         </div>
-        <Link
-          href="/home"
-          className="flex items-center justify-center h-full p-2 gap-2"
-        >
+        <div className="flex items-center justify-end w-full h-full p-2 gap-2">
           <CottageOutlinedIcon />
           <span className="px-4 bg-[#635bff]/25 text-[#635bff] text-md font-[300] rounded-xl">
-            โปรไฟล์
+            ตั้งค่าโปรไฟล์
           </span>
-        </Link>
+        </div>
       </div>
       <div className="flex flex-col items-center justify-center w-full h-full p-4 gap-6 bg-[#FFFFFF] rounded-xl shadow-sm">
         <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full gap-6">
