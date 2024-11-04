@@ -177,14 +177,14 @@ export default function UiLayout({ children }) {
         ref={sidebarRef}
         className={`${
           mobileSidebarOpen ? "flex" : "hidden"
-        } xl:flex flex-row items-center justify-center ${
+        } xl:flex flex-row items-start justify-center ${
           sidebarOpen ? "w-[75%] xl:w-[20%]" : "w-[20%] xl:w-[5%]"
         } min-h-screen left-0 fixed z-10`}
       >
         <div
           className={`flex flex-col items-center justify-start ${
             sidebarOpen ? "w-[25%]" : "w-full"
-          } h-screen bg-[#F3F7FB] overflow-auto `}
+          } h-screen bg-[#F3F7FB] overflow-auto`}
         >
           <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
             <button
@@ -250,8 +250,191 @@ export default function UiLayout({ children }) {
             <div className="flex items-center justify-center w-full h-full p-2 gap-2 text-[#635bff] text-xl font-[600]">
               Channakorn
             </div>
-            <div className="flex items-center justify-center w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed">
-              Submenu สวัสดี
+            <div className="flex flex-col items-center justify-start w-full h-[660px] p-2 gap-2 border-2 border-[#000000] border-dashed overflow-auto">
+              {subMenuOpen === "hr" && (
+                <>
+                  <div className="flex flex-col items-start justify-center w-full h-full gap-2">
+                    <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed text-[#000000] text-md font-[600]">
+                      ตั้งค่าทั่วไป
+                    </div>
+                    <Link
+                      href="/hr/branch"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      สาขา
+                    </Link>
+                    <Link
+                      href="/hr/department"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      ฝ่าย
+                    </Link>
+                    <Link
+                      href="/hr/division"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      แผนก
+                    </Link>
+                    <Link
+                      href="/hr/site"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      ไซต์
+                    </Link>
+                    <Link
+                      href="/hr/position"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      ตำแหน่ง
+                    </Link>
+                    <Link
+                      href="/hr/role"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      บทบาทหน้าที่
+                    </Link>
+                    <Link
+                      href="/hr/user"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      พนักงาน
+                    </Link>
+                  </div>
+                  <div className="flex flex-col items-start justify-center w-full h-full gap-2">
+                    <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed text-[#000000] text-md font-[600]">
+                      ใบเตือน
+                    </div>
+                    <Link
+                      href="/hr/branch"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      สาขา
+                    </Link>
+                    <Link
+                      href="/hr/department"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      ฝ่าย
+                    </Link>
+                    <Link
+                      href="/hr/division"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      แผนก
+                    </Link>
+                    <Link
+                      href="/hr/site"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      ไซต์
+                    </Link>
+                    <Link
+                      href="/hr/position"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      ตำแหน่ง
+                    </Link>
+                    <Link
+                      href="/hr/role"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      บทบาทหน้าที่
+                    </Link>
+                  </div>
+                </>
+              )}
+               {subMenuOpen === "it" && (
+                <>
+                  <div className="flex flex-col items-start justify-center w-full h-full gap-2">
+                    <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed text-[#000000] text-md font-[600]">
+                      ระบบงานเทคโนโลยีสารสนเทศ
+                    </div>
+                    <Link
+                      href="/hr/branch"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      สาขา
+                    </Link>
+                    <Link
+                      href="/hr/department"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      ฝ่าย
+                    </Link>
+                    <Link
+                      href="/hr/division"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      แผนก
+                    </Link>
+                    <Link
+                      href="/hr/site"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      ไซต์
+                    </Link>
+                    <Link
+                      href="/hr/position"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      ตำแหน่ง
+                    </Link>
+                    <Link
+                      href="/hr/role"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      บทบาทหน้าที่
+                    </Link>
+                    <Link
+                      href="/hr/user"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      พนักงาน
+                    </Link>
+                  </div>
+                  <div className="flex flex-col items-start justify-center w-full h-full gap-2">
+                    <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed text-[#000000] text-md font-[600]">
+                      ใบเตือน
+                    </div>
+                    <Link
+                      href="/hr/branch"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      สาขา
+                    </Link>
+                    <Link
+                      href="/hr/department"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      ฝ่าย
+                    </Link>
+                    <Link
+                      href="/hr/division"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      แผนก
+                    </Link>
+                    <Link
+                      href="/hr/site"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      ไซต์
+                    </Link>
+                    <Link
+                      href="/hr/position"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      ตำแหน่ง
+                    </Link>
+                    <Link
+                      href="/hr/role"
+                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
+                    >
+                      บทบาทหน้าที่
+                    </Link>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )}
@@ -269,7 +452,7 @@ export default function UiLayout({ children }) {
             >
               <LayersOutlined />
             </button>
-            <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
+            <button className="xl:flex hidden items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
               <SearchOutlined />
             </button>
             <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">

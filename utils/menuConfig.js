@@ -16,7 +16,6 @@ const menuItems = {
     { nameTH: "หนังสือตักเตือน", link: "warning_letter" },
     { nameTH: "หัวข้อใบเตือน", link: "warning_topic" },
     { nameTH: "ระเบียบข้อบังคับ", link: "warning_detail" },
-    // { nameTH: "ลาออก", link: "resign" },
   ],
   it: [
     { nameTH: "การบำรุงรักษา", link: "maintenance" },
