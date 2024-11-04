@@ -27,7 +27,10 @@ import {
   CurrencyExchangeOutlined,
   EngineeringOutlined,
   DarkModeOutlined,
+  FiberManualRecord,
 } from "@mui/icons-material";
+import { menuHeader, menuItems } from "@/utils/menuConfig";
+import { usePathname } from "next/navigation";
 
 const CustomTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -46,30 +49,49 @@ const CustomTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-import { usePathname } from "next/navigation";
+function MenuMain({ href = "", icons, title, onClick, disableLink, selectedMenu, setSelectedMenu, menuKey }) {
+  const pathname = usePathname();
+  const isActive = pathname === href || selectedMenu === menuKey;
 
-function MenuCard({ href = "", icons, title, onClick, disableLink }) {
+  return (
+    <CustomTooltip title={title} arrow placement="right">
+      <div
+        className={`flex items-center justify-center w-12 h-12 p-2 gap-2 rounded-xl
+          ${
+            isActive
+              ? "bg-[#635bff] text-[#FFFFFF]"
+              : "hover:bg-[#635bff]/50 hover:text-[#FFFFFF]"
+          }
+        `}
+        onClick={(e) => {
+          if (disableLink) e.preventDefault();
+          if (onClick) onClick();
+          setSelectedMenu(menuKey); // set the selected menu
+        }}
+      >
+        {icons}
+      </div>
+    </CustomTooltip>
+  );
+}
+
+function SubMenuMain({ href, text }) {
   const pathname = usePathname();
   const isActive = pathname === href;
 
   return (
-    <CustomTooltip title={title} arrow placement="right">
-      <Link
-        href={href || "#"}
-        className={`flex items-center justify-center w-12 h-12 p-2 gap-2 text-[#000000] rounded-xl
-          ${
-            isActive
-              ? "bg-[#635bff] text-[#FFFFFF]"
-              : "hover:text-[#635bff] hover:bg-[#635bff]/25"
-          }`}
-        onClick={(e) => {
-          if (disableLink) e.preventDefault();
-          if (onClick) onClick();
-        }}
-      >
-        {icons}
-      </Link>
-    </CustomTooltip>
+    <Link
+      href={href}
+      className={`flex items-center justify-start w-full max-h-24 p-2 text-md font-[300] rounded-xl 
+        ${
+          isActive
+            ? "bg-[#635bff] text-[#FFFFFF] shadow-md"
+            : "text-[#000000] hover:bg-[#635bff]/25 hover:text-[#635bff]"
+        }
+      `}
+    >
+      {text}
+    </Link>
   );
 }
 
@@ -82,7 +104,9 @@ export default function UiLayout({ children }) {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState(null);
   const dropdownRef = useRef(null);
+
   const toggleDropdown = () => setIsOpen(!isOpen);
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -135,6 +159,7 @@ export default function UiLayout({ children }) {
 
   const handleMenuClick = (menuKey) => {
     setSubMenuOpen(subMenuOpen === menuKey ? null : menuKey);
+    setSelectedMenu(menuKey); // Update selected menu
   };
 
   const handleSignOut = async () => {
@@ -177,14 +202,14 @@ export default function UiLayout({ children }) {
         ref={sidebarRef}
         className={`${
           mobileSidebarOpen ? "flex" : "hidden"
-        } xl:flex flex-row items-start justify-center ${
+        } xl:flex flex-row items-center justify-center ${
           sidebarOpen ? "w-[75%] xl:w-[20%]" : "w-[20%] xl:w-[5%]"
         } min-h-screen left-0 fixed z-10`}
       >
         <div
           className={`flex flex-col items-center justify-start ${
             sidebarOpen ? "w-[25%]" : "w-full"
-          } h-screen bg-[#F3F7FB] overflow-auto`}
+          } h-screen bg-[#F3F7FB] overflow-auto `}
         >
           <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
             <button
@@ -197,47 +222,60 @@ export default function UiLayout({ children }) {
             </button>
           </div>
           <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
-            <MenuCard
+            <MenuMain
               href="/home"
               icons={<CottageOutlined />}
               title="หน้าหลัก"
+              selectedMenu={selectedMenu}
+              setSelectedMenu={setSelectedMenu}
+              menuKey="home"
             />
-            <MenuCard
+            <MenuMain
               icons={<CurrencyExchangeOutlined />}
               title="จัดซื้อ"
               onClick={() => handleMenuClick("pu")}
               disableLink={true}
+              selectedMenu={selectedMenu}
+              setSelectedMenu={setSelectedMenu}
+              menuKey="pu"
             />
-            <MenuCard
+            <MenuMain
               icons={<EngineeringOutlined />}
               title="วิศวกรรมโครงสร้างเหล็ก"
-              onClick={() => handleMenuClick("pu")}
+              onClick={() => handleMenuClick("eng")}
               disableLink={true}
+              selectedMenu={selectedMenu}
+              setSelectedMenu={setSelectedMenu}
+              menuKey="eng"
             />
-            <MenuCard
+            <MenuMain
               icons={<PersonOutlineOutlined />}
               title="บุคคล"
               onClick={() => handleMenuClick("hr")}
               disableLink={true}
+              selectedMenu={selectedMenu}
+              setSelectedMenu={setSelectedMenu}
+              menuKey="hr"
             />
-            <MenuCard
+            <MenuMain
               icons={<ComputerOutlined />}
               title="เทคโนโลยีสารสนเทศ"
               onClick={() => handleMenuClick("it")}
               disableLink={true}
+              selectedMenu={selectedMenu}
+              setSelectedMenu={setSelectedMenu}
+              menuKey="it"
             />
           </div>
           <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
-            <MenuCard
-              href="/profile"
-              icons={<Face5Outlined />}
-              title="โปรไฟล์"
-            />
-            <MenuCard
+            <MenuMain
               href="/#"
               icons={<ExitToAppOutlined />}
               title="ออกจากระบบ"
               onClick={handleSignOut}
+              selectedMenu={selectedMenu}
+              setSelectedMenu={setSelectedMenu}
+              menuKey="logout"
             />
           </div>
         </div>
@@ -250,190 +288,49 @@ export default function UiLayout({ children }) {
             <div className="flex items-center justify-center w-full h-full p-2 gap-2 text-[#635bff] text-xl font-[600]">
               Channakorn
             </div>
-            <div className="flex flex-col items-center justify-start w-full h-[660px] p-2 gap-2 border-2 border-[#000000] border-dashed overflow-auto">
+            <div className="flex items-center justify-center w-full h-[665px] p-2 gap-2 border-2 border-[#000000] border-dashed overflow-auto">
               {subMenuOpen === "hr" && (
-                <>
-                  <div className="flex flex-col items-start justify-center w-full h-full gap-2">
-                    <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed text-[#000000] text-md font-[600]">
-                      ตั้งค่าทั่วไป
-                    </div>
-                    <Link
-                      href="/hr/branch"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      สาขา
-                    </Link>
-                    <Link
-                      href="/hr/department"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      ฝ่าย
-                    </Link>
-                    <Link
-                      href="/hr/division"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      แผนก
-                    </Link>
-                    <Link
-                      href="/hr/site"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      ไซต์
-                    </Link>
-                    <Link
-                      href="/hr/position"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      ตำแหน่ง
-                    </Link>
-                    <Link
-                      href="/hr/role"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      บทบาทหน้าที่
-                    </Link>
-                    <Link
-                      href="/hr/user"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      พนักงาน
-                    </Link>
-                  </div>
-                  <div className="flex flex-col items-start justify-center w-full h-full gap-2">
-                    <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed text-[#000000] text-md font-[600]">
-                      ใบเตือน
-                    </div>
-                    <Link
-                      href="/hr/branch"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      สาขา
-                    </Link>
-                    <Link
-                      href="/hr/department"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      ฝ่าย
-                    </Link>
-                    <Link
-                      href="/hr/division"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      แผนก
-                    </Link>
-                    <Link
-                      href="/hr/site"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      ไซต์
-                    </Link>
-                    <Link
-                      href="/hr/position"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      ตำแหน่ง
-                    </Link>
-                    <Link
-                      href="/hr/role"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      บทบาทหน้าที่
-                    </Link>
-                  </div>
-                </>
+                <div className="flex flex-col items-center justify-start w-full h-full gap-2">
+                  {menuItems.hr.map((item) => (
+                    <SubMenuMain
+                      key={item.link}
+                      href={`/hr/${item.link}`}
+                      text={
+                        <>
+                          <FiberManualRecord
+                            style={{
+                              fontSize: "0.5rem",
+                              marginRight: "0.5rem",
+                            }}
+                          />
+                          {item.nameTH}
+                        </>
+                      }
+                    />
+                  ))}
+                </div>
               )}
-               {subMenuOpen === "it" && (
-                <>
-                  <div className="flex flex-col items-start justify-center w-full h-full gap-2">
-                    <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed text-[#000000] text-md font-[600]">
-                      ระบบงานเทคโนโลยีสารสนเทศ
-                    </div>
-                    <Link
-                      href="/hr/branch"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      สาขา
-                    </Link>
-                    <Link
-                      href="/hr/department"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      ฝ่าย
-                    </Link>
-                    <Link
-                      href="/hr/division"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      แผนก
-                    </Link>
-                    <Link
-                      href="/hr/site"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      ไซต์
-                    </Link>
-                    <Link
-                      href="/hr/position"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      ตำแหน่ง
-                    </Link>
-                    <Link
-                      href="/hr/role"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      บทบาทหน้าที่
-                    </Link>
-                    <Link
-                      href="/hr/user"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      พนักงาน
-                    </Link>
-                  </div>
-                  <div className="flex flex-col items-start justify-center w-full h-full gap-2">
-                    <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed text-[#000000] text-md font-[600]">
-                      ใบเตือน
-                    </div>
-                    <Link
-                      href="/hr/branch"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      สาขา
-                    </Link>
-                    <Link
-                      href="/hr/department"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      ฝ่าย
-                    </Link>
-                    <Link
-                      href="/hr/division"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      แผนก
-                    </Link>
-                    <Link
-                      href="/hr/site"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      ไซต์
-                    </Link>
-                    <Link
-                      href="/hr/position"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      ตำแหน่ง
-                    </Link>
-                    <Link
-                      href="/hr/role"
-                      className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 border-[#000000] border-dashed hover:text-[#635bff]"
-                    >
-                      บทบาทหน้าที่
-                    </Link>
-                  </div>
-                </>
+
+              {subMenuOpen === "it" && (
+                <div className="flex flex-col items-center justify-start w-full h-full gap-2">
+                  {menuItems.it.map((item) => (
+                    <SubMenuMain
+                      key={item.link}
+                      href={`/it/${item.link}`}
+                      text={
+                        <>
+                          <FiberManualRecord
+                            style={{
+                              fontSize: "0.5rem",
+                              marginRight: "0.5rem",
+                            }}
+                          />
+                          {item.nameTH}
+                        </>
+                      }
+                    />
+                  ))}
+                </div>
               )}
             </div>
           </div>
@@ -452,7 +349,7 @@ export default function UiLayout({ children }) {
             >
               <LayersOutlined />
             </button>
-            <button className="xl:flex hidden items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
+            <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
               <SearchOutlined />
             </button>
             <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
