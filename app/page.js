@@ -60,7 +60,7 @@ export default function Index() {
     return (
       <div className="flex items-center justify-center w-full min-h-screen p-2">
         <Toaster position="top-right" reverseOrder={false} />
-        <form className="flex flex-col items-center justify-center w-full h-full xl:w-4/12 xl:h-4/12 p-2 gap-2 border-2 bg-[#FFFFFF] shadow-md rounded-3xl">
+        <form className="flex flex-col items-center justify-center w-full h-full xl:w-4/12 xl:h-4/12 p-2 gap-2 border-2 bg-[#FFFFFF] shadow-md rounded-xl">
           <div className="flex items-center justify-center w-full h-full p-2">
             <Image
               src="/images/other/company_logo.png"
@@ -70,15 +70,15 @@ export default function Index() {
               priority={true}
             />
           </div>
-          <div className="flex items-center justify-center w-full h-full p-2 text-[#000000] text-xl font-[600]">
+          <div className="flex items-center justify-center w-full h-full p-2 text-[#000000] text-xl font-[900]">
             Channakorn Engineering
           </div>
-          <div className="flex items-center justify-center w-full h-full p-2 text-[#000000] text-xl font-[600]">
+          <div className="flex items-center justify-center w-full h-full p-2 text-[#000000] text-xl font-[900]">
             Internal System
           </div>
           <div className="flex flex-col items-center justify-center w-full h-full p-2">
-            <div className="flex items-center justify-start w-full h-full p-2 text-[#000000] text-ทก font-[300]">
-              เลขบัตรประชาชน
+            <div className="flex items-center justify-start w-full h-full p-2 text-[#000000] text-lg font-[600]">
+              ID Card
             </div>
             <div className="flex items-center justify-center w-full h-full p-2">
               <Input
@@ -92,8 +92,8 @@ export default function Index() {
             </div>
           </div>
           <div className="flex flex-col items-center justify-center w-full h-full p-2">
-            <div className="flex items-center justify-start w-full h-full p-2 text-[#000000] text-ทก font-[300]">
-              รหัสผ่าน
+            <div className="flex items-center justify-start w-full h-full p-2 text-[#000000] text-lg font-[600]">
+              Password
             </div>
             <div className="flex items-center justify-center w-full h-full p-2">
               <Input
@@ -110,7 +110,7 @@ export default function Index() {
             <Button
               onClick={handlerLogin}
               size="lg"
-              className="w-1/2 bg-[#16cdc7] text-[#FFFFFF]"
+              className="w-1/2 bg-[#635bff] text-[#FFFFFF] text-lg font-[600]"
             >
               เข้าสู่ระบบ
             </Button>
