@@ -37,16 +37,57 @@ export default function Profile() {
                 className="rounded-full"
               />
             </div>
-            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-              <Button size="lg" className="w-2/12 bg-[#635bff] text-[#FFFFFF] text-md font-[300]">
-                <a href={`/profile/${session?.user?.user_id}`}>ตั้งค่าบัญชี</a>
-              </Button>
-            </div>
           </div>
 
-          {/* <div className="flex flex-col items-center justify-center w-full min-h-[450px] p-2 gap-2 border-2 rounded-xl shadow-sm">
-            01
-          </div> */}
+          <div className="flex flex-col items-center justify-center w-full min-h-[450px] p-2 gap-2 border-2 rounded-xl shadow-sm">
+            <div className="flex items-center justify-start w-full h-full p-2 gap-2text-[#000000] text-lg font-[600]">
+              รายละเอียดส่วนบุคคล
+            </div>
+            <div className="flex flex-col items-center justify-center w-full h-full gap-6">
+              <div className="flex flex-col items-center justify-center w-full h-full">
+                <div className="flex items-center justify-start w-full h-full p-2 text-[#000000] text-md font-[600]">
+                  รหัสพนักงาน
+                </div>
+                <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                  {session?.user?.user_number}
+                </div>
+              </div>
+              <div className="flex flex-col items-center justify-center w-full h-full">
+                <div className="flex items-center justify-start w-full h-full p-2 text-[#000000] text-md font-[600]">
+                  ชื่อเล่น
+                </div>
+                <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                  {session?.user?.user_nickname}
+                </div>
+              </div>
+              <div className="flex flex-col items-center justify-center w-full h-full">
+                <div className="flex items-center justify-start w-full h-full p-2 text-[#000000] text-md font-[600]">
+                  ชื่อเล่น
+                </div>
+                <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                  {session?.user?.user_nickname}
+                </div>
+              </div>
+              <div className="flex flex-row items-center justify-end w-full h-full">
+                <div className="flex items-center justify-center h-full p-2">
+                  <Button
+                    size="lg"
+                    className="w-1/2 bg-[#635bff] text-[#FFFFFF] text-sm font-[300]"
+                  >
+                    บันทึก
+                  </Button>
+                </div>
+                <div className="flex items-center justify-center h-full p-2">
+                  <Button
+                    size="lg"
+                    className="w-1/2 bg-[#ff6692]/50 text-[#FFFFFF] text-sm font-[300]"
+                  >
+                    ยกเลิก
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2 border-2 rounded-xl shadow-sm">
           <div className="flex items-center justify-start w-full h-full p-2 gap-2text-[#000000] text-lg font-[600]">
@@ -176,6 +217,24 @@ export default function Profile() {
               <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
                 {session?.user?.user_tel}
               </div>
+            </div>
+          </div>
+          <div className="flex flex-row items-center justify-end w-full h-full">
+            <div className="flex items-center justify-center h-full p-2">
+              <Button
+                size="lg"
+                className="w-1/2 bg-[#635bff] text-[#FFFFFF] text-sm font-[300]"
+              >
+                บันทึก
+              </Button>
+            </div>
+            <div className="flex items-center justify-center h-full p-2">
+              <Button
+                size="lg"
+                className="w-1/2 bg-[#ff6692]/50 text-[#FFFFFF] text-sm font-[300]"
+              >
+                ยกเลิก
+              </Button>
             </div>
           </div>
         </div>
