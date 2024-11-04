@@ -20,9 +20,8 @@ import {
   Face5Outlined,
   ExitToAppOutlined,
   FiberManualRecord,
-  SettingsOutlined,
   KeyboardArrowDownOutlined,
-  ReportGmailerrorredOutlined,
+  SettingsOutlined,
   LayersOutlined,
   SearchOutlined,
   WorkspacesOutlined,
@@ -30,6 +29,7 @@ import {
   NotificationsActiveOutlined,
   BuildOutlined,
   HomeRepairServiceOutlined,
+  ReportOutlined,
 } from "@mui/icons-material";
 
 const CustomTooltip = styled(({ className, ...props }) => (
@@ -136,7 +136,9 @@ function renderSubMenu(
         <>
           <SubMenu
             subMenuKey="hr"
-            icon={<SettingsOutlined />}
+            icon={
+              <SettingsOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
+            }
             title="การตั้งค่าทั่วไป"
             items={menuCategories.hr.generalSettings}
             isActive={openSubMenus.hr}
@@ -144,7 +146,7 @@ function renderSubMenu(
           />
           <SubMenu
             subMenuKey="hrWarning"
-            icon={<ReportGmailerrorredOutlined />}
+            icon={<ReportOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />}
             title="หนังสือการตักเตือน"
             items={menuCategories.hr.warningDocuments}
             isActive={openSubMenus.hrWarning}
@@ -315,37 +317,53 @@ export default function UiLayout({ children }) {
               }`}
               onClick={toggleSidebar}
             >
-              <DehazeOutlined />
+              <DehazeOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
             </button>
           </div>
           <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
             <MenuMain
               href="/home"
-              icons={<CottageOutlined />}
+              icons={
+                <CottageOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
+              }
               title="หน้าหลัก"
               onClick={() => handleMenuClick("home")}
             />
             <MenuMain
               href="/pu"
-              icons={<CurrencyExchangeOutlined />}
+              icons={
+                <CurrencyExchangeOutlined
+                  sx={{ stroke: "#FFFFFF", strokeWidth: 1 }}
+                />
+              }
               title="จัดซื้อ"
               onClick={() => handleMenuClick("pu")}
             />
             <MenuMain
               href="/eng"
-              icons={<EngineeringOutlined />}
+              icons={
+                <EngineeringOutlined
+                  sx={{ stroke: "#FFFFFF", strokeWidth: 1 }}
+                />
+              }
               title="วิศวกรรมโครงสร้างเหล็ก"
               onClick={() => handleMenuClick("eng")}
             />
             <MenuMain
               href="/hr"
-              icons={<PersonOutlineOutlined />}
+              icons={
+                <PersonOutlineOutlined
+                  sx={{ stroke: "#FFFFFF", strokeWidth: 1 }}
+                />
+              }
               title="บุคคล"
               onClick={() => handleMenuClick("hr")}
             />
             <MenuMain
               href="/it"
-              icons={<ComputerOutlined />}
+              icons={
+                <ComputerOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
+              }
               title="เทคโนโลยีสารสนเทศ"
               onClick={() => handleMenuClick("it")}
             />
@@ -353,13 +371,17 @@ export default function UiLayout({ children }) {
           <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
             <MenuMain
               href="/profile"
-              icons={<Face5Outlined />}
+              icons={
+                <Face5Outlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
+              }
               title="โปรไฟล์"
               onClick={() => handleMenuClick("profile")}
             />
             <MenuMain
               href="/#"
-              icons={<ExitToAppOutlined />}
+              icons={
+                <ExitToAppOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
+              }
               title="ออกจากระบบ"
               onClick={handleSignOut}
             />
@@ -396,13 +418,13 @@ export default function UiLayout({ children }) {
               onClick={toggleMobileSidebar}
               className=" xl:hidden flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full"
             >
-              <LayersOutlined />
+              <LayersOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
             </button>
             <button className="xl:flex hidden items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
-              <SearchOutlined />
+              <SearchOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
             </button>
             <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
-              <WorkspacesOutlined />
+              <WorkspacesOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
             </button>
           </div>
           <div className="xl:hidden flex flex-row items-center justify-center w-full h-full p-2 gap-2 text-[#635bff] text-xl font-[600]">
@@ -410,10 +432,12 @@ export default function UiLayout({ children }) {
           </div>
           <div className="flex flex-row items-center justify-end w-full h-full gap-2">
             <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
-              <DarkModeOutlined />
+              <DarkModeOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
             </button>
             <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
-              <NotificationsActiveOutlined />
+              <NotificationsActiveOutlined
+                sx={{ stroke: "#FFFFFF", strokeWidth: 1 }}
+              />
             </button>
             <div ref={dropdownRef} className="relative">
               <div
