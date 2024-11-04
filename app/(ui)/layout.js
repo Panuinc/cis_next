@@ -336,7 +336,7 @@ export default function UiLayout({ children }) {
             </div>
           </div>
         </div>
-        <div className="flex items-start justify-center w-full min-h-screen p-4 gap-2 bg-[#F3F7FB] rounded-3xl border-2 border-[#000000] border-dashed">
+        <div className="flex items-start justify-center w-full min-h-screen p-4 gap-2 bg-[#F3F7FB] rounded-3xl">
           {children}
         </div>
       </div>

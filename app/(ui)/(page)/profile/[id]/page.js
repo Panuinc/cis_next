@@ -35,7 +35,6 @@ export default function Profile() {
               />
             </div>
           </div>
-
           <div className="flex flex-col items-center justify-center w-full min-h-[450px] p-2 gap-2 border-2 rounded-xl shadow-sm">
             <div className="flex items-center justify-start w-full h-full p-2 gap-2text-[#000000] text-lg font-[600]">
               รายละเอียดส่วนบุคคล
