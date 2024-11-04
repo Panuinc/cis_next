@@ -28,6 +28,8 @@ import {
   WorkspacesOutlined,
   DarkModeOutlined,
   NotificationsActiveOutlined,
+  BuildOutlined,
+  HomeRepairServiceOutlined,
 } from "@mui/icons-material";
 
 const CustomTooltip = styled(({ className, ...props }) => (
@@ -155,7 +157,7 @@ function renderSubMenu(
         <>
           <SubMenu
             subMenuKey="itMaintenance"
-            icon={null}
+            icon={<BuildOutlined />}
             title="การบำรุงรักษา"
             items={menuCategories.it.maintenance}
             isActive={openSubMenus.itMaintenance}
@@ -163,7 +165,7 @@ function renderSubMenu(
           />
           <SubMenu
             subMenuKey="itEquipment"
-            icon={null}
+            icon={<HomeRepairServiceOutlined />}
             title="อุปกรณ์"
             items={menuCategories.it.equipment}
             isActive={openSubMenus.itEquipment}
