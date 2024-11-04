@@ -4,33 +4,31 @@ import Image from "next/image";
 import Loading from "../components/Loading";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "react-hot-toast";
-import { useSelectedLayoutSegment } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { useState, useRef, useEffect } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
+import { usePathname } from "next/navigation";
+import { menuCategories } from "@/utils/menuConfig";
 import {
   DehazeOutlined,
   CottageOutlined,
-  AutoGraphOutlined,
-  CampaignOutlined,
-  DocumentScannerOutlined,
-  SlowMotionVideoOutlined,
+  CurrencyExchangeOutlined,
+  EngineeringOutlined,
   PersonOutlineOutlined,
   ComputerOutlined,
   Face5Outlined,
   ExitToAppOutlined,
+  FiberManualRecord,
+  SettingsOutlined,
+  KeyboardArrowDownOutlined,
+  ReportGmailerrorredOutlined,
+  LayersOutlined,
   SearchOutlined,
   WorkspacesOutlined,
-  NotificationsActiveOutlined,
-  LayersOutlined,
-  CurrencyExchangeOutlined,
-  EngineeringOutlined,
   DarkModeOutlined,
-  FiberManualRecord,
+  NotificationsActiveOutlined,
 } from "@mui/icons-material";
-import { menuHeader, menuItems } from "@/utils/menuConfig";
-import { usePathname } from "next/navigation";
 
 const CustomTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -49,28 +47,27 @@ const CustomTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-function MenuMain({ href = "", icons, title, onClick, disableLink, selectedMenu, setSelectedMenu, menuKey }) {
+function MenuMain({ href = "", icons, title, onClick }) {
   const pathname = usePathname();
-  const isActive = pathname === href || selectedMenu === menuKey;
+  const arraypath = pathname.split("/");
+  const cleanedPathname = arraypath[1];
+  const isActive = "/" + cleanedPathname === href;
 
   return (
     <CustomTooltip title={title} arrow placement="right">
-      <div
-        className={`flex items-center justify-center w-12 h-12 p-2 gap-2 rounded-xl
-          ${
-            isActive
-              ? "bg-[#635bff] text-[#FFFFFF]"
-              : "hover:bg-[#635bff]/50 hover:text-[#FFFFFF]"
-          }
-        `}
+      <Link
+        href={href || "#"}
+        className={`flex items-center justify-center w-12 h-12 p-2 gap-2 text-[#000000] rounded-xl ${
+          isActive
+            ? "bg-[#635bff] text-[#FFFFFF]"
+            : "hover:text-[#635bff] hover:bg-[#635bff]/25"
+        }`}
         onClick={(e) => {
-          if (disableLink) e.preventDefault();
           if (onClick) onClick();
-          setSelectedMenu(menuKey); // set the selected menu
         }}
       >
         {icons}
-      </div>
+      </Link>
     </CustomTooltip>
   );
 }
@@ -82,17 +79,101 @@ function SubMenuMain({ href, text }) {
   return (
     <Link
       href={href}
-      className={`flex items-center justify-start w-full max-h-24 p-2 text-md font-[300] rounded-xl 
-        ${
-          isActive
-            ? "bg-[#635bff] text-[#FFFFFF] shadow-md"
-            : "text-[#000000] hover:bg-[#635bff]/25 hover:text-[#635bff]"
-        }
-      `}
+      className={`flex items-center justify-start w-full h-full px-2 py-3 text-[#000000] text-md font-[300] ${
+        isActive ? "bg-[#635bff] text-[#FFFFFF] rounded-xl shadow-md" : ""
+      } hover:text-[#635bff] rounded-md`}
     >
       {text}
     </Link>
   );
+}
+
+function SubMenu({ subMenuKey, icon, title, items, isActive, toggleSubMenu }) {
+  return (
+    <div className="flex flex-col items-center justify-center w-full h-full gap-4">
+      <p
+        className="flex flex-row items-center justify-center w-full h-full gap-4 text-md font-[300] cursor-pointer"
+        onClick={() => toggleSubMenu(subMenuKey)}
+      >
+        <span className="flex items-center justify-start h-full">{icon}</span>
+        <span className="flex items-center justify-start w-full h-full">
+          {title}
+        </span>
+        <span className="flex items-center justify-end h-full">
+          <KeyboardArrowDownOutlined />
+        </span>
+      </p>
+      {isActive &&
+        items.map((item) => (
+          <SubMenuMain
+            key={item.link}
+            href={`/${subMenuKey}/${item.link}`}
+            text={
+              <>
+                <FiberManualRecord
+                  style={{ fontSize: "0.5rem", marginRight: "0.5rem" }}
+                />
+                {item.nameTH}
+              </>
+            }
+          />
+        ))}
+    </div>
+  );
+}
+
+function renderSubMenu(
+  subMenuOpen,
+  menuCategories,
+  openSubMenus,
+  toggleSubMenu
+) {
+  switch (subMenuOpen) {
+    case "hr":
+      return (
+        <>
+          <SubMenu
+            subMenuKey="hr"
+            icon={<SettingsOutlined />}
+            title="การตั้งค่าทั่วไป"
+            items={menuCategories.hr.generalSettings}
+            isActive={openSubMenus.hr}
+            toggleSubMenu={toggleSubMenu}
+          />
+          <SubMenu
+            subMenuKey="hrWarning"
+            icon={<ReportGmailerrorredOutlined />}
+            title="หนังสือการตักเตือน"
+            items={menuCategories.hr.warningDocuments}
+            isActive={openSubMenus.hrWarning}
+            toggleSubMenu={toggleSubMenu}
+          />
+        </>
+      );
+    case "it":
+      return (
+        <>
+          <SubMenu
+            subMenuKey="itMaintenance"
+            icon={null}
+            title="การบำรุงรักษา"
+            items={menuCategories.it.maintenance}
+            isActive={openSubMenus.itMaintenance}
+            toggleSubMenu={toggleSubMenu}
+          />
+          <SubMenu
+            subMenuKey="itEquipment"
+            icon={null}
+            title="อุปกรณ์"
+            items={menuCategories.it.equipment}
+            isActive={openSubMenus.itEquipment}
+            toggleSubMenu={toggleSubMenu}
+          />
+        </>
+      );
+    default:
+      return null;
+  }
 }
 
 export default function UiLayout({ children }) {
@@ -100,14 +181,22 @@ export default function UiLayout({ children }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isClicked, setIsClicked] = useState(false);
-  const [subMenuOpen, setSubMenuOpen] = useState(null);
+  const pathname = usePathname();
+  const arraypath = pathname.split("/");
+  const cleanedPathname = arraypath[1];
+  const [subMenuOpen, setSubMenuOpen] = useState(cleanedPathname);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedMenu, setSelectedMenu] = useState(null);
   const dropdownRef = useRef(null);
-
   const toggleDropdown = () => setIsOpen(!isOpen);
+  const [openSubMenus, setOpenSubMenus] = useState({
+    hr: false,
+    hrWarning: false,
+    itMaintenance: false,
+    itEquipment: false,
+  });
+
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);
@@ -159,7 +248,13 @@ export default function UiLayout({ children }) {
 
   const handleMenuClick = (menuKey) => {
     setSubMenuOpen(subMenuOpen === menuKey ? null : menuKey);
-    setSelectedMenu(menuKey); // Update selected menu
+  };
+
+  const toggleSubMenu = (menuKey) => {
+    setOpenSubMenus((prevState) => ({
+      ...prevState,
+      [menuKey]: !prevState[menuKey],
+    }));
   };
 
   const handleSignOut = async () => {
@@ -226,56 +321,45 @@ export default function UiLayout({ children }) {
               href="/home"
               icons={<CottageOutlined />}
               title="หน้าหลัก"
-              selectedMenu={selectedMenu}
-              setSelectedMenu={setSelectedMenu}
-              menuKey="home"
+              onClick={() => handleMenuClick("home")}
             />
             <MenuMain
+              href="/pu"
               icons={<CurrencyExchangeOutlined />}
               title="จัดซื้อ"
               onClick={() => handleMenuClick("pu")}
-              disableLink={true}
-              selectedMenu={selectedMenu}
-              setSelectedMenu={setSelectedMenu}
-              menuKey="pu"
             />
             <MenuMain
+              href="/eng"
               icons={<EngineeringOutlined />}
               title="วิศวกรรมโครงสร้างเหล็ก"
               onClick={() => handleMenuClick("eng")}
-              disableLink={true}
-              selectedMenu={selectedMenu}
-              setSelectedMenu={setSelectedMenu}
-              menuKey="eng"
             />
             <MenuMain
+              href="/hr"
               icons={<PersonOutlineOutlined />}
               title="บุคคล"
               onClick={() => handleMenuClick("hr")}
-              disableLink={true}
-              selectedMenu={selectedMenu}
-              setSelectedMenu={setSelectedMenu}
-              menuKey="hr"
             />
             <MenuMain
+              href="/it"
               icons={<ComputerOutlined />}
               title="เทคโนโลยีสารสนเทศ"
               onClick={() => handleMenuClick("it")}
-              disableLink={true}
-              selectedMenu={selectedMenu}
-              setSelectedMenu={setSelectedMenu}
-              menuKey="it"
             />
           </div>
           <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
+            <MenuMain
+              href="/profile"
+              icons={<Face5Outlined />}
+              title="โปรไฟล์"
+              onClick={() => handleMenuClick("profile")}
+            />
             <MenuMain
               href="/#"
               icons={<ExitToAppOutlined />}
               title="ออกจากระบบ"
               onClick={handleSignOut}
-              selectedMenu={selectedMenu}
-              setSelectedMenu={setSelectedMenu}
-              menuKey="logout"
             />
           </div>
         </div>
@@ -288,49 +372,12 @@ export default function UiLayout({ children }) {
             <div className="flex items-center justify-center w-full h-full p-2 gap-2 text-[#635bff] text-xl font-[600]">
               Channakorn
             </div>
-            <div className="flex items-center justify-center w-full h-[665px] p-2 gap-2 border-2 border-[#000000] border-dashed overflow-auto">
-              {subMenuOpen === "hr" && (
-                <div className="flex flex-col items-center justify-start w-full h-full gap-2">
-                  {menuItems.hr.map((item) => (
-                    <SubMenuMain
-                      key={item.link}
-                      href={`/hr/${item.link}`}
-                      text={
-                        <>
-                          <FiberManualRecord
-                            style={{
-                              fontSize: "0.5rem",
-                              marginRight: "0.5rem",
-                            }}
-                          />
-                          {item.nameTH}
-                        </>
-                      }
-                    />
-                  ))}
-                </div>
-              )}
-
-              {subMenuOpen === "it" && (
-                <div className="flex flex-col items-center justify-start w-full h-full gap-2">
-                  {menuItems.it.map((item) => (
-                    <SubMenuMain
-                      key={item.link}
-                      href={`/it/${item.link}`}
-                      text={
-                        <>
-                          <FiberManualRecord
-                            style={{
-                              fontSize: "0.5rem",
-                              marginRight: "0.5rem",
-                            }}
-                          />
-                          {item.nameTH}
-                        </>
-                      }
-                    />
-                  ))}
-                </div>
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-4">
+              {renderSubMenu(
+                subMenuOpen,
+                menuCategories,
+                openSubMenus,
+                toggleSubMenu
               )}
             </div>
           </div>
@@ -349,7 +396,7 @@ export default function UiLayout({ children }) {
             >
               <LayersOutlined />
             </button>
-            <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
+            <button className="xl:flex hidden items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
               <SearchOutlined />
             </button>
             <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
@@ -416,7 +463,7 @@ export default function UiLayout({ children }) {
             </div>
           </div>
         </div>
-        <div className="flex items-start justify-center w-full min-h-screen p-4 gap-2 bg-[#F3F7FB] rounded-3xl">
+        <div className="flex items-start justify-center w-full min-h-screen ml-[2%] p-4 gap-2 bg-[#F3F7FB] rounded-3xl">
           {children}
         </div>
       </div>
