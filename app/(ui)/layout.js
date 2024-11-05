@@ -5,7 +5,7 @@ import Loading from "../components/Loading";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "react-hot-toast";
 import { useSession, signOut } from "next-auth/react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import { usePathname } from "next/navigation";
@@ -49,11 +49,9 @@ const CustomTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-function MenuMain({ href = "", icons, title, onClick }) {
+const MenuMain = ({ href = "", icons, title, onClick }) => {
   const pathname = usePathname();
-  const arraypath = pathname.split("/");
-  const cleanedPathname = arraypath[1];
-  const isActive = "/" + cleanedPathname === href;
+  const isActive = `/${pathname.split("/")[1]}` === href;
 
   return (
     <CustomTooltip title={title} arrow placement="right">
@@ -64,17 +62,15 @@ function MenuMain({ href = "", icons, title, onClick }) {
             ? "bg-[#635bff] text-[#FFFFFF]"
             : "hover:text-[#635bff] hover:bg-[#635bff]/25"
         }`}
-        onClick={(e) => {
-          if (onClick) onClick();
-        }}
+        onClick={onClick}
       >
         {icons}
       </Link>
     </CustomTooltip>
   );
-}
+};
 
-function SubMenuMain({ href, text }) {
+const SubMenuMain = ({ href, text }) => {
   const pathname = usePathname();
   const isActive = pathname === href;
 
@@ -88,97 +84,104 @@ function SubMenuMain({ href, text }) {
       {text}
     </Link>
   );
-}
+};
 
-function SubMenu({ subMenuKey, icon, title, items, isActive, toggleSubMenu }) {
-  return (
-    <div className="flex flex-col items-center justify-center w-full h-full gap-4">
-      <p
-        className="flex flex-row items-center justify-center w-full h-full gap-4 text-md font-[300] cursor-pointer"
-        onClick={() => toggleSubMenu(subMenuKey)}
-      >
-        <span className="flex items-center justify-start h-full">{icon}</span>
-        <span className="flex items-center justify-start w-full h-full">
-          {title}
-        </span>
-        <span className="flex items-center justify-end h-full">
-          <KeyboardArrowDownOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
-        </span>
-      </p>
-      {isActive &&
-        items.map((item) => (
-          <SubMenuMain
-            key={item.link}
-            href={`/${subMenuKey}/${item.link}`}
-            text={
-              <>
-                <FiberManualRecord
-                  style={{ fontSize: "0.5rem", marginRight: "0.5rem" , color:"#A3A3A3"}}
-                />
-                {item.nameTH}
-              </>
-            }
-          />
-        ))}
-    </div>
-  );
-}
+const SubMenu = ({
+  subMenuKey,
+  icon,
+  title,
+  items,
+  isActive,
+  toggleSubMenu,
+}) => (
+  <div className="flex flex-col items-center justify-center w-full h-full gap-4">
+    <p
+      className="flex flex-row items-center justify-center w-full h-full gap-4 text-md font-[300] cursor-pointer"
+      onClick={() => toggleSubMenu(subMenuKey)}
+    >
+      <span className="flex items-center justify-start h-full">{icon}</span>
+      <span className="flex items-center justify-start w-full h-full">
+        {title}
+      </span>
+      <span className="flex items-center justify-end h-full">
+        <KeyboardArrowDownOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
+      </span>
+    </p>
+    {isActive &&
+      items.map((item) => (
+        <SubMenuMain
+          key={item.link}
+          href={`/${subMenuKey}/${item.link}`}
+          text={
+            <>
+              <FiberManualRecord
+                style={{
+                  fontSize: "0.5rem",
+                  marginRight: "0.5rem",
+                  color: "#A3A3A3",
+                }}
+              />
+              {item.nameTH}
+            </>
+          }
+        />
+      ))}
+  </div>
+);
 
-function renderSubMenu(
+const renderSubMenu = (
   subMenuOpen,
   menuCategories,
   openSubMenus,
   toggleSubMenu
-) {
-  switch (subMenuOpen) {
-    case "hr":
-      return (
-        <>
-          <SubMenu
-            subMenuKey="hr"
-            icon={
-              <SettingsOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
-            }
-            title="Dashboard1"
-            items={menuCategories.hr.generalSettings}
-            isActive={openSubMenus.hr}
-            toggleSubMenu={toggleSubMenu}
+) => {
+  const subMenuMap = {
+    hr: [
+      {
+        subMenuKey: "hr",
+        icon: <SettingsOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />,
+        title: "ตั้งค่าทั่วไป",
+        items: menuCategories.hr.generalSettings,
+      },
+      {
+        subMenuKey: "hrWarning",
+        icon: <ReportOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />,
+        title: "หนังสือการตักเตือน",
+        items: menuCategories.hr.warningDocuments,
+      },
+    ],
+    it: [
+      {
+        subMenuKey: "itMaintenance",
+        icon: <BuildOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />,
+        title: "การบำรุงรักษา",
+        items: menuCategories.it.maintenance,
+      },
+      {
+        subMenuKey: "itEquipment",
+        icon: (
+          <HomeRepairServiceOutlined
+            sx={{ stroke: "#FFFFFF", strokeWidth: 1 }}
           />
-          <SubMenu
-            subMenuKey="hrWarning"
-            icon={<ReportOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />}
-            title="หนังสือการตักเตือน"
-            items={menuCategories.hr.warningDocuments}
-            isActive={openSubMenus.hrWarning}
-            toggleSubMenu={toggleSubMenu}
-          />
-        </>
-      );
-    case "it":
-      return (
-        <>
-          <SubMenu
-            subMenuKey="itMaintenance"
-            icon={<BuildOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />}
-            title="การบำรุงรักษา"
-            items={menuCategories.it.maintenance}
-            isActive={openSubMenus.itMaintenance}
-            toggleSubMenu={toggleSubMenu}
-          />
-          <SubMenu
-            subMenuKey="itEquipment"
-            icon={<HomeRepairServiceOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />}
-            title="อุปกรณ์"
-            items={menuCategories.it.equipment}
-            isActive={openSubMenus.itEquipment}
-            toggleSubMenu={toggleSubMenu}
-          />
-        </>
-      );
-    default:
-      return null;
-  }
-}
+        ),
+        title: "อุปกรณ์",
+        items: menuCategories.it.equipment,
+      },
+    ],
+  };
+
+  return subMenuMap[subMenuOpen]?.map(({ subMenuKey, icon, title, items }) => (
+    <SubMenu
+      key={subMenuKey}
+      subMenuKey={subMenuKey}
+      icon={icon}
+      title={title}
+      items={items}
+      isActive={openSubMenus[subMenuKey]}
+      toggleSubMenu={toggleSubMenu}
+    />
+  ));
+};
 
 export default function UiLayout({ children }) {
   const { data: session, status } = useSession();
@@ -186,14 +189,11 @@ export default function UiLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isClicked, setIsClicked] = useState(false);
   const pathname = usePathname();
-  const arraypath = pathname.split("/");
-  const cleanedPathname = arraypath[1];
-  const [subMenuOpen, setSubMenuOpen] = useState(cleanedPathname);
+  const [subMenuOpen, setSubMenuOpen] = useState(pathname.split("/")[1]);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const toggleDropdown = () => setIsOpen(!isOpen);
   const [openSubMenus, setOpenSubMenus] = useState({
     hr: false,
     hrWarning: false,
@@ -201,20 +201,41 @@ export default function UiLayout({ children }) {
     itEquipment: false,
   });
 
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setIsOpen(false);
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => !prev);
+    setIsClicked(true);
+    setTimeout(() => setIsClicked(false), 300);
+  };
+
+  const toggleSubMenu = useCallback((menuKey) => {
+    setOpenSubMenus((prevState) => ({
+      ...prevState,
+      [menuKey]: !prevState[menuKey],
+    }));
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch("/api/signout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (res.ok) {
+        await signOut({ callbackUrl: "/" });
+      } else {
+        const errorData = await res.json();
+        console.error("Sign out failed:", errorData);
+      }
+    } catch (error) {
+      console.error("Sign out failed:", error);
     }
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    if (status === "loading") return;
-    if (!session) {
+    if (!session && status !== "loading") {
       toast.error("You Are Not Logged In Yet. Please Log In.", {
         duration: 1000,
       });
@@ -224,63 +245,20 @@ export default function UiLayout({ children }) {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+      if (
+        (dropdownRef.current && !dropdownRef.current.contains(event.target)) ||
+        (sidebarRef.current && !sidebarRef.current.contains(event.target))
+      ) {
+        setIsOpen(false);
         setMobileSidebarOpen(false);
       }
     };
 
-    if (mobileSidebarOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [mobileSidebarOpen]);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-    setIsClicked(true);
-    setTimeout(() => setIsClicked(false), 300);
-  };
-
-  const toggleMobileSidebar = () => {
-    setMobileSidebarOpen(!mobileSidebarOpen);
-  };
-
-  const handleMenuClick = (menuKey) => {
-    setSubMenuOpen(subMenuOpen === menuKey ? null : menuKey);
-  };
-
-  const toggleSubMenu = (menuKey) => {
-    setOpenSubMenus((prevState) => ({
-      ...prevState,
-      [menuKey]: !prevState[menuKey],
-    }));
-  };
-
-  const handleSignOut = async () => {
-    try {
-      const res = await fetch("/api/signout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({}),
-      });
-
-      if (res.ok) {
-        await signOut({ callbackUrl: "/" });
-      } else {
-        const errorData = await res.json();
-        console.error("ออกจากระบบไม่สำเร็จ:", errorData);
-      }
-    } catch (error) {
-      console.error("ออกจากระบบไม่สำเร็จ:", error);
-    }
-  };
+  }, []);
 
   if (status === "loading") {
     return (
@@ -327,7 +305,7 @@ export default function UiLayout({ children }) {
                 <CottageOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
               }
               title="หน้าหลัก"
-              onClick={() => handleMenuClick("home")}
+              onClick={() => setSubMenuOpen("home")}
             />
             <MenuMain
               href="/pu"
@@ -337,7 +315,7 @@ export default function UiLayout({ children }) {
                 />
               }
               title="จัดซื้อ"
-              onClick={() => handleMenuClick("pu")}
+              onClick={() => setSubMenuOpen("pu")}
             />
             <MenuMain
               href="/eng"
@@ -347,7 +325,7 @@ export default function UiLayout({ children }) {
                 />
               }
               title="วิศวกรรมโครงสร้างเหล็ก"
-              onClick={() => handleMenuClick("eng")}
+              onClick={() => setSubMenuOpen("eng")}
             />
             <MenuMain
               href="/hr"
@@ -357,7 +335,7 @@ export default function UiLayout({ children }) {
                 />
               }
               title="บุคคล"
-              onClick={() => handleMenuClick("hr")}
+              onClick={() => setSubMenuOpen("hr")}
             />
             <MenuMain
               href="/it"
@@ -365,7 +343,7 @@ export default function UiLayout({ children }) {
                 <ComputerOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
               }
               title="เทคโนโลยีสารสนเทศ"
-              onClick={() => handleMenuClick("it")}
+              onClick={() => setSubMenuOpen("it")}
             />
           </div>
           <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
@@ -375,7 +353,7 @@ export default function UiLayout({ children }) {
                 <Face5Outlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
               }
               title="โปรไฟล์"
-              onClick={() => handleMenuClick("profile")}
+              onClick={() => setSubMenuOpen("profile")}
             />
             <MenuMain
               href="/#"
@@ -415,8 +393,8 @@ export default function UiLayout({ children }) {
         <div className="flex flex-row items-center justify-center w-full h-full p-2">
           <div className="flex flex-row items-center justify-start w-full h-full gap-2">
             <button
-              onClick={toggleMobileSidebar}
-              className=" xl:hidden flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full"
+              onClick={() => setMobileSidebarOpen((prev) => !prev)}
+              className="xl:hidden flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full"
             >
               <LayersOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
             </button>
@@ -442,7 +420,7 @@ export default function UiLayout({ children }) {
             <div ref={dropdownRef} className="relative">
               <div
                 className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full cursor-pointer"
-                onClick={toggleDropdown}
+                onClick={() => setIsOpen((prev) => !prev)}
               >
                 <Image
                   src={`/images/user_picture/${session?.user?.user_picture_file}`}
