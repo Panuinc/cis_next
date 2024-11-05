@@ -102,7 +102,7 @@ function SubMenu({ subMenuKey, icon, title, items, isActive, toggleSubMenu }) {
           {title}
         </span>
         <span className="flex items-center justify-end h-full">
-          <KeyboardArrowDownOutlined />
+          <KeyboardArrowDownOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
         </span>
       </p>
       {isActive &&
@@ -113,7 +113,7 @@ function SubMenu({ subMenuKey, icon, title, items, isActive, toggleSubMenu }) {
             text={
               <>
                 <FiberManualRecord
-                  style={{ fontSize: "0.5rem", marginRight: "0.5rem" }}
+                  style={{ fontSize: "0.5rem", marginRight: "0.5rem" , color:"#A3A3A3"}}
                 />
                 {item.nameTH}
               </>
@@ -139,7 +139,7 @@ function renderSubMenu(
             icon={
               <SettingsOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
             }
-            title="การตั้งค่าทั่วไป"
+            title="Dashboard1"
             items={menuCategories.hr.generalSettings}
             isActive={openSubMenus.hr}
             toggleSubMenu={toggleSubMenu}
@@ -159,7 +159,7 @@ function renderSubMenu(
         <>
           <SubMenu
             subMenuKey="itMaintenance"
-            icon={<BuildOutlined />}
+            icon={<BuildOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />}
             title="การบำรุงรักษา"
             items={menuCategories.it.maintenance}
             isActive={openSubMenus.itMaintenance}
@@ -167,7 +167,7 @@ function renderSubMenu(
           />
           <SubMenu
             subMenuKey="itEquipment"
-            icon={<HomeRepairServiceOutlined />}
+            icon={<HomeRepairServiceOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />}
             title="อุปกรณ์"
             items={menuCategories.it.equipment}
             isActive={openSubMenus.itEquipment}
