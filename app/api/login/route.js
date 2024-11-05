@@ -15,12 +15,12 @@ export async function POST(request) {
 
     if (!user_id_card) {
       return NextResponse.json(
-        { message: "Please Enter User Id Card" },
+        { message: "กรุณาระบุ เลขประจำบัตรประชาชน" },
         { status: 400 }
       );
     } else if (!user_password) {
       return NextResponse.json(
-        { message: "Please Enter Password" },
+        { message: "กรุณาระบุ รหัสผ่าน" },
         { status: 400 }
       );
     }

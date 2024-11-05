@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function Branch() {
+export default function BackUp() {
   return (
     <div>
-      Branch
+      BackUp
     </div>
   )
 }

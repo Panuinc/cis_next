@@ -18,6 +18,8 @@ const menuCategories = {
       { nameTH: "หนังสือตักเตือน", link: "warning_letter" },
       { nameTH: "หัวข้อใบเตือน", link: "warning_topic" },
       { nameTH: "ระเบียบข้อบังคับ", link: "warning_detail" },
+      { nameTH: "ระเบียบข้อบังคับ", link: "warning_detail" },
+
     ],
   },
   it: {
