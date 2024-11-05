@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 const anuphan = Anuphan({
   subsets: ["latin"],
   variable: "--anuphan",
-  // weight: "300",
+  weight: "300",
   display: "swap",
 });
 
@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
         </head>
 
         <body className={(inter.className, anuphan.variable)}>
-          <div className="font-anuphan w-full min-h-screen bg-[#FFFFFF] text-[#3D4849]">
+          <div className="font-anuphan w-full min-h-screen bg-[#FFFFFF] text-[#000000]">
             {children}
           </div>
         </body>

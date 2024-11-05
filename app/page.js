@@ -43,16 +43,16 @@ export default function Index() {
       });
 
       if (result.error) {
-        toast.error("Login Failed");
+        toast.error("เข้าสู่ระบบไม่สำเร็จ");
       } else {
-        toast.success("Login Successful! Welcome To Cis System");
+        toast.success("เข้าสู่ระบบสำเร็จ");
         setTimeout(() => {
           router.push("/home");
         }, 2000);
       }
     } catch (error) {
-      toast.error("An Unexpected Error Occurred. Please Try Again Later");
-      console.error("Login error:", error);
+      toast.error("เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง");
+      console.error("เข้าสู่ระบบไม่สำเร็จ:", error);
     }
   };
 
