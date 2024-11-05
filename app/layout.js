@@ -1,12 +1,12 @@
-import { Inter, Prompt } from "next/font/google";
+import { Inter, Anuphan } from "next/font/google";
 import "../public/css/globals.css";
 import { CustomProviders } from "./provider";
 
 const inter = Inter({ subsets: ["latin"] });
-const prompt = Prompt({
+const anuphan = Anuphan({
   subsets: ["latin"],
-  variable: "--prompt",
-  weight: "300",
+  variable: "--anuphan",
+  // weight: "300",
   display: "swap",
 });
 
@@ -23,8 +23,8 @@ export default function RootLayout({ children }) {
           <link rel="icon" href="/images/other/company_logo.png" />
         </head>
 
-        <body className={(inter.className, prompt.variable)}>
-          <div className="font-prompt w-full min-h-screen bg-[#FFFFFF]">
+        <body className={(inter.className, anuphan.variable)}>
+          <div className="font-anuphan w-full min-h-screen bg-[#FFFFFF] text-[#3D4849]">
             {children}
           </div>
         </body>

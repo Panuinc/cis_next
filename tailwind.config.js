@@ -14,7 +14,7 @@ module.exports = {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        prompt: ["var(--prompt)"],
+        anuphan: ["var(--anuphan)"],
       },
     },
   },
