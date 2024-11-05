@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import Loading from "../components/Loading";
@@ -104,7 +105,7 @@ const SubMenu = ({
         {title}
       </span>
       <span className="flex items-center justify-end h-full">
-        <KeyboardArrowDownOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
+        <KeyboardArrowDownOutlined />
       </span>
     </p>
     {isActive &&
@@ -139,13 +140,13 @@ const renderSubMenu = (
     hr: [
       {
         subMenuKey: "hr",
-        icon: <SettingsOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />,
+        icon: <SettingsOutlined />,
         title: "ตั้งค่าทั่วไป",
         items: menuCategories.hr.generalSettings,
       },
       {
         subMenuKey: "hrWarning",
-        icon: <ReportOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />,
+        icon: <ReportOutlined />,
         title: "หนังสือการตักเตือน",
         items: menuCategories.hr.warningDocuments,
       },
@@ -153,17 +154,13 @@ const renderSubMenu = (
     it: [
       {
         subMenuKey: "itMaintenance",
-        icon: <BuildOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />,
+        icon: <BuildOutlined />,
         title: "การบำรุงรักษา",
         items: menuCategories.it.maintenance,
       },
       {
         subMenuKey: "itEquipment",
-        icon: (
-          <HomeRepairServiceOutlined
-            sx={{ stroke: "#FFFFFF", strokeWidth: 1 }}
-          />
-        ),
+        icon: <HomeRepairServiceOutlined />,
         title: "อุปกรณ์",
         items: menuCategories.it.equipment,
       },
@@ -275,19 +272,21 @@ export default function UiLayout({ children }) {
   return (
     <div className="flex flex-row items-start justify-center w-full min-h-screen gap-2">
       <Toaster position="top-right" reverseOrder={false} />
+      {/* Sidebar */}
       <div
         ref={sidebarRef}
         className={`${
           mobileSidebarOpen ? "flex" : "hidden"
-        } xl:flex flex-row items-center justify-center ${
+        } xl:flex flex-row items-start justify-center ${
           sidebarOpen ? "w-[75%] xl:w-[20%]" : "w-[20%] xl:w-[5%]"
         } min-h-screen left-0 fixed z-10`}
       >
         <div
           className={`flex flex-col items-center justify-start ${
             sidebarOpen ? "w-[25%]" : "w-full"
-          } h-screen bg-[#F3F7FB] overflow-auto `}
+          } h-screen bg-[#F3F7FB] overflow-auto`}
         >
+          {/* Sidebar toggle button */}
           <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
             <button
               className={`flex items-center justify-center w-12 h-12 p-2 gap-2 ${
@@ -295,76 +294,62 @@ export default function UiLayout({ children }) {
               }`}
               onClick={toggleSidebar}
             >
-              <DehazeOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
+              <DehazeOutlined />
             </button>
           </div>
+
+          {/* Menu items */}
           <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
             <MenuMain
               href="/home"
-              icons={
-                <CottageOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
-              }
+              icons={<CottageOutlined />}
               title="หน้าหลัก"
               onClick={() => setSubMenuOpen("home")}
             />
             <MenuMain
               href="/pu"
-              icons={
-                <CurrencyExchangeOutlined
-                  sx={{ stroke: "#FFFFFF", strokeWidth: 1 }}
-                />
-              }
+              icons={<CurrencyExchangeOutlined />}
               title="จัดซื้อ"
               onClick={() => setSubMenuOpen("pu")}
             />
             <MenuMain
               href="/eng"
-              icons={
-                <EngineeringOutlined
-                  sx={{ stroke: "#FFFFFF", strokeWidth: 1 }}
-                />
-              }
+              icons={<EngineeringOutlined />}
               title="วิศวกรรมโครงสร้างเหล็ก"
               onClick={() => setSubMenuOpen("eng")}
             />
             <MenuMain
               href="/hr"
-              icons={
-                <PersonOutlineOutlined
-                  sx={{ stroke: "#FFFFFF", strokeWidth: 1 }}
-                />
-              }
+              icons={<PersonOutlineOutlined />}
               title="บุคคล"
               onClick={() => setSubMenuOpen("hr")}
             />
             <MenuMain
               href="/it"
-              icons={
-                <ComputerOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
-              }
+              icons={<ComputerOutlined />}
               title="เทคโนโลยีสารสนเทศ"
               onClick={() => setSubMenuOpen("it")}
             />
           </div>
+
+          {/* User profile and sign-out */}
           <div className="flex flex-col items-center justify-center w-full p-2 gap-2">
             <MenuMain
               href="/profile"
-              icons={
-                <Face5Outlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
-              }
+              icons={<Face5Outlined />}
               title="โปรไฟล์"
               onClick={() => setSubMenuOpen("profile")}
             />
             <MenuMain
               href="/#"
-              icons={
-                <ExitToAppOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
-              }
+              icons={<ExitToAppOutlined />}
               title="ออกจากระบบ"
               onClick={handleSignOut}
             />
           </div>
         </div>
+
+        {/* Submenus */}
         {sidebarOpen && (
           <div
             className={`flex flex-col items-center justify-start ${
@@ -385,10 +370,12 @@ export default function UiLayout({ children }) {
           </div>
         )}
       </div>
+
+      {/* Main content */}
       <div
         className={`flex flex-col items-center justify-between w-full ${
           sidebarOpen ? "xl:w-[80%] xl:ml-[20%]" : "xl:w-[95%] xl:ml-[5%]"
-        } min-h-screen gap-2 `}
+        } min-h-screen gap-2`}
       >
         <div className="flex flex-row items-center justify-center w-full h-full p-2">
           <div className="flex flex-row items-center justify-start w-full h-full gap-2">
@@ -396,27 +383,31 @@ export default function UiLayout({ children }) {
               onClick={() => setMobileSidebarOpen((prev) => !prev)}
               className="xl:hidden flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full"
             >
-              <LayersOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
+              <LayersOutlined />
             </button>
             <button className="xl:flex hidden items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
-              <SearchOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
+              <SearchOutlined />
             </button>
             <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
-              <WorkspacesOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
+              <WorkspacesOutlined />
             </button>
           </div>
+
+          {/* Centered header for mobile */}
           <div className="xl:hidden flex flex-row items-center justify-center w-full h-full p-2 gap-2 text-[#635bff] text-xl font-[600]">
             Channakorn
           </div>
+
+          {/* Profile and notifications */}
           <div className="flex flex-row items-center justify-end w-full h-full gap-2">
             <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
-              <DarkModeOutlined sx={{ stroke: "#FFFFFF", strokeWidth: 1 }} />
+              <DarkModeOutlined />
             </button>
             <button className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full">
-              <NotificationsActiveOutlined
-                sx={{ stroke: "#FFFFFF", strokeWidth: 1 }}
-              />
+              <NotificationsActiveOutlined />
             </button>
+
+            {/* User dropdown */}
             <div ref={dropdownRef} className="relative">
               <div
                 className="flex items-center justify-center w-10 h-10 hover:text-[#635bff] hover:bg-[#635bff]/25 rounded-full cursor-pointer"
@@ -427,7 +418,7 @@ export default function UiLayout({ children }) {
                   alt="company_logo"
                   width={30}
                   height={30}
-                  priority={true}
+                  priority
                 />
               </div>
 
@@ -467,6 +458,8 @@ export default function UiLayout({ children }) {
             </div>
           </div>
         </div>
+
+        {/* Main content section */}
         <div className="flex items-start justify-center w-full min-h-screen ml-[2%] p-4 gap-2 bg-[#F3F7FB] rounded-3xl">
           {children}
         </div>
