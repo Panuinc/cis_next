@@ -18,12 +18,12 @@ export default function BranchCreate() {
     const formData = new FormData(event.target);
     formData.append("branch_name", branch_name);
     formData.append("branch_create_by", session?.user?.user_id);
-  
+
     try {
       const response = await CreateBranch({
         formData,
       });
-  
+
       if (response.status === 201) {
         toast.success(response.message);
         setTimeout(() => {
@@ -38,7 +38,7 @@ export default function BranchCreate() {
       toast.error("Error creating branch: " + error.message);
     }
   };
-  
+
   return (
     <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-6">
       <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
@@ -47,7 +47,9 @@ export default function BranchCreate() {
         </div>
         <div className="flex items-center justify-end w-full h-full p-2 gap-2">
           <AddHomeOutlinedIcon />
-          <span className="px-4 text-[#635bff] bg-[#635bff]/25 rounded-xl">เพิ่ม สาขา</span>
+          <span className="px-4 text-[#635bff] bg-[#635bff]/25 rounded-xl">
+            เพิ่ม สาขา
+          </span>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center w-full h-f p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
@@ -94,13 +96,13 @@ export default function BranchCreate() {
             <div className="flex items-center justify-end w-full h-full p-2 gap-2">
               <Button
                 type="submit"
-                size="lg"
+                size="md"
                 className="w-1/12 bg-[#615DFF] text-[#FFFFFF]"
               >
                 บันทึก
               </Button>
               <Button
-                size="lg"
+                size="md"
                 className="w-1/12 bg-[#F07294] text-[#FFFFFF]"
                 onClick={() => router.back()}
               >

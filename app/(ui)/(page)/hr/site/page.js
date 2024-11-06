@@ -135,9 +135,7 @@ export default function Site() {
       if (result.status === 200) {
         toast.success(result.message);
         const updatedData = site.map((site) =>
-          site.site_id === site_id
-            ? { ...site, site_status: newStatus }
-            : site
+          site.site_id === site_id ? { ...site, site_status: newStatus } : site
         );
         setSite(updatedData);
         setFilteredSite(updatedData);
@@ -198,9 +196,7 @@ export default function Site() {
         <Switch
           isSelected={row.site_status}
           color="success"
-          onChange={() =>
-            handleStatusChange(row.site_id, row.site_status)
-          }
+          onChange={() => handleStatusChange(row.site_id, row.site_status)}
         />
       ),
     });
@@ -214,7 +210,9 @@ export default function Site() {
         </div>
         <div className="flex items-center justify-end w-full h-full p-2 gap-2">
           <AddHomeOutlinedIcon />
-          <span className="px-4 text-[#635bff] bg-[#635bff]/25 rounded-xl">ไซต์งาน</span>
+          <span className="px-4 text-[#635bff] bg-[#635bff]/25 rounded-xl">
+            ไซต์งาน
+          </span>
         </div>
       </div>
       <div className="flex flex-col xl:flex-row items-center justify-center w-full h-f p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
@@ -232,7 +230,7 @@ export default function Site() {
         <div className="flex items-center justify-center w-full h-full p-2 gap-2">
           <Select
             label="ค้นหา"
-            placeholder="เลือกสาขา"
+            placeholder="ค้นหาโดยการเลือกสาขา"
             size="md"
             variant="bordered"
             selectedKeys={selectedbranch ? [selectedbranch] : []}
@@ -257,9 +255,7 @@ export default function Site() {
           >
             <SelectItem key="">เลือกทั้งหมด</SelectItem>
             {site.map((site) => (
-              <SelectItem key={site.site_id}>
-                {site.site_name}
-              </SelectItem>
+              <SelectItem key={site.site_id}>{site.site_name}</SelectItem>
             ))}
           </Select>
         </div>

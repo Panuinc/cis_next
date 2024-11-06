@@ -133,13 +133,13 @@ export default function SiteCreate() {
             <div className="flex items-center justify-end w-full h-full p-2 gap-2">
               <Button
                 type="submit"
-                size="lg"
+                size="md"
                 className="w-1/12 bg-[#615DFF] text-[#FFFFFF]"
               >
                 บันทึก
               </Button>
               <Button
-                size="lg"
+                size="md"
                 className="w-1/12 bg-[#F07294] text-[#FFFFFF]"
                 onClick={() => router.back()}
               >

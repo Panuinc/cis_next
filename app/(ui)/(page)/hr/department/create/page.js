@@ -147,7 +147,7 @@ export default function DepartmentCreate() {
                 value={department_division_id}
                 onChange={(e) => setDepartment_division_id(e.target.value)}
                 variant="bordered"
-                size="lg"
+                size="md"
                 isDisabled={!isbranchselected}
                 isInvalid={error && department_division_id.length === 0}
                 errorMessage={error?.errors?.department_division_id?.[0]}
@@ -166,25 +166,25 @@ export default function DepartmentCreate() {
           </div>
           <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-              <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-                <Input
-                  type="text"
-                  id="department_name"
-                  name="department_name"
-                  label="ชื่อแผนก"
-                  placeholder="กรุณากรอกข้อมูล"
-                  size="md"
-                  variant="bordered"
-                  isRequired
-                  value={department_name}
-                  onChange={(e) => setDepartment_name(e.target.value)}
-                  isInvalid={
-                    !!error?.errors?.department_name &&
-                    department_name.length === 0
-                  }
-                  errorMessage={error?.errors?.department_name?.[0]}
-                />
-              </div>
+              <Input
+                type="text"
+                id="department_name"
+                name="department_name"
+                label="ชื่อแผนก"
+                placeholder="กรุณากรอกข้อมูล"
+                size="md"
+                variant="bordered"
+                isRequired
+                value={department_name}
+                onChange={(e) => setDepartment_name(e.target.value)}
+                isInvalid={
+                  !!error?.errors?.department_name &&
+                  department_name.length === 0
+                }
+                errorMessage={error?.errors?.department_name?.[0]}
+              />
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Input
                 type="text"
                 label="ดำเนินการโดย"
@@ -198,13 +198,13 @@ export default function DepartmentCreate() {
             <div className="flex items-center justify-end w-full h-full p-2 gap-2">
               <Button
                 type="submit"
-                size="lg"
+                size="md"
                 className="w-1/12 bg-[#615DFF] text-[#FFFFFF]"
               >
                 บันทึก
               </Button>
               <Button
-                size="lg"
+                size="md"
                 className="w-1/12 bg-[#F07294] text-[#FFFFFF]"
                 onClick={() => router.back()}
               >

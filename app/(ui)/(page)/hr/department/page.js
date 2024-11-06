@@ -286,7 +286,7 @@ export default function Department() {
         <div className="flex items-center justify-center w-full h-full p-2 gap-2">
           <Select
             label="ค้นหา"
-            placeholder="เลือกสาขา"
+            placeholder="ค้นหาโดยการเเลือกสาขา"
             size="md"
             variant="bordered"
             selectedKeys={selectedbranch ? [selectedbranch] : []}
@@ -303,7 +303,7 @@ export default function Department() {
         <div className="flex items-center justify-center w-full h-full p-2 gap-2">
           <Select
             label="ค้นหา"
-            placeholder="เลือกฝ่าย"
+            placeholder="ค้นหาโดยการเเลือกฝ่าย"
             size="md"
             variant="bordered"
             selectedKeys={selecteddivision ? [selecteddivision] : []}

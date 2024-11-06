@@ -84,9 +84,7 @@ export default function Role() {
       if (result.status === 200) {
         toast.success(result.message);
         const updatedData = role.map((role) =>
-          role.role_id === role_id
-            ? { ...role, role_status: newStatus }
-            : role
+          role.role_id === role_id ? { ...role, role_status: newStatus } : role
         );
         setRole(updatedData);
         setFilteredRole(updatedData);
@@ -154,7 +152,9 @@ export default function Role() {
         </div>
         <div className="flex items-center justify-end w-full h-full p-2 gap-2">
           <AddHomeOutlinedIcon />
-          <span className="px-4 text-[#635bff] bg-[#635bff]/25 rounded-xl">บทบาทหน้าที่</span>
+          <span className="px-4 text-[#635bff] bg-[#635bff]/25 rounded-xl">
+            บทบาทหน้าที่
+          </span>
         </div>
       </div>
       <div className="flex flex-col xl:flex-row items-center justify-center w-full h-f p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
@@ -180,9 +180,7 @@ export default function Role() {
           >
             <SelectItem key="">เลือกทั้งหมด</SelectItem>
             {role.map((role) => (
-              <SelectItem key={role.role_id}>
-                {role.role_name}
-              </SelectItem>
+              <SelectItem key={role.role_id}>{role.role_name}</SelectItem>
             ))}
           </Select>
         </div>
