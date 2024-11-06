@@ -125,19 +125,19 @@ const Sidebar = ({
             {selectedMenu === "HR" && (
               <>
                 <Section
-                  title="Setting"
+                  title="ตั้งค่า"
                   icon={<SettingsSuggestOutlined />}
                   links={[
-                    { href: "/hr/branch", label: "Branch" },
-                    { href: "/hr/site", label: "Site" },
-                    { href: "/hr/division", label: "Division" },
-                    { href: "/hr/department", label: "Department" },
-                    { href: "/hr/position", label: "Position" },
-                    { href: "/hr/role", label: "Role" },
-                    { href: "/hr/user", label: "User" },
+                    { href: "/hr/branch", label: "สาขา" },
+                    { href: "/hr/site", label: "ไซต์งาน" },
+                    { href: "/hr/division", label: "ฝ่าย" },
+                    { href: "/hr/department", label: "แผนก" },
+                    { href: "/hr/position", label: "ตำแหน่ง" },
+                    { href: "/hr/role", label: "บทบาทหน้าที่" },
+                    { href: "/hr/user", label: "พนักงาน" },
                   ]}
                 />
-                <Section
+                {/* <Section
                   title="Warning"
                   icon={<ReportProblemOutlined />}
                   links={[
@@ -145,7 +145,7 @@ const Sidebar = ({
                     { href: "/hr/warning_detail", label: "Warning Detail" },
                     { href: "/hr/warning_user", label: "Warning User" },
                   ]}
-                />
+                /> */}
               </>
             )}
             {selectedMenu === "IT" && (

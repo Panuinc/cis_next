@@ -135,7 +135,7 @@ export default function Branch() {
 
   if (session.user.user_level === "superadmin") {
     columns.push({
-      name: "สถานะ",
+      name: "Status",
       cell: (row) => (
         <Switch
           isSelected={row.branch_status}
@@ -191,7 +191,7 @@ export default function Branch() {
         </Link>
       </div>
       <div className="flex flex-col items-center justify-center w-full h-f p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
-        <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
+        <div className="flex items-center justify-start w-full h-full p-4 gap-2 font-[600] border-b-2">
           ข้อมูล สาขา
         </div>
         <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">

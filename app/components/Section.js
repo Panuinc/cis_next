@@ -11,9 +11,7 @@ const Section = ({ title, icon, links }) => {
       </div>
       {links.map(({ href, label }) => {
         const isActive = pathname.search(href) > -1;
-        // const isActive = `${pathname}` === href;
-        console.log(pathname.search(href));
-
+        
         return (
           <Link
             key={href}

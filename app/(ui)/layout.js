@@ -79,7 +79,7 @@ export default function UiLayout({ children }) {
         } min-h-screen gap-2 `}
       >
         <Header toggleMobileSidebar={toggleMobileSidebar} />
-        <div className="flex flex-row items-start justify-center w-[100%] min-h-screen p-10 gap-2 bg-[#F3F7FB] rounded-3xl">
+        <div className="flex flex-row items-start justify-center w-[100%] min-h-screen p-6 gap-2 bg-[#F3F7FB] rounded-3xl">
           {children}
         </div>
       </div>
