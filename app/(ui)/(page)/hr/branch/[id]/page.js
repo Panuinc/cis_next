@@ -120,7 +120,7 @@ export default function BranchUpdate({ params }) {
               </Button>
               <Button
                 size="lg"
-                className="w-1/12 bg-[#F07294]/25 text-[#F07294]"
+                className="w-1/12 bg-[#F07294] text-[#FFFFFF]"
                 onClick={() => router.back()}
               >
                 ย้อนกลับ
