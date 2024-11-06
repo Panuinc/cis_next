@@ -2,20 +2,19 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "react-hot-toast";
-import { CreateDivision } from "@/app/functions/hr/division";
+import { CreateSite } from "@/app/functions/hr/site";
 import { FetchBranch } from "@/app/functions/hr/branch";
 import { Input, Button, Select, SelectItem } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
 
-export default function DivisionCreate() {
+export default function SiteCreate() {
   const { data: session } = useSession();
   const router = useRouter();
   const [branch, setBranch] = useState([]);
   const [error, setError] = useState(null);
-  const [division_branch_id, setDivision_branch_id] = useState("");
-  const [division_name, setDivision_name] = useState("");
-  const [division_acronym, setDivision_acronym] = useState("");
+  const [site_branch_id, setSite_branch_id] = useState("");
+  const [site_name, setSite_name] = useState("");
 
   const loadBranch = async () => {
     try {
@@ -34,28 +33,27 @@ export default function DivisionCreate() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    formData.append("division_branch_id", division_branch_id);
-    formData.append("division_name", division_name);
-    formData.append("division_acronym", division_acronym);
-    formData.append("division_create_by", session?.user?.user_id);
+    formData.append("site_branch_id", site_branch_id);
+    formData.append("site_name", site_name);
+    formData.append("site_create_by", session?.user?.user_id);
 
     try {
-      const response = await CreateDivision({
+      const response = await CreateSite({
         formData,
       });
 
       if (response.status === 201) {
         toast.success(response.message);
         setTimeout(() => {
-          router.push("/hr/division");
+          router.push("/hr/site");
         }, 2000);
       } else {
         setError(response);
         toast.error(response.message);
       }
     } catch (error) {
-      setError({ message: "Error creating division: " + error.message });
-      toast.error("Error creating division: " + error.message);
+      setError({ message: "Error creating site: " + error.message });
+      toast.error("Error creating site: " + error.message);
     }
   };
 
@@ -63,16 +61,16 @@ export default function DivisionCreate() {
     <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-6">
       <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
         <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
-          เพิ่ม ฝ่าย
+          เพิ่ม ไซต์งาน
         </div>
         <div className="flex items-center justify-end w-full h-full p-2 gap-2">
           <AddHomeOutlinedIcon />
-          <span className="px-4 bg-[#635bff]/25 rounded-xl">เพิ่ม ฝ่าย</span>
+          <span className="px-4 bg-[#635bff]/25 rounded-xl">เพิ่ม ไซต์งาน</span>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center w-full h-f p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
         <div className="flex items-center justify-start w-full h-full p-4 gap-2 font-[600] border-b-2">
-          เพิ่ม ฝ่าย
+          เพิ่ม ไซต์งาน
         </div>
         <Toaster position="top-right" reverseOrder={false} />
         <form
@@ -84,17 +82,16 @@ export default function DivisionCreate() {
               <Select
                 label="เลือกสาขา"
                 placeholder="กรุณาเลือกสาขา"
-                id="division_branch_id"
-                name="division_branch_id"
-                value={division_branch_id}
-                onChange={(e) => setDivision_branch_id(e.target.value)}
+                id="site_branch_id"
+                name="site_branch_id"
+                value={site_branch_id}
+                onChange={(e) => setSite_branch_id(e.target.value)}
                 variant="bordered"
                 size="md"
                 isInvalid={
-                  !!error?.errors?.division_branch_id &&
-                  division_branch_id.length === 0
+                  !!error?.errors?.site_branch_id && site_branch_id.length === 0
                 }
-                errorMessage={error?.errors?.division_branch_id?.[0]}
+                errorMessage={error?.errors?.site_branch_id?.[0]}
               >
                 <SelectItem value="">เลือกสาขา</SelectItem>
                 {branch.map((branch) => (
@@ -107,42 +104,21 @@ export default function DivisionCreate() {
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Input
                 type="text"
-                id="division_name"
-                name="division_name"
-                label="ชื่อฝ่าย"
+                id="site_name"
+                name="site_name"
+                label="ชื่อไซต์งาน"
                 placeholder="กรุณากรอกข้อมูล"
                 size="md"
                 variant="bordered"
                 isRequired
-                value={division_name}
-                onChange={(e) => setDivision_name(e.target.value)}
-                isInvalid={
-                  !!error?.errors?.division_name && division_name.length === 0
-                }
-                errorMessage={error?.errors?.division_name?.[0]}
+                value={site_name}
+                onChange={(e) => setSite_name(e.target.value)}
+                isInvalid={!!error?.errors?.site_name && site_name.length === 0}
+                errorMessage={error?.errors?.site_name?.[0]}
               />
             </div>
           </div>
           <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-              <Input
-                type="text"
-                id="division_acronym"
-                name="division_acronym"
-                label="ชื่อย่อฝ่าย"
-                placeholder="กรุณากรอกข้อมูล"
-                size="md"
-                variant="bordered"
-                isRequired
-                value={division_acronym}
-                onChange={(e) => setDivision_acronym(e.target.value)}
-                isInvalid={
-                  !!error?.errors?.division_acronym &&
-                  division_acronym.length === 0
-                }
-                errorMessage={error?.errors?.division_acronym?.[0]}
-              />
-            </div>
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Input
                 type="text"

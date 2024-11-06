@@ -65,3 +65,31 @@
 [11/6/2024, 3:34:52 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/division, Action: GET division data
 [11/6/2024, 3:34:52 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/division, Action: GET branch data
 [11/6/2024, 3:34:53 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/division, Action: GET division data
+[11/6/2024, 3:36:01 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET branch data
+[11/6/2024, 3:36:01 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET site data
+[11/6/2024, 3:36:01 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET branch data
+[11/6/2024, 3:36:01 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET site data
+[11/6/2024, 3:36:08 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: PUT site status 2
+[11/6/2024, 3:36:15 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET branch data
+[11/6/2024, 3:36:15 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET site data
+[11/6/2024, 3:36:15 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET branch data
+[11/6/2024, 3:36:15 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET site data
+[11/6/2024, 3:36:18 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: PUT site status 2
+[11/6/2024, 3:36:23 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET branch data
+[11/6/2024, 3:36:23 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET site data
+[11/6/2024, 3:36:23 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET branch data
+[11/6/2024, 3:36:23 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET site data
+[11/6/2024, 3:37:13 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site/create, Action: GET branch data
+[11/6/2024, 3:37:13 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site/create, Action: GET branch data
+[11/6/2024, 3:37:52 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site/create, Action: Created site: เครื่องจักร รถยนต์ให้เช่า
+[11/6/2024, 3:37:55 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET branch data
+[11/6/2024, 3:37:55 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET site data
+[11/6/2024, 3:37:56 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET branch data
+[11/6/2024, 3:37:56 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET site data
+[11/6/2024, 3:38:42 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site/3, Action: GET site data By Id
+[11/6/2024, 3:38:42 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site/3, Action: GET site data By Id
+[11/6/2024, 3:39:10 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site/3, Action: PUT site 3
+[11/6/2024, 3:39:12 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET branch data
+[11/6/2024, 3:39:12 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET site data
+[11/6/2024, 3:39:12 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET branch data
+[11/6/2024, 3:39:12 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET site data
