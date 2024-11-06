@@ -158,20 +158,22 @@ export default function Branch() {
         </div>
       </div>
       <div className="flex flex-col xl:flex-row items-center justify-center w-full h-f p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
-        <div className="flex items-center justify-center w-full h-full p-2 gap-2 font-[600]">
+        <div className="flex items-center justify-center w-full h-full p-2 gap-2">
           <Input
             type="text"
+            label="ค้นหา"
             placeholder="ค้นหาโดยข้อความ"
-            size="lg"
+            size="md"
             variant="bordered"
             value={searchText}
             onChange={handleSearch}
           />
         </div>
-        <div className="flex items-center justify-center w-full h-full p-2 gap-2 font-[600]">
+        <div className="flex items-center justify-center w-full h-full p-2 gap-2">
           <Select
+            label="ค้นหา"
             placeholder="ค้นหาโดยการเลือกสาขา"
-            size="lg"
+            size="md"
             variant="bordered"
             selectedKeys={selectedbranch ? [selectedbranch] : []}
             onSelectionChange={handleSelectBranchChange}
