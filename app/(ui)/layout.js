@@ -376,7 +376,7 @@ export default function UiLayout({ children }) {
                       className="rounded-full"
                     />
                     <div>
-                      <p className="font-semibold">
+                      <p className="font-[600]">
                         {session?.user?.user_firstname}{" "}
                         {session?.user?.user_lastname}{" "}
                         <span className="text-[#16cdc7]">
