@@ -97,22 +97,13 @@ export default function UiLayout({ children }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [isClicked, setIsClicked] = useState(false);
   const pathname = usePathname();
-  const arraypath = pathname.split("/");
-  const cleanedPathname = arraypath[1];
-  const [subMenuOpen, setSubMenuOpen] = useState(cleanedPathname);
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const toggleDropdown = () => setIsOpen(!isOpen);
-  const [openSubMenus, setOpenSubMenus] = useState({
-    hr: false,
-    hrWarning: false,
-    itMaintenance: false,
-    itEquipment: false,
-  });
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState(null);
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -153,23 +144,10 @@ export default function UiLayout({ children }) {
     };
   }, [mobileSidebarOpen]);
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-    setIsClicked(true);
-    setTimeout(() => setIsClicked(false), 300);
-  };
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
-  const toggleMobileSidebar = () => {
-    setMobileSidebarOpen(!mobileSidebarOpen);
-  };
-  const toggleSubMenu = (menuKey) => {
-    setOpenSubMenus((prevState) => ({
-      ...prevState,
-      [menuKey]: !prevState[menuKey],
-    }));
-  };
+  const toggleMobileSidebar = () => setMobileSidebarOpen(!mobileSidebarOpen);
 
-  const [selectedMenu, setSelectedMenu] = useState(null);
   useEffect(() => {
     const savedMenu = localStorage.getItem("selectedMenu");
     if (savedMenu) {
@@ -189,7 +167,6 @@ export default function UiLayout({ children }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({}),
       });
 
       if (res.ok) {
@@ -214,7 +191,7 @@ export default function UiLayout({ children }) {
   if (!session) {
     return null;
   }
-
+  
   return (
     <div className="flex flex-row items-start justify-start w-full min-h-screen">
       <Toaster position="top-right" reverseOrder={false} />
