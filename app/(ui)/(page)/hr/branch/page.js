@@ -154,7 +154,7 @@ export default function Branch() {
         </div>
         <div className="flex items-center justify-end w-full h-full p-2 gap-2">
           <AddHomeOutlinedIcon />
-          <span className="px-4 bg-[#635bff]/25 rounded-xl">สาขา</span>
+          <span className="px-4 text-[#635bff] bg-[#635bff]/25 rounded-xl">สาขา</span>
         </div>
       </div>
       <div className="flex flex-col xl:flex-row items-center justify-center w-full h-f p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">

@@ -93,3 +93,9 @@
 [11/6/2024, 3:39:12 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET site data
 [11/6/2024, 3:39:12 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET branch data
 [11/6/2024, 3:39:12 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/site, Action: GET site data
+[11/6/2024, 3:39:57 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch, Action: GET branch data
+[11/6/2024, 3:39:57 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch, Action: GET branch data
+[11/6/2024, 3:40:59 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/division, Action: GET branch data
+[11/6/2024, 3:40:59 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/division, Action: GET division data
+[11/6/2024, 3:41:00 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/division, Action: GET branch data
+[11/6/2024, 3:41:00 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/division, Action: GET division data
