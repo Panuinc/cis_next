@@ -153,3 +153,16 @@
 [11/6/2024, 3:54:42 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/department, Action: GET branch data
 [11/6/2024, 3:54:42 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/department, Action: GET division data
 [11/6/2024, 3:54:42 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/department, Action: GET department data
+[11/6/2024, 3:56:55 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/role, Action: GET role data
+[11/6/2024, 3:56:55 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/role, Action: GET role data
+[11/6/2024, 3:57:06 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/role, Action: PUT role status 7
+[11/6/2024, 3:57:13 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/role, Action: GET role data
+[11/6/2024, 3:57:13 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/role, Action: GET role data
+[11/6/2024, 3:57:19 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/role/7, Action: GET role data By Id
+[11/6/2024, 3:57:19 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/role/7, Action: GET role data By Id
+[11/6/2024, 3:57:21 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/role/7, Action: PUT role 7
+[11/6/2024, 3:57:23 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/role, Action: GET role data
+[11/6/2024, 3:57:23 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/role, Action: GET role data
+[11/6/2024, 3:57:33 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/role/create, Action: Created role: Test 4
+[11/6/2024, 3:57:36 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/role, Action: GET role data
+[11/6/2024, 3:57:36 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/role, Action: GET role data
