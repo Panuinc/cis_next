@@ -88,10 +88,17 @@ const Sidebar = ({
           tooltip="IT"
           onClick={() => handleMenuClick("IT")}
         />
-        <MainMenu href="/iso" icon={<StarBorderOutlined />} tooltip="ISO" />
+        <MainMenu
+          href="/iso"
+          icon={<StarBorderOutlined />}
+          tooltip="iso"
+          onClick={() => handleMenuClick("ISO")}
+        />
         <MainMenu
           href="/#"
-          icon={<ExitToAppOutlined />}
+          icon={
+            <ExitToAppOutlined  />
+          }
           tooltip="Logout"
           onClick={handleSignOut}
         />

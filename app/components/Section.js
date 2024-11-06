@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { DataUsageOutlined } from "@mui/icons-material";
+import { TocOutlined } from "@mui/icons-material";
 
 const Section = ({ title, icon, links }) => {
   const pathname = usePathname();
@@ -21,7 +21,7 @@ const Section = ({ title, icon, links }) => {
                 : "hover:text-[#635bff] "
             }`}
           >
-            <DataUsageOutlined /> {label}
+            <TocOutlined /> {label}
           </Link>
         );
       })}
