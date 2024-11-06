@@ -172,7 +172,7 @@ export default function Role() {
         <div className="flex items-center justify-center w-full h-full p-2 gap-2">
           <Select
             label="ค้นหา"
-            placeholder="ค้นหาโดยการเลือกบทบาทหน้าที่"
+            placeholder="เลือกบทบาทหน้าที่"
             size="md"
             variant="bordered"
             selectedKeys={selectedrole ? [selectedrole] : []}

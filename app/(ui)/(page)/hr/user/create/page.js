@@ -1,0 +1,1135 @@
+"use client";
+import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { toast, Toaster } from "react-hot-toast";
+import { CreateUser } from "@/app/functions/hr/user";
+import { FetchBranch } from "@/app/functions/hr/branch";
+import { FetchSite } from "@/app/functions/hr/site";
+import { FetchDivision } from "@/app/functions/hr/division";
+import { FetchDepartment } from "@/app/functions/hr/department";
+import { FetchPosition } from "@/app/functions/hr/position";
+import { FetchRole } from "@/app/functions/hr/role";
+import { FetchUser } from "@/app/functions/hr/user";
+import { Input, Button, Select, SelectItem } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
+import imageCompression from "browser-image-compression";
+import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
+
+export default function UserCreate() {
+  const { data: session } = useSession();
+  const router = useRouter();
+  const [error, setError] = useState(null);
+
+  const [branch, setBranch] = useState([]);
+  const [site, setSite] = useState([]);
+  const [division, setDivision] = useState([]);
+  const [department, setDepartment] = useState([]);
+  const [position, setPosition] = useState([]);
+  const [role, setRole] = useState([]);
+  const [parent, setParent] = useState([]);
+
+  const [filteredsite, setFilteredSite] = useState([]);
+  const [filtereddivision, setFilteredDivision] = useState([]);
+  const [filtereddepartment, setFilteredDepartment] = useState([]);
+  const [filteredposition, setFilteredPosition] = useState([]);
+  const [filteredparent, setFilteredParent] = useState([]);
+
+  const [isbranchselected, setIsBranchSelected] = useState(false);
+  const [isdivisionselected, setIsDivisionSelected] = useState(false);
+  const [isdivisionandbranchselected, setIsDivisionAndBranchSelected] =
+    useState(false);
+  const [
+    isdepartmentanddivisionandbranchselected,
+    setIsDepartmentandDivisionAndBranchSelected,
+  ] = useState(false);
+
+  const [user_number, setUser_number] = useState("");
+  const [user_password, setUser_password] = useState("");
+  const [user_firstname, setUser_firstname] = useState("");
+  const [user_lastname, setUser_lastname] = useState("");
+
+  const [user_nickname, setUser_nickname] = useState("");
+  const [user_branch_id, setUser_branch_id] = useState("");
+  const [user_site_id, setUser_site_id] = useState("");
+  const [user_division_id, setUser_division_id] = useState("");
+  const [user_department_id, setUser_department_id] = useState("");
+
+  const [user_position_id, setUser_position_id] = useState("");
+  const [user_role_id, setUser_role_id] = useState("");
+  const [user_parent_id, setUser_parent_id] = useState("");
+  const [user_type, setUser_type] = useState("");
+  const [user_id_card, setUser_id_card] = useState("");
+
+  const [user_citizen, setUser_citizen] = useState("");
+  const [user_level, setUser_level] = useState("");
+  const [user_email, setUser_email] = useState("");
+  const [user_tel, setUser_tel] = useState("");
+
+  const [user_picture_file, setUser_picture_file] = useState(null);
+  const [user_signature_file, setUser_signature_file] = useState(null);
+
+  const [preview_picture_file, setPreview_picture_file] = useState(null);
+  const [preview_signature_file, setPreview_signature_file] = useState(null);
+
+  const loadBranch = async () => {
+    try {
+      const data = await FetchBranch();
+      const activeBranch = data.filter((branch) => branch.branch_status === 1);
+      setBranch(activeBranch);
+    } catch (error) {
+      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+  };
+
+  const loadSite = async () => {
+    try {
+      const data = await FetchSite();
+      const activeSite = data.filter((site) => site.site_status === 1);
+      setSite(activeSite);
+    } catch (error) {
+      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+  };
+
+  const loadDivision = async () => {
+    try {
+      const data = await FetchDivision();
+      const activeDivision = data.filter(
+        (division) => division.division_status === 1
+      );
+      setDivision(activeDivision);
+    } catch (error) {
+      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+  };
+
+  const loadDepartment = async () => {
+    try {
+      const data = await FetchDepartment();
+      const activeDepartment = data.filter(
+        (department) => department.department_status === 1
+      );
+      setDepartment(activeDepartment);
+    } catch (error) {
+      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+  };
+
+  const loadPosition = async () => {
+    try {
+      const data = await FetchPosition();
+      const activePosition = data.filter(
+        (position) => position.position_status === 1
+      );
+      setPosition(activePosition);
+    } catch (error) {
+      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+  };
+
+  const loadRole = async () => {
+    try {
+      const data = await FetchRole();
+      const activeRole = data.filter((role) => role.role_status === 1);
+      setRole(activeRole);
+    } catch (error) {
+      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+  };
+
+  const loadUser = async () => {
+    try {
+      const data = await FetchUser();
+      const activeUser = data.filter(
+        (parent) =>
+          (parent.user_status === 1 && parent.user_role_id === 1) ||
+          parent.user_role_id === 2 ||
+          parent.user_role_id === 3
+      );
+      setParent(activeUser);
+    } catch (error) {
+      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูลuser");
+    }
+  };
+
+  useEffect(() => {
+    loadBranch();
+    loadSite();
+    loadDivision();
+    loadDepartment();
+    loadPosition();
+    loadRole();
+    loadUser();
+  }, []);
+
+  useEffect(() => {
+    if (user_branch_id) {
+      const selectedBranchId = user_branch_id;
+      const filtered = division.filter(
+        (division) =>
+          division.division_status == 1 &&
+          division.division_branch_id == selectedBranchId
+      );
+      setFilteredDivision(filtered);
+      setIsBranchSelected(true);
+    } else {
+      setFilteredDivision([]);
+      setIsBranchSelected(false);
+    }
+  }, [user_branch_id, division]);
+
+  useEffect(() => {
+    if (user_branch_id) {
+      const selectedBranchId = user_branch_id;
+      const filtered = site.filter(
+        (site) =>
+          site.site_status == 1 && site.site_branch_id == selectedBranchId
+      );
+      setFilteredSite(filtered);
+      setIsBranchSelected(true);
+    } else {
+      setFilteredSite([]);
+      setIsBranchSelected(false);
+    }
+  }, [user_branch_id, site]);
+
+  useEffect(() => {
+    if (user_branch_id && user_division_id) {
+      const selectedBranchIdandDivisionId = user_branch_id && user_division_id;
+      const filtered = department.filter(
+        (department) =>
+          department.department_status == 1 &&
+          department.department_branch_id &&
+          department.department_branch_id == selectedBranchIdandDivisionId
+      );
+      setFilteredDepartment(filtered);
+      setIsDivisionAndBranchSelected(true);
+    } else {
+      setFilteredDepartment([]);
+      setIsDivisionAndBranchSelected(false);
+    }
+  }, [user_branch_id && user_division_id, department]);
+
+  useEffect(() => {
+    if (user_branch_id && user_division_id && user_department_id) {
+      const selectedBranchIdandDivisionIdandDepartmentId =
+        user_branch_id && user_division_id && user_department_id;
+      const filtered = position.filter(
+        (position) =>
+          position.position_status == 1 &&
+          position.position_branch_id &&
+          position.position_division_id &&
+          position.position_department_id ==
+            selectedBranchIdandDivisionIdandDepartmentId
+      );
+      setFilteredPosition(filtered);
+      setIsDepartmentandDivisionAndBranchSelected(true);
+    } else {
+      setFilteredPosition([]);
+      setIsDepartmentandDivisionAndBranchSelected(false);
+    }
+  }, [user_branch_id && user_division_id && user_department_id, position]);
+
+  useEffect(() => {
+    if (user_division_id) {
+      const selectedDivisionId = user_division_id;
+      const filtered = parent.filter(
+        (parent) =>
+          parent.user_status == 1 &&
+          parent.user_division_id == selectedDivisionId
+      );
+      setFilteredParent(filtered);
+      setIsDivisionSelected(true);
+    } else {
+      setFilteredParent([]);
+      setIsDivisionSelected(false);
+    }
+  }, [user_division_id, parent]);
+
+  useEffect(() => {
+    if (user_branch_id) {
+      const selectedBranchId = user_branch_id;
+      const filtered = division.filter(
+        (division) =>
+          division.division_status == 1 &&
+          division.division_branch_id == selectedBranchId
+      );
+      setFilteredDivision(filtered);
+      setIsBranchSelected(true);
+    } else {
+      setFilteredDivision([]);
+      setIsBranchSelected(false);
+    }
+  }, [user_branch_id, division]);
+
+  useEffect(() => {
+    if (user_branch_id) {
+      const selectedBranchId = user_branch_id;
+      const filtered = site.filter(
+        (site) =>
+          site.site_status == 1 && site.site_branch_id == selectedBranchId
+      );
+      setFilteredSite(filtered);
+      setIsBranchSelected(true);
+    } else {
+      setFilteredSite([]);
+      setIsBranchSelected(false);
+    }
+  }, [user_branch_id, site]);
+
+  useEffect(() => {
+    if (user_branch_id && user_division_id) {
+      const selectedBranchIdandDivisionId = user_branch_id && user_division_id;
+      const filtered = department.filter(
+        (department) =>
+          department.department_status == 1 &&
+          department.department_branch_id &&
+          department.department_branch_id == selectedBranchIdandDivisionId
+      );
+      setFilteredDepartment(filtered);
+      setIsDivisionAndBranchSelected(true);
+    } else {
+      setFilteredDepartment([]);
+      setIsDivisionAndBranchSelected(false);
+    }
+  }, [user_branch_id && user_division_id, department]);
+
+  useEffect(() => {
+    if (user_branch_id && user_division_id && user_department_id) {
+      const selectedBranchIdandDivisionIdandDepartmentId =
+        user_branch_id && user_division_id && user_department_id;
+      const filtered = position.filter(
+        (position) =>
+          position.position_status == 1 &&
+          position.position_branch_id &&
+          position.position_division_id &&
+          position.position_department_id ==
+            selectedBranchIdandDivisionIdandDepartmentId
+      );
+      setFilteredPosition(filtered);
+      setIsDepartmentandDivisionAndBranchSelected(true);
+    } else {
+      setFilteredPosition([]);
+      setIsDepartmentandDivisionAndBranchSelected(false);
+    }
+  }, [user_branch_id && user_division_id && user_department_id, position]);
+
+  useEffect(() => {
+    if (user_division_id) {
+      const selectedDivisionId = user_division_id;
+      const filtered = parent.filter(
+        (parent) =>
+          parent.user_status == 1 &&
+          parent.user_division_id == selectedDivisionId
+      );
+      setFilteredParent(filtered);
+      setIsDivisionSelected(true);
+    } else {
+      setFilteredParent([]);
+      setIsDivisionSelected(false);
+    }
+  }, [user_division_id, parent]);
+
+  const handleChange = (e) => {
+    const { name, files } = e.target;
+    if (name === "user_picture_file" && files.length > 0) {
+      const file = files[0];
+      setUser_picture_file(file);
+      setPreview_picture_file(URL.createObjectURL(file));
+    }
+    if (name === "user_signature_file" && files.length > 0) {
+      const file = files[0];
+      setUser_signature_file(file);
+      setPreview_signature_file(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    let base64Picture = null;
+    let base64Signature = null;
+
+    const fileToBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    };
+
+    const compressImage = async (imageFile) => {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 800,
+        useWebWorker: true,
+      };
+      try {
+        const compressedFile = await imageCompression(imageFile, options);
+        return compressedFile;
+      } catch (error) {
+        console.log("Error compressing image:", error);
+        throw error;
+      }
+    };
+
+    if (user_picture_file) {
+      const compressedPictureFile = await compressImage(user_picture_file);
+      base64Picture = await fileToBase64(compressedPictureFile);
+    }
+
+    if (user_signature_file) {
+      const compressedSignatureFile = await compressImage(user_signature_file);
+      base64Signature = await fileToBase64(compressedSignatureFile);
+    }
+
+    const formData = new FormData();
+
+    formData.append("user_number", user_number);
+    formData.append("user_password", user_password);
+    formData.append("user_firstname", user_firstname);
+    formData.append("user_lastname", user_lastname);
+    formData.append("user_nickname", user_nickname);
+    formData.append("user_branch_id", user_branch_id);
+    formData.append("user_site_id", user_site_id);
+    formData.append("user_division_id", user_division_id);
+    formData.append("user_department_id", user_department_id);
+    formData.append("user_position_id", user_position_id);
+    formData.append("user_role_id", user_role_id);
+    formData.append("user_parent_id", user_parent_id);
+    formData.append("user_type", user_type);
+    formData.append("user_id_card", user_id_card);
+    formData.append("user_citizen", user_citizen);
+    formData.append("user_level", user_level);
+    formData.append("user_email", user_email);
+    formData.append("user_tel", user_tel);
+    formData.append("user_picture_file", base64Picture || "");
+    formData.append("user_signature_file", base64Signature || "");
+    formData.append("user_create_by", session?.user?.user_id);
+
+    try {
+      const response = await CreateUser({
+        formData,
+      });
+
+      if (response.status === 201) {
+        toast.success(response.message);
+        setTimeout(() => {
+          router.push("/hr/user");
+        }, 2000);
+      } else {
+        setError(response);
+      }
+    } catch (error) {
+      setError({ message: "Error creating user: " + error.message });
+      toast.error("Error creating user: " + error.message);
+    }
+  };
+
+  const canvasRef = useRef(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [signatureImage, setSignatureImage] = useState(null);
+
+  const getCanvasCoordinates = (e) => {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    const y = e.touches ? e.touches[0].clientY : e.clientY;
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    return {
+      x: (x - rect.left) * scaleX,
+      y: (y - rect.top) * scaleY,
+    };
+  };
+
+  const startDrawing = (e) => {
+    setIsDrawing(true);
+    const { x, y } = getCanvasCoordinates(e);
+    const ctx = canvasRef.current.getContext("2d");
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  };
+
+  const draw = (e) => {
+    if (!isDrawing) return;
+    const { x, y } = getCanvasCoordinates(e);
+    const ctx = canvasRef.current.getContext("2d");
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  };
+
+  const stopDrawing = () => {
+    setIsDrawing(false);
+  };
+
+  const clearCanvas = () => {
+    const ctx = canvasRef.current.getContext("2d");
+    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    setSignatureImage(null);
+  };
+
+  const saveSignature = () => {
+    const dataURL = canvasRef.current.toDataURL("image/png");
+
+    fetch(dataURL)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const file = new File([blob], "signature.png", { type: "image/png" });
+        setUser_signature_file(file);
+        setPreview_signature_file(dataURL);
+      });
+
+    setSignatureImage(dataURL);
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-6">
+      <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
+        <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
+          เพิ่ม ผู้ใช้งาน
+        </div>
+        <div className="flex items-center justify-end w-full h-full p-2 gap-2">
+          <AddHomeOutlinedIcon />
+          <span className="px-4 text-[#635bff] bg-[#635bff]/25 rounded-xl">
+            เพิ่ม ผู้ใช้งาน
+          </span>
+        </div>
+      </div>
+      <div className="flex flex-col items-center justify-center w-full h-f p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
+        <div className="flex items-center justify-start w-full h-full p-4 gap-2 font-[600] border-b-2">
+          เพิ่ม ผู้ใช้งาน
+        </div>
+        <Toaster user="top-right" reverseOrder={false} />
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col items-center justify-center w-full h-full p-2 gap-2"
+        >
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                id="user_number"
+                name="user_number"
+                label="รหัสพนักงาน"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isRequired
+                value={user_number}
+                onChange={(e) => setUser_number(e.target.value)}
+                isInvalid={
+                  error && user_number.length === 0
+                    ? error?.errors?.user_number
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_number?.[0]}
+              />
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="password"
+                id="user_password"
+                name="user_password"
+                label="รหัสผ่าน"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isRequired
+                value={user_password}
+                onChange={(e) => setUser_password(e.target.value)}
+                isInvalid={
+                  error && user_password.length === 0
+                    ? error?.errors?.user_password
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_password?.[0]}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                id="user_firstname"
+                name="user_firstname"
+                label="ชื่อผู้ใช้งาน"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isRequired
+                value={user_firstname}
+                onChange={(e) => setUser_firstname(e.target.value)}
+                isInvalid={
+                  error && user_firstname.length === 0
+                    ? error?.errors?.user_firstname
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_firstname?.[0]}
+              />
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                id="user_lastname"
+                name="user_lastname"
+                label="นามสกุล"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isRequired
+                value={user_lastname}
+                onChange={(e) => setUser_lastname(e.target.value)}
+                isInvalid={
+                  error && user_lastname.length === 0
+                    ? error?.errors?.user_lastname
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_lastname?.[0]}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                id="user_nickname"
+                name="user_nickname"
+                label="ชื่อเล่น"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isRequired
+                value={user_nickname}
+                onChange={(e) => setUser_nickname(e.target.value)}
+                isInvalid={
+                  error && user_nickname.length === 0
+                    ? error?.errors?.user_nickname
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_nickname?.[0]}
+              />
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก สาขา"
+                placeholder="กรุณาระบุ สาขา"
+                id="user_branch_id"
+                name="user_branch_id"
+                value={user_branch_id}
+                onChange={(e) => setUser_branch_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isInvalid={
+                  error && user_branch_id.length === 0
+                    ? error?.errors?.user_branch_id
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_branch_id?.[0]}
+              >
+                <SelectItem value="">เลือก สาขา</SelectItem>
+                {branch.map((branch) => (
+                  <SelectItem key={branch.branch_id} value={branch.branch_id}>
+                    {branch.branch_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+          </div>
+
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก ไซต์"
+                placeholder="กรุณาระบุ ไซต์"
+                id="user_site_id"
+                name="user_site_id"
+                value={user_site_id}
+                onChange={(e) => setUser_site_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isDisabled={!isbranchselected}
+                isInvalid={
+                  error && user_site_id.length === 0
+                    ? error?.errors?.user_site_id
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_site_id?.[0]}
+              >
+                <SelectItem value="">เลือก ไซต์</SelectItem>
+                {filteredsite.map((site) => (
+                  <SelectItem key={site.site_id} value={site.site_id}>
+                    {site.site_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก ฝ่าย"
+                placeholder="กรุณาระบุ ฝ่าย"
+                id="user_division_id"
+                name="user_division_id"
+                value={user_division_id}
+                onChange={(e) => setUser_division_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isDisabled={!isbranchselected}
+                isInvalid={
+                  error && user_division_id.length === 0
+                    ? error?.errors?.user_division_id
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_division_id?.[0]}
+              >
+                <SelectItem value="">เลือก ฝ่าย</SelectItem>
+                {filtereddivision.map((division) => (
+                  <SelectItem
+                    key={division.division_id}
+                    value={division.division_id}
+                  >
+                    {division.division_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+          </div>
+
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก แผนก"
+                placeholder="กรุณาระบุ แผนก"
+                id="user_department_id"
+                name="user_department_id"
+                value={user_department_id}
+                onChange={(e) => setUser_department_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isDisabled={!isdivisionandbranchselected}
+                isInvalid={
+                  error && user_department_id.length === 0
+                    ? error?.errors?.user_department_id
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_department_id?.[0]}
+              >
+                <SelectItem value="">เลือก แผนก</SelectItem>
+                {filtereddepartment.map((department) => (
+                  <SelectItem
+                    key={department.department_id}
+                    value={department.department_id}
+                  >
+                    {department.department_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก ตำแหน่ง"
+                placeholder="กรุณาระบุ ตำแหน่ง"
+                id="user_position_id"
+                name="user_position_id"
+                value={user_position_id}
+                onChange={(e) => setUser_position_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isDisabled={!isdepartmentanddivisionandbranchselected}
+                isInvalid={
+                  error && user_position_id.length === 0
+                    ? error?.errors?.user_position_id
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_position_id?.[0]}
+              >
+                <SelectItem value="">เลือก ตำแหน่ง</SelectItem>
+                {filteredposition.map((position) => (
+                  <SelectItem
+                    key={position.position_id}
+                    value={position.position_id}
+                  >
+                    {position.position_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+          </div>
+
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก บทบาทหน้าที่"
+                placeholder="กรุณาระบุ บทบาทหน้าที่"
+                id="user_role_id"
+                name="user_role_id"
+                value={user_role_id}
+                onChange={(e) => setUser_role_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isInvalid={
+                  error && user_role_id.length === 0
+                    ? error?.errors?.user_role_id
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_role_id?.[0]}
+              >
+                <SelectItem value="">เลือกบทบาทหน้าที่</SelectItem>
+                {role.map((role) => (
+                  <SelectItem key={role.role_id} value={role.role_id}>
+                    {role.role_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก สายบังคับบัญชา"
+                placeholder="กรุณาระบุ สายบังคับบัญชา"
+                id="user_parent_id"
+                name="user_parent_id"
+                value={user_parent_id}
+                onChange={(e) => setUser_parent_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isDisabled={!isdivisionselected}
+                isInvalid={
+                  error && user_parent_id.length === 0
+                    ? error?.errors?.user_parent_id
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_parent_id?.[0]}
+              >
+                <SelectItem value="">เลือก สายบังคับบัญชา</SelectItem>
+                {filteredparent.map((parent) => (
+                  <SelectItem key={parent.user_id} value={parent.user_id}>
+                    {parent.user_firstname}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+          </div>
+
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก ชนิดพนักงาน"
+                placeholder="กรุณาระบุ ชนิดพนักงาน"
+                id="user_type"
+                name="user_type"
+                value={user_type}
+                onChange={(e) => setUser_type(e.target.value)}
+                variant="bordered"
+                size="md"
+                isInvalid={
+                  error && user_type.length === 0
+                    ? error?.errors?.user_type
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_type?.[0]}
+              >
+                <SelectItem value="">เลือก ชนิดพนักงาน</SelectItem>
+                <SelectItem value="รายเดือน" key="รายเดือน">
+                  รายเดือน
+                </SelectItem>
+                <SelectItem value="รายวัน" key="รายวัน">
+                  รายวัน
+                </SelectItem>
+              </Select>
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                id="user_id_card"
+                name="user_id_card"
+                label="เลขบัตรประชาชน"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isRequired
+                value={user_id_card}
+                onChange={(e) => setUser_id_card(e.target.value)}
+                isInvalid={
+                  error && user_id_card.length === 0
+                    ? error?.errors?.user_id_card
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_id_card?.[0]}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก สัญชาติ"
+                placeholder="กรุณาระบุ สัญชาติ"
+                id="user_citizen"
+                name="user_citizen"
+                value={user_citizen}
+                onChange={(e) => setUser_citizen(e.target.value)}
+                variant="bordered"
+                size="md"
+                isInvalid={
+                  error && user_citizen.length === 0
+                    ? error?.errors?.user_citizen
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_citizen?.[0]}
+              >
+                <SelectItem value="">เลือก สัญชาติ</SelectItem>
+                <SelectItem value="ไทย" key="ไทย">
+                  ไทย
+                </SelectItem>
+                <SelectItem value="พม่า" key="พม่า">
+                  พม่า
+                </SelectItem>
+                <SelectItem value="ลาว" key="ลาว">
+                  ลาว
+                </SelectItem>
+                <SelectItem value="กัมพูชา" key="กัมพูชา">
+                  กัมพูชา
+                </SelectItem>
+              </Select>
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก ระดับการใช้งาน"
+                placeholder="กรุณาระบุ ระดับการใช้งาน"
+                id="user_level"
+                name="user_level"
+                value={user_level}
+                onChange={(e) => setUser_level(e.target.value)}
+                variant="bordered"
+                size="md"
+                isInvalid={
+                  error && user_level.length === 0
+                    ? error?.errors?.user_level
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_level?.[0]}
+              >
+                <SelectItem value="">เลือก ระดับการใช้งาน</SelectItem>
+                <SelectItem value="admin" key="admin">
+                  Admin
+                </SelectItem>
+                <SelectItem value="user" key="user">
+                  User
+                </SelectItem>
+              </Select>
+            </div>
+          </div>
+
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="email"
+                id="user_email"
+                name="user_email"
+                label="อีเมลล์"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isRequired
+                value={user_email}
+                onChange={(e) => setUser_email(e.target.value)}
+                isInvalid={
+                  error && user_email.length === 0
+                    ? error?.errors?.user_email
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_email?.[0]}
+              />
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                id="user_tel"
+                name="user_tel"
+                label="เบอร์โทรศัพท์"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isRequired
+                value={user_tel}
+                onChange={(e) => setUser_tel(e.target.value)}
+                isInvalid={
+                  error && user_tel.length === 0
+                    ? error?.errors?.user_tel
+                      ? true
+                      : false
+                    : false
+                }
+                errorMessage={error?.errors?.user_tel?.[0]}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-start w-full h-full p-2 gap-2 text-[#000000]">
+              รูปภาพ
+            </div>
+            <div className="flex items-center justify-center w-full">
+              <label
+                htmlFor="user_picture_file"
+                className="flex flex-col items-center justify-center w-full h-64 text-[#000000] border-2 border-[#000000] rounded-md cursor-pointer"
+              >
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <svg
+                    className="w-10 h-10 mb-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    ></path>
+                  </svg>
+                  <p className="mb-2 text-sm">
+                    <span className="font-semibold">Click to upload</span> or
+                    drag and drop
+                  </p>
+                  <p className="text-xs">
+                    SVG, PNG, JPG or GIF (MAX. 800x400px)
+                  </p>
+                </div>
+                <input
+                  type="file"
+                  id="user_picture_file"
+                  name="user_picture_file"
+                  onChange={handleChange}
+                  className="hidden"
+                />
+                {preview_picture_file && (
+                  <img
+                    src={preview_picture_file}
+                    alt="Preview"
+                    className="min-w-20 min-h-20 object-contain"
+                  />
+                )}
+              </label>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-start w-full h-full p-2 gap-2 text-[#000000]">
+              ลายเซ็น
+            </div>
+            <div className="flex items-center justify-center w-full h-full ">
+              <div className="flex flex-col items-center justify-center w-full h-full">
+                <canvas
+                  ref={canvasRef}
+                  className="flex items-center justify-center w-full h-64 p-2 gap-2 border-2 border-[#000000]"
+                  style={{ backgroundColor: "#f0f0f0" }}
+                  onTouchStart={startDrawing}
+                  onTouchMove={draw}
+                  onTouchEnd={stopDrawing}
+                  onMouseDown={startDrawing}
+                  onMouseMove={draw}
+                  onMouseUp={stopDrawing}
+                  onMouseLeave={stopDrawing}
+                  id="user_signature_file"
+                  name="user_signature_file"
+                />
+                {signatureImage && (
+                  <img
+                    src={signatureImage}
+                    alt="Signature Preview"
+                    className="flex items-center justify-center w-full h-64 p-2 gap-2 border-2 border-[#000000]"
+                  />
+                )}
+                <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={clearCanvas}
+                    className="flex items-center justify-center w-1/2 h-full p-4 gap-2 bg-[#000000] border-dashed text-[#FFFFFF] rounded-xl"
+                  >
+                    Clear
+                  </button>
+                  <button
+                    type="button"
+                    onClick={saveSignature}
+                    className="flex items-center justify-center w-1/2 h-full p-4 gap-2 bg-[#000000] border-dashed text-[#FFFFFF] rounded-xl"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                label="สร้างโดย"
+                isReadOnly
+                size="md"
+                value={`${session?.user?.user_firstname} ${session?.user?.user_lastname}`}
+              />
+            </div>
+          </div>
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-end w-full h-full p-2 gap-2">
+              <Button
+                type="submit"
+                size="md"
+                className="w-1/12 bg-[#615DFF] text-[#FFFFFF]"
+              >
+                บันทึก
+              </Button>
+              <Button
+                size="md"
+                className="w-1/12 bg-[#F07294] text-[#FFFFFF]"
+                onClick={() => router.back()}
+              >
+                ย้อนกลับ
+              </Button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}

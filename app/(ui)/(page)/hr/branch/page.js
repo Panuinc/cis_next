@@ -172,7 +172,7 @@ export default function Branch() {
         <div className="flex items-center justify-center w-full h-full p-2 gap-2">
           <Select
             label="ค้นหา"
-            placeholder="ค้นหาโดยการเลือกสาขา"
+            placeholder="เลือกสาขา"
             size="md"
             variant="bordered"
             selectedKeys={selectedbranch ? [selectedbranch] : []}
