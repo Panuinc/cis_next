@@ -16,7 +16,7 @@ const PaginationControls = ({
         <select
           value={itemsPerPage}
           onChange={handleItemsPerPageChange}
-          className="ml-2 p-1 border rounded"
+          className="ml-2 p-1 border rounded-xl"
         >
           <option value={5}>5</option>
           <option value={10}>10</option>

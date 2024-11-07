@@ -104,7 +104,7 @@ export default function Branch() {
           <table className="table-auto w-full">
             <thead>
               <tr>
-                <th className="border-b p-2">ลำดับ</th>
+                <th className="border-b p-2 py-4">ลำดับ</th>
                 <th className="border-b p-2">สาขา</th>
                 {(session.user.user_level === "superadmin" ||
                   session.user.user_level === "admin") && (
@@ -185,14 +185,14 @@ export default function Branch() {
             </tbody>
           </table>
         </div>
+        <PaginationControls
+          itemsPerPage={itemsPerPage}
+          handleItemsPerPageChange={handleItemsPerPageChange}
+          currentPage={currentPage}
+          totalItems={filteredbranch.length}
+          handlePageChange={handlePageChange}
+        />
       </div>
-      <PaginationControls
-        itemsPerPage={itemsPerPage}
-        handleItemsPerPageChange={handleItemsPerPageChange}
-        currentPage={currentPage}
-        totalItems={filteredbranch.length}
-        handlePageChange={handlePageChange}
-      />
     </div>
   );
 }
