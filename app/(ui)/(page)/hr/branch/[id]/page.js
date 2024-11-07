@@ -117,8 +117,8 @@ export default function BranchUpdate({ params }) {
                 }
                 errorMessage={error?.errors?.branch_status?.[0]}
               >
-                <Radio value="0">Inactive</Radio>
-                <Radio value="1">Active</Radio>
+                <Radio value="0">ไม่ใช้งาน</Radio>
+                <Radio value="1">ใช้งาน</Radio>
               </RadioGroup>
             </div>
           </div>
