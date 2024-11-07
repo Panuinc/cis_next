@@ -2,11 +2,12 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { FetchBranch } from "@/app/functions/hr/branch/branch";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { Input, Button, Pagination } from "@nextui-org/react";
+import { Input, Button } from "@nextui-org/react";
 import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
+import PaginationControls from "@/app/components/PaginationControls";
 
 export default function Branch() {
   const { data: session } = useSession();
@@ -185,34 +186,13 @@ export default function Branch() {
           </table>
         </div>
       </div>
-      <div className="flex justify-between items-center w-full">
-        <div>
-          <label>แสดง:</label>
-          <select
-            value={itemsPerPage}
-            onChange={handleItemsPerPageChange}
-            className="ml-2 p-1 border rounded"
-          >
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-            <option value={50}>50</option>
-          </select>
-          <span> รายการต่อหน้า</span>
-        </div>
-        <Pagination
-          total={Math.ceil(filteredbranch.length / itemsPerPage)}
-          page={currentPage}
-          onChange={(page) => handlePageChange(page)}
-          color="primary"
-          className="custom-pagination"
-          boundaries={1}
-          siblings={2}
-          showControls
-          next="Next"
-          previous="Previous"
-        />
-      </div>
+      <PaginationControls
+        itemsPerPage={itemsPerPage}
+        handleItemsPerPageChange={handleItemsPerPageChange}
+        currentPage={currentPage}
+        totalItems={filteredbranch.length}
+        handlePageChange={handlePageChange}
+      />
     </div>
   );
 }
