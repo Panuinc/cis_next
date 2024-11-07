@@ -10,17 +10,20 @@ import {
   updateBranchSchema,
 } from "@/app/functions/hr/branch/branchSchemas";
 
-// Fetch all branches
+// Fetch all branch
 export const FetchBranch = async () => {
   const query = `
     SELECT 
       branch.branch_id, 
       branch.branch_name, 
       branch.branch_status,
+
       CONCAT(creator.user_firstname, ' ', creator.user_lastname) AS create_by,
       DATE_FORMAT(branch.branch_create_time, '%Y-%m-%d %H:%i:%s') AS branch_create_time,
+
       CONCAT(updater.user_firstname, ' ', updater.user_lastname) AS update_by,
       DATE_FORMAT(branch.branch_update_time, '%Y-%m-%d %H:%i:%s') AS branch_update_time
+
     FROM branch
     LEFT JOIN user AS creator ON creator.user_id = branch.branch_create_by
     LEFT JOIN user AS updater ON updater.user_id = branch.branch_update_by;
@@ -35,10 +38,13 @@ export const FetchBranchById = async (branch_id) => {
       branch.branch_id, 
       branch.branch_name, 
       branch.branch_status,
+
       CONCAT(creator.user_firstname, ' ', creator.user_lastname) AS create_by,
       DATE_FORMAT(branch.branch_create_time, '%Y-%m-%d %H:%i:%s') AS branch_create_time,
+
       CONCAT(updater.user_firstname, ' ', updater.user_lastname) AS update_by,
       DATE_FORMAT(branch.branch_update_time, '%Y-%m-%d %H:%i:%s') AS branch_update_time
+      
     FROM branch
     LEFT JOIN user AS creator ON creator.user_id = branch.branch_create_by
     LEFT JOIN user AS updater ON updater.user_id = branch.branch_update_by

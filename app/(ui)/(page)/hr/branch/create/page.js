@@ -97,13 +97,13 @@ export default function BranchCreate() {
               <Button
                 type="submit"
                 size="md"
-                className="w-1/12 bg-[#615DFF] text-[#FFFFFF]"
+                className="w-1/12 bg-[#615DFF]/25 text-[#615DFF]"
               >
                 บันทึก
               </Button>
               <Button
                 size="md"
-                className="w-1/12 bg-[#F07294] text-[#FFFFFF]"
+                className="w-1/12 bg-[#F07294]/25 text-[#F07294]"
                 onClick={() => router.back()}
               >
                 ย้อนกลับ

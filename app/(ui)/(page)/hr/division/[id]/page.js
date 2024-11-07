@@ -3,64 +3,69 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "react-hot-toast";
 import {
-  UpdateBranch,
-  FetchBranchById,
-} from "@/app/functions/hr/branch/branch";
+  UpdateDivision,
+  FetchDivisionById,
+} from "@/app/functions/hr/division/division";
 import { Input, Button, RadioGroup, Radio } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
 
-export default function BranchUpdate({ params }) {
+export default function DivisionUpdate({ params }) {
   const { data: session } = useSession();
-  const branch_id = params.id;
+  const division_id = params.id;
   const router = useRouter();
   const [error, setError] = useState(null);
-  const [branch_name, setBranch_name] = useState("");
-  const [branch_status, setBranch_status] = useState("");
+  const [division_branch_id, setDivision_branch_id] = useState("");
+  const [division_name, setDivision_name] = useState("");
+  const [division_acronym, setDivision_acronym] = useState("");
+  const [division_status, setDivision_status] = useState("");
 
   useEffect(() => {
-    const fetchBranch = async () => {
+    const fetchDivision = async () => {
       try {
-        const data = await FetchBranchById(branch_id);
+        const data = await FetchDivisionById(division_id);
         if (data.message) {
           toast.error(data.message);
         } else {
-          setBranch_name(data.branch_name || "");
-          setBranch_status(data.branch_status?.toString() || "");
+          setDivision_branch_id(data.branch_name || "");
+          setDivision_name(data.division_name || "");
+          setDivision_acronym(data.division_acronym || "");
+          setDivision_status(data.division_status?.toString() || "");
         }
       } catch (error) {
-        toast.error("Error fetching branch data");
+        toast.error("Error fetching division data");
       }
     };
 
-    fetchBranch();
-  }, [branch_id]);
+    fetchDivision();
+  }, [division_id]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    formData.append("branch_name", branch_name);
-    formData.append("branch_status", branch_status);
-    formData.append("branch_update_by", session?.user?.user_id);
+    formData.append("division_name", division_name);
+    formData.append("division_acronym", division_acronym);
+    formData.append("division_status", division_status);
+    formData.append("division_update_by", session?.user?.user_id);
 
     try {
-      const response = await UpdateBranch({
+      const response = await UpdateDivision({
         formData,
-        branch_id,
+        division_id,
       });
 
       if (response.status === 200) {
         toast.success(response.message);
         setTimeout(() => {
-          router.push("/hr/branch");
+          router.push("/hr/division");
         }, 2000);
       } else {
         setError(response);
         toast.error(response.message);
       }
     } catch (error) {
-      setError({ message: "Error updating branch: " + error.message });
-      toast.error("Error updating branch: " + error.message);
+      setError({ message: "Error updating division: " + error.message });
+      toast.error("Error updating division: " + error.message);
     }
   };
 
@@ -68,18 +73,18 @@ export default function BranchUpdate({ params }) {
     <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-6">
       <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
         <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
-          แก้ไข สาขา
+          แก้ไข ฝ่าย
         </div>
         <div className="flex items-center justify-end w-full h-full p-2 gap-2">
           <AddHomeOutlinedIcon />
           <span className="px-4 text-[#635bff] bg-[#635bff]/25 rounded-xl">
-            แก้ไข สาขา
+            แก้ไข ฝ่าย
           </span>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center w-full h-f p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
         <div className="flex items-center justify-start w-full h-full p-4 gap-2 font-[600] border-b-2">
-          แก้ไข สาขา
+          แก้ไข ฝ่าย
         </div>
         <Toaster position="top-right" reverseOrder={false} />
         <form
@@ -90,19 +95,49 @@ export default function BranchUpdate({ params }) {
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Input
                 type="text"
-                id="branch_name"
-                name="branch_name"
-                label="ชื่อสาขา"
+                label="สาขา"
+                isReadOnly
+                size="md"
+                value={division_branch_id}
+              />
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                id="division_name"
+                name="division_name"
+                label="ชื่อฝ่าย"
                 placeholder="กรุณากรอกข้อมูล"
                 size="md"
                 variant="bordered"
                 isRequired
-                value={branch_name}
-                onChange={(e) => setBranch_name(e.target.value)}
+                value={division_name}
+                onChange={(e) => setDivision_name(e.target.value)}
                 isInvalid={
-                  !!error?.errors?.branch_name && branch_name.length === 0
+                  !!error?.errors?.division_name && division_name.length === 0
                 }
-                errorMessage={error?.errors?.branch_name?.[0]}
+                errorMessage={error?.errors?.division_name?.[0]}
+              />
+            </div>
+          </div>
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                id="division_acronym"
+                name="division_acronym"
+                label="ชื่อย่อ"
+                placeholder="กรุณากรอกข้อมูล"
+                size="md"
+                variant="bordered"
+                isRequired
+                value={division_acronym}
+                onChange={(e) => setDivision_acronym(e.target.value)}
+                isInvalid={
+                  !!error?.errors?.division_acronym &&
+                  division_acronym.length === 0
+                }
+                errorMessage={error?.errors?.division_acronym?.[0]}
               />
             </div>
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
@@ -110,12 +145,13 @@ export default function BranchUpdate({ params }) {
                 label="สถานะการใช้งาน"
                 color="primary"
                 orientation="horizontal"
-                value={branch_status}
-                onValueChange={(value) => setBranch_status(value)}
+                value={division_status}
+                onValueChange={(value) => setDivision_status(value)}
                 isInvalid={
-                  !!error?.errors?.branch_status && branch_status.length === 0
+                  !!error?.errors?.division_status &&
+                  division_status.length === 0
                 }
-                errorMessage={error?.errors?.branch_status?.[0]}
+                errorMessage={error?.errors?.division_status?.[0]}
               >
                 <Radio value="0">Inactive</Radio>
                 <Radio value="1">Active</Radio>

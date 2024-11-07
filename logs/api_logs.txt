@@ -17,3 +17,8 @@
 [11/7/2024, 2:14:27 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/create, Action: Created branch: สาขา 6 (หลังคาเมทัลชีท และ แปกัลวาไนซ์)
 [11/7/2024, 2:14:33 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/create, Action: Created branch: สาขา 7 (อะไหล่เพื่อจำหน่าย)
 [11/7/2024, 2:14:38 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/create, Action: Created branch: สาขา 8 (หอพักชาญนครนครลาดหลุมแก้ว)
+[11/7/2024, 3:04:05 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/division/create, Action: Created division: Test 1
+[11/7/2024, 3:05:23 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/division/create, Action: Created division: Test 3
+[11/7/2024, 3:06:26 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/division/create, Action: Created division: Test 4
+[11/7/2024, 3:18:26 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/division/1, Action: PUT division 1
+[11/7/2024, 3:18:32 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/division/1, Action: PUT division 1
