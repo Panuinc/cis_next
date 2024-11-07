@@ -132,7 +132,8 @@ const Sidebar = ({
                     { href: "/hr/department", label: "แผนก" },
                     { href: "/hr/position", label: "ตำแหน่ง" },
                     { href: "/hr/role", label: "บทบาทหน้าที่" },
-                    { href: "/hr/user", label: "พนักงาน" },
+                    { href: "/hr/employee_thai", label: "พนักงาน ชาวไทย" },
+                    { href: "/hr/employees_foreign", label: "พนักงาน ชาวต่าวชาติ" },
                   ]}
                 />
                 {/* <Section
