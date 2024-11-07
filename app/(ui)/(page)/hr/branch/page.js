@@ -4,9 +4,8 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { FetchBranch } from "@/app/functions/hr/branch/branch";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { EditOutlined, AddHomeOutlined } from "@mui/icons-material";
 import { Input, Button } from "@nextui-org/react";
-import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
 import PaginationControls from "@/app/components/PaginationControls";
 
 export default function Branch() {
@@ -73,7 +72,7 @@ export default function Branch() {
           สาขา
         </div>
         <div className="flex items-center justify-end w-full h-full p-2 gap-2">
-          <AddHomeOutlinedIcon />
+          <AddHomeOutlined />
           <span className="px-4 text-[#635bff] bg-[#635bff]/25 rounded-xl">
             สาขา
           </span>
@@ -90,11 +89,14 @@ export default function Branch() {
             onChange={handleSearch}
           />
         </div>
-        <Link href="/hr/branch/create">
-          <Button className="flex items-center justify-center w-full h-full p-3 gap-2 text-[#FFFFFF] bg-[#615DFF]">
-            เพิ่มข้อมูล
-          </Button>
-        </Link>
+        {(session.user.user_level === "superadmin" ||
+          session.user.user_level === "admin") && (
+          <Link href="/hr/branch/create">
+            <Button className="flex items-center justify-center w-full h-full p-3 gap-2 text-[#FFFFFF] bg-[#615DFF]">
+              เพิ่มข้อมูล
+            </Button>
+          </Link>
+        )}
       </div>
       <div className="flex flex-col items-center justify-center w-full h-full p-6 gap-6 bg-[#FFFFFF] rounded-xl shadow-sm">
         <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600] border-b-2">
@@ -160,7 +162,7 @@ export default function Branch() {
                             href={`/hr/branch/${row.branch_id}`}
                             className="text-[#f8c20a]"
                           >
-                            <EditOutlinedIcon />
+                            <EditOutlined />
                           </Link>
                         </td>
                       </>
