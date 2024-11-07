@@ -1,1 +1,19 @@
 [11/7/2024, 10:30:11 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/create, Action: Created branch: Test 5
+[11/7/2024, 1:34:24 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/1, Action: PUT branch 1
+[11/7/2024, 1:41:10 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/1, Action: PUT branch 1
+[11/7/2024, 1:41:26 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/1, Action: PUT branch 1
+[11/7/2024, 1:44:10 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/1, Action: PUT branch 1
+[11/7/2024, 1:46:42 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/1, Action: PUT branch 1
+[11/7/2024, 1:46:50 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/1, Action: PUT branch 1
+[11/7/2024, 1:50:08 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/1, Action: PUT branch 1
+[11/7/2024, 1:58:42 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/1, Action: PUT branch 1
+[11/7/2024, 2:01:57 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/1, Action: PUT branch 1
+[11/7/2024, 2:02:06 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/1, Action: PUT branch 1
+[11/7/2024, 2:13:56 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/create, Action: Created branch: สาขา 1 (สำนักงานใหญ่)
+[11/7/2024, 2:14:01 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/create, Action: Created branch: สาขา 2 (ลาดหลุมแก้ว)
+[11/7/2024, 2:14:08 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/create, Action: Created branch: สาขา 3 (โครงสร้างเหล็ก)
+[11/7/2024, 2:14:15 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/create, Action: Created branch: สาขา 4 (แบบเหล็กให้เช่า)
+[11/7/2024, 2:14:21 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/create, Action: Created branch: สาขา 5 (เครื่องจักร รถยนต์ให้เช่า)
+[11/7/2024, 2:14:27 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/create, Action: Created branch: สาขา 6 (หลังคาเมทัลชีท และ แปกัลวาไนซ์)
+[11/7/2024, 2:14:33 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/create, Action: Created branch: สาขา 7 (อะไหล่เพื่อจำหน่าย)
+[11/7/2024, 2:14:38 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/create, Action: Created branch: สาขา 8 (หอพักชาญนครนครลาดหลุมแก้ว)

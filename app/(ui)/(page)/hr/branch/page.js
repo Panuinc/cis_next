@@ -54,7 +54,9 @@ export default function Branch() {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredbranch.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = Array.isArray(filteredbranch)
+    ? filteredbranch.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -89,18 +91,18 @@ export default function Branch() {
             onChange={handleSearch}
           />
         </div>
-        {(session.user.user_level === "superadmin" ||
-          session.user.user_level === "admin") && (
-          <Link href="/hr/branch/create">
-            <Button className="flex items-center justify-center w-full h-full p-3 gap-2 text-[#FFFFFF] bg-[#615DFF]">
-              เพิ่มข้อมูล
-            </Button>
-          </Link>
-        )}
       </div>
       <div className="flex flex-col items-center justify-center w-full h-full p-6 gap-6 bg-[#FFFFFF] rounded-xl shadow-sm">
-        <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600] border-b-2">
+        <div className="flex items-center justify-between w-full h-full p-2 gap-2 font-[600] border-b-2">
           ข้อมูล สาขา
+          {(session.user.user_level === "superadmin" ||
+            session.user.user_level === "admin") && (
+            <Link href="/hr/branch/create">
+              <Button size="md" className=" bg-[#615DFF] text-[#FFFFFF]">
+                เพิ่มข้อมูล
+              </Button>
+            </Link>
+          )}
         </div>
         <div className="overflow-auto w-full rounded-xl border">
           <table className="table-auto w-full">
@@ -125,7 +127,7 @@ export default function Branch() {
               {currentItems.length > 0 ? (
                 currentItems.map((row, index) => (
                   <tr key={row.branch_id}>
-                    <td className="border-b p-2 text-center text-sm py-4">
+                    <td className="border-b p-2 text-center text-sm py-6">
                       {indexOfFirstItem + index + 1 || "-"}
                     </td>
                     <td className="border-b p-2 text-center text-sm">

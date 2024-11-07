@@ -2,8 +2,11 @@
 import React, { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "react-hot-toast";
-import { UpdateBranch, FetchBranchById } from "@/app/functions/hr/branch/branch";
-import { Input, Button } from "@nextui-org/react";
+import {
+  UpdateBranch,
+  FetchBranchById,
+} from "@/app/functions/hr/branch/branch";
+import { Input, Button, RadioGroup, Radio } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
 
@@ -13,6 +16,7 @@ export default function BranchUpdate({ params }) {
   const router = useRouter();
   const [error, setError] = useState(null);
   const [branch_name, setBranch_name] = useState("");
+  const [branch_status, setBranch_status] = useState("");
 
   useEffect(() => {
     const fetchBranch = async () => {
@@ -22,12 +26,14 @@ export default function BranchUpdate({ params }) {
           toast.error(data.message);
         } else {
           setBranch_name(data.branch_name || "");
+          setBranch_status(data.branch_status?.toString() || "");
+          console.log(data.branch_status);
         }
       } catch (error) {
         toast.error("Error fetching branch data");
       }
     };
-
+  
     fetchBranch();
   }, [branch_id]);
 
@@ -35,6 +41,7 @@ export default function BranchUpdate({ params }) {
     event.preventDefault();
     const formData = new FormData(event.target);
     formData.append("branch_name", branch_name);
+    formData.append("branch_status", branch_status);
     formData.append("branch_update_by", session?.user?.user_id);
 
     try {
@@ -66,7 +73,9 @@ export default function BranchUpdate({ params }) {
         </div>
         <div className="flex items-center justify-end w-full h-full p-2 gap-2">
           <AddHomeOutlinedIcon />
-          <span className="px-4 text-[#635bff] bg-[#635bff]/25 rounded-xl">แก้ไข สาขา</span>
+          <span className="px-4 text-[#635bff] bg-[#635bff]/25 rounded-xl">
+            แก้ไข สาขา
+          </span>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center w-full h-f p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
@@ -96,6 +105,22 @@ export default function BranchUpdate({ params }) {
                 }
                 errorMessage={error?.errors?.branch_name?.[0]}
               />
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <RadioGroup
+                label="สถานะการใช้งาน"
+                color="primary"
+                orientation="horizontal"
+                value={branch_status}
+                onValueChange={(value) => setBranch_status(value)}
+                isInvalid={
+                  !!error?.errors?.branch_status && branch_status.length === 0
+                }
+                errorMessage={error?.errors?.branch_status?.[0]}
+              >
+                <Radio value="0">Inactive</Radio>
+                <Radio value="1">Active</Radio>
+              </RadioGroup>
             </div>
           </div>
           <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
