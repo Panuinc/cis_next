@@ -125,7 +125,7 @@ const Sidebar = ({
             {selectedMenu === "HR" && (
               <>
                 <Section
-                  title="ตั้งค่า"
+                  title="ทั่วไป"
                   icon={<SettingsSuggestOutlined />}
                   links={[
                     { href: "/hr/branch", label: "สาขา" },
