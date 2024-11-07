@@ -1,11 +1,11 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { toast, Toaster } from "react-hot-toast";
-import React, { useState, useEffect } from "react";
 import { FetchBranch } from "@/app/functions/hr/branch/branch";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { Input, Button } from "@nextui-org/react";
+import { Input, Button, Pagination } from "@nextui-org/react";
 import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
 
 export default function Branch() {
@@ -13,6 +13,8 @@ export default function Branch() {
   const [branch, setBranch] = useState([]);
   const [filteredbranch, setFilteredBranch] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
     const loadBranchData = async () => {
@@ -47,6 +49,20 @@ export default function Branch() {
     });
 
     setFilteredBranch(filteredbranch);
+    setCurrentPage(1);
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredbranch.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1);
   };
 
   return (
@@ -103,11 +119,11 @@ export default function Branch() {
               </tr>
             </thead>
             <tbody>
-              {filteredbranch.length > 0 ? (
-                filteredbranch.map((row, index) => (
+              {currentItems.length > 0 ? (
+                currentItems.map((row, index) => (
                   <tr key={row.branch_id}>
-                    <td className="border-b p-2 text-center text-sm">
-                      {index + 1 || "-"}
+                    <td className="border-b p-2 text-center text-sm py-4">
+                      {indexOfFirstItem + index + 1 || "-"}
                     </td>
                     <td className="border-b p-2 text-center text-sm">
                       {row.branch_name || "-"}
@@ -168,6 +184,34 @@ export default function Branch() {
             </tbody>
           </table>
         </div>
+      </div>
+      <div className="flex justify-between items-center w-full">
+        <div>
+          <label>แสดง:</label>
+          <select
+            value={itemsPerPage}
+            onChange={handleItemsPerPageChange}
+            className="ml-2 p-1 border rounded"
+          >
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
+          </select>
+          <span> รายการต่อหน้า</span>
+        </div>
+        <Pagination
+          total={Math.ceil(filteredbranch.length / itemsPerPage)}
+          page={currentPage}
+          onChange={(page) => handlePageChange(page)}
+          color="primary"
+          className="custom-pagination"
+          boundaries={1}
+          siblings={2}
+          showControls
+          next="Next"
+          previous="Previous"
+        />
       </div>
     </div>
   );
