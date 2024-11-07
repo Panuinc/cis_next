@@ -96,9 +96,7 @@ const Sidebar = ({
         />
         <MainMenu
           href="/#"
-          icon={
-            <ExitToAppOutlined  />
-          }
+          icon={<ExitToAppOutlined />}
           tooltip="Logout"
           onClick={handleSignOut}
         />

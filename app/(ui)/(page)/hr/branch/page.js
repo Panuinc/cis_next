@@ -4,8 +4,8 @@ import { useSession } from "next-auth/react";
 import { toast, Toaster } from "react-hot-toast";
 import DataTable from "react-data-table-component";
 import React, { useState, useEffect } from "react";
-import { FetchBranch } from "@/app/functions/hr/branch";
-import { UpdateStatusBranch } from "@/app/functions/hr/branch";
+import { FetchBranch } from "@/app/functions/hr/branch/branch";
+import { UpdateStatusBranch } from "@/app/functions/hr/branch/branch";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Input, Button, Select, SelectItem, Switch } from "@nextui-org/react";
 import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
@@ -135,7 +135,7 @@ export default function Branch() {
 
   if (session.user.user_level === "superadmin") {
     columns.push({
-      name: "Status",
+      name: "สถานะ",
       cell: (row) => (
         <Switch
           isSelected={row.branch_status}

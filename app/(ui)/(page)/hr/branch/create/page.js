@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "react-hot-toast";
-import { CreateBranch } from "@/app/functions/hr/branch";
+import { CreateBranch } from "@/app/functions/hr/branch/branch";
 import { Input, Button } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
