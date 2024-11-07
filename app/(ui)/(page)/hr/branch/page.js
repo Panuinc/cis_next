@@ -112,9 +112,9 @@ export default function Branch() {
                   session.user.user_level === "admin") && (
                   <>
                     <th className="border-b p-2">สร้างโดย</th>
-                    <th className="border-b p-2">สร้างเมื่อ</th>
+                    <th className="border-b p-2">วันที่สร้าง</th>
                     <th className="border-b p-2">แก้ไขโดย</th>
-                    <th className="border-b p-2">แก้ไขเมื่อ</th>
+                    <th className="border-b p-2">วันที่แก้ไข</th>
                     <th className="border-b p-2">สถานะ</th>
                     <th className="border-b p-2">แก้ไข</th>
                   </>
