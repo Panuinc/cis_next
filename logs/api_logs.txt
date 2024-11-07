@@ -32,3 +32,7 @@
 [11/7/2024, 3:56:40 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/department/create, Action: Created department: Test 1
 [11/7/2024, 3:57:21 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/department/7, Action: PUT department 7
 [11/7/2024, 3:57:30 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/department/7, Action: PUT department 7
+[11/7/2024, 4:05:59 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/position/1, Action: PUT position 1
+[11/7/2024, 4:06:09 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/position/1, Action: PUT position 1
+[11/7/2024, 4:09:54 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/position/create, Action: Created position: Test 1
+[11/7/2024, 4:10:01 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/position/7, Action: PUT position 7
