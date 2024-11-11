@@ -59,19 +59,19 @@ CREATE TABLE `user` (
   `user_picture_path` varchar(255) NOT NULL,
   `user_signature_file` varchar(255) NOT NULL,
   `user_signature_path` varchar(255) NOT NULL,
-  `user_id_card_file` varchar(255) NOT NULL,
-  `user_id_card_path` varchar(255) NOT NULL,
-  `user_home_file` varchar(255) NOT NULL,
-  `user_home_path` varchar(255) NOT NULL,
 
   `user_create_by` int(11) NOT NULL,
   `user_create_time` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_update_by` int(11) DEFAULT NULL,
   `user_update_time` datetime DEFAULT NULL
 
+-- Doc User Thai
+--   `user_id_card_file` varchar(255) NOT NULL,
+--   `user_id_card_path` varchar(255) NOT NULL,
+--   `user_home_file` varchar(255) NOT NULL,
+--   `user_home_path` varchar(255) NOT NULL,
 
-
-
+-- Doc User foreign.
   -- `user_mou` varchar(255) NOT NULL,
   -- `user_passport_no` varchar(255) NOT NULL,
   -- `user_passport_start` date NOT NULL,

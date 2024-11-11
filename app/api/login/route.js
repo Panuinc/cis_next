@@ -84,11 +84,23 @@ export async function POST(request) {
       user: {
         user_id: user.user_id,
         user_number: user.user_number,
+        user_card_number: user.user_card_number,
         user_password: user.user_password,
+        user_title: user.user_title,
+
         user_firstname: user.user_firstname,
         user_lastname: user.user_lastname,
-
         user_nickname: user.user_nickname,
+        user_tel: user.user_tel,
+        user_email: user.user_email,
+
+        user_level: user.user_level,
+        user_birthday: user.user_birthday,
+        user_gender: user.user_gender,
+        user_id_card: user.user_id_card,
+        user_citizen: user.user_citizen,
+
+        user_type: user.user_type,
         user_branch_name: branch[0]?.branch_name,
         user_site_name: site[0]?.site_name,
         user_division_name: division[0]?.division_name,
@@ -97,19 +109,14 @@ export async function POST(request) {
         user_position_name: position[0]?.position_name,
         user_role_name: role[0]?.role_name,
         user_parent_name: parent[0]?.parent_name,
-        user_type: user.user_type,
-        user_id_card: user.user_id_card,
-        user_citizen: user.user_citizen,
+        user_start_work: user.user_start_work,
+        user_status: user.user_status,
 
-        user_level: user.user_level,
-        user_email: user.user_email,
-        user_tel: user.user_tel,
         user_signature_file: user.user_signature_file,
         user_signature_path: user.user_signature_path,
 
         user_picture_file: user.user_picture_file,
         user_picture_path: user.user_picture_path,
-        user_status: user.user_status,
       },
     });
   } catch (error) {

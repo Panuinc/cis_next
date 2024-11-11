@@ -27,7 +27,7 @@ export const authOptions = {
 
         if (response.status === "ok") {
           const user = response.user;
-console.log(user)
+          console.log(user);
           const promisePool = mysqlPool.promise();
           await promisePool.query(
             `INSERT INTO user_log (user_id, login_time, status) VALUES (?, NOW(), 'online')`,
@@ -36,28 +36,39 @@ console.log(user)
           return {
             user_id: user.user_id,
             user_number: user.user_number,
+            user_card_number: user.user_card_number,
             user_password: user.user_password,
+            user_title: user.user_title,
+
             user_firstname: user.user_firstname,
             user_lastname: user.user_lastname,
             user_nickname: user.user_nickname,
+            user_tel: user.user_tel,
+            user_email: user.user_email,
+
+            user_level: user.user_level,
+            user_birthday: user.user_birthday,
+            user_gender: user.user_gender,
+            user_id_card: user.user_id_card,
+            user_citizen: user.user_citizen,
+
+            user_type: user.user_type,
             user_branch_name: user.user_branch_name,
             user_site_name: user.user_site_name,
             user_division_name: user.user_division_name,
             user_department_name: user.user_department_name,
+
             user_position_name: user.user_position_name,
             user_role_name: user.user_role_name,
             user_parent_name: user.user_parent_name,
-            user_type: user.user_type,
-            user_id_card: user.user_id_card,
-            user_citizen: user.user_citizen,
-            user_level: user.user_level,
-            user_email: user.user_email,
-            user_tel: user.user_tel,
+            user_start_work: user.user_start_work,
+            user_status: user.user_status,
+
             user_signature_file: user.user_signature_file,
             user_signature_path: user.user_signature_path,
+
             user_picture_file: user.user_picture_file,
             user_picture_path: user.user_picture_path,
-            user_status: user.user_status,
           };
         } else {
           return null;
@@ -73,28 +84,39 @@ console.log(user)
       if (user) {
         token.user_id = user.user_id;
         token.user_number = user.user_number;
+        token.user_card_number = user.user_card_number;
         token.user_password = user.user_password;
+        token.user_title = user.user_title;
+
         token.user_firstname = user.user_firstname;
         token.user_lastname = user.user_lastname;
         token.user_nickname = user.user_nickname;
+        token.user_tel = user.user_tel;
+        token.user_email = user.user_email;
+
+        token.user_level = user.user_level;
+        token.user_birthday = user.user_birthday;
+        token.user_gender = user.user_gender;
+        token.user_id_card = user.user_id_card;
+        token.user_citizen = user.user_citizen;
+
+        token.user_type = user.user_type;
         token.user_branch_name = user.user_branch_name;
         token.user_site_name = user.user_site_name;
         token.user_division_name = user.user_division_name;
         token.user_department_name = user.user_department_name;
+
         token.user_position_name = user.user_position_name;
         token.user_role_name = user.user_role_name;
         token.user_parent_name = user.user_parent_name;
-        token.user_type = user.user_type;
-        token.user_id_card = user.user_id_card;
-        token.user_citizen = user.user_citizen;
-        token.user_level = user.user_level;
-        token.user_email = user.user_email;
-        token.user_tel = user.user_tel;
+        token.user_start_work = user.user_start_work;
+        token.user_status = user.user_status;
+
         token.user_signature_file = user.user_signature_file;
         token.user_signature_path = user.user_signature_path;
+
         token.user_picture_file = user.user_picture_file;
         token.user_picture_path = user.user_picture_path;
-        token.user_status = user.user_status;
       }
       return token;
     },
@@ -102,28 +124,39 @@ console.log(user)
       session.user = {
         user_id: token.user_id,
         user_number: token.user_number,
+        user_card_number: token.user_card_number,
         user_password: token.user_password,
+        user_title: token.user_title,
+
         user_firstname: token.user_firstname,
         user_lastname: token.user_lastname,
         user_nickname: token.user_nickname,
+        user_tel: token.user_tel,
+        user_email: token.user_email,
+
+        user_level: token.user_level,
+        user_birthday: token.user_birthday,
+        user_gender: token.user_gender,
+        user_id_card: token.user_id_card,
+        user_citizen: token.user_citizen,
+
+        user_type: token.user_type,
         user_branch_name: token.user_branch_name,
         user_site_name: token.user_site_name,
         user_division_name: token.user_division_name,
         user_department_name: token.user_department_name,
+
         user_position_name: token.user_position_name,
         user_role_name: token.user_role_name,
         user_parent_name: token.user_parent_name,
-        user_type: token.user_type,
-        user_id_card: token.user_id_card,
-        user_citizen: token.user_citizen,
-        user_level: token.user_level,
-        user_email: token.user_email,
-        user_tel: token.user_tel,
+        user_start_work: token.user_start_work,
+        user_status: token.user_status,
+
         user_signature_file: token.user_signature_file,
         user_signature_path: token.user_signature_path,
+
         user_picture_file: token.user_picture_file,
         user_picture_path: token.user_picture_path,
-        user_status: token.user_status,
       };
       return session;
     },
