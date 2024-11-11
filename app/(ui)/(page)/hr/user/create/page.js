@@ -566,7 +566,7 @@ export default function UserCreate() {
                 value={user_title}
                 onChange={(e) => setUser_title(e.target.value)}
                 variant="bordered"
-                size="lg"
+                size="md"
                 isInvalid={
                   !!error?.errors?.user_title && user_title.length === 0
                 }
@@ -686,7 +686,7 @@ export default function UserCreate() {
                 value={user_level}
                 onChange={(e) => setUser_level(e.target.value)}
                 variant="bordered"
-                size="lg"
+                size="md"
                 isInvalid={
                   !!error?.errors?.user_level && user_level.length === 0
                 }
@@ -727,7 +727,7 @@ export default function UserCreate() {
                 value={user_gender}
                 onChange={(e) => setUser_gender(e.target.value)}
                 variant="bordered"
-                size="lg"
+                size="md"
                 isInvalid={
                   !!error?.errors?.user_gender && user_gender.length === 0
                 }
@@ -746,7 +746,79 @@ export default function UserCreate() {
             </div>
           </div>
 
-          {/* <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                id="user_id_card"
+                name="user_id_card"
+                label="เลขบัตรประชาชน"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isRequired
+                value={user_id_card}
+                onChange={(e) => setUser_id_card(e.target.value)}
+                isInvalid={
+                  !!error?.errors?.user_id_card && user_id_card.length === 0
+                }
+                errorMessage={error?.errors?.user_id_card?.[0]}
+              />
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="สัญชาติ"
+                placeholder="กรุณาระบุข้อมูล"
+                id="user_citizen"
+                name="user_citizen"
+                value={user_citizen}
+                onChange={(e) => setUser_citizen(e.target.value)}
+                variant="bordered"
+                size="md"
+                isInvalid={
+                  !!error?.errors?.user_citizen && user_citizen.length === 0
+                }
+                errorMessage={error?.errors?.user_citizen?.[0]}
+              >
+                <SelectItem value="ไทย" key="ไทย">
+                  ไทย
+                </SelectItem>
+                <SelectItem value="ต่างชาติ" key="ต่างชาติ">
+                  ต่างชาติ
+                </SelectItem>
+              </Select>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
+            ข้อมูลการจ้างงาน
+          </div>
+
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="ประเภทพนักงาน"
+                placeholder="กรุณาระบุข้อมูล"
+                id="user_type"
+                name="user_type"
+                value={user_type}
+                onChange={(e) => setUser_type(e.target.value)}
+                variant="bordered"
+                size="md"
+                isInvalid={!!error?.errors?.user_type && user_type.length === 0}
+                errorMessage={error?.errors?.user_type?.[0]}
+              >
+                <SelectItem value="รายเดือน" key="รายเดือน">
+                  รายเดือน
+                </SelectItem>
+                <SelectItem value="รายเดือน (คนพิการ)" key="รายเดือน (คนพิการ)">
+                  รายเดือน (คนพิการ)
+                </SelectItem>
+                <SelectItem value="รายวัน" key="รายวัน">
+                  รายวัน
+                </SelectItem>
+              </Select>
+            </div>
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Select
                 label="เลือกสาขา"
@@ -762,7 +834,6 @@ export default function UserCreate() {
                 }
                 errorMessage={error?.errors?.user_branch_id?.[0]}
               >
-                <SelectItem value="">เลือกสาขา</SelectItem>
                 {branch.map((branch) => (
                   <SelectItem key={branch.branch_id} value={branch.branch_id}>
                     {branch.branch_name}
@@ -770,39 +841,63 @@ export default function UserCreate() {
                 ))}
               </Select>
             </div>
-            <Select
-              label="เลือกฝ่าย"
-              placeholder="กรุณาเลือกฝ่าย"
-              id="user_division_id"
-              name="user_division_id"
-              value={user_division_id}
-              onChange={(e) => setUser_division_id(e.target.value)}
-              variant="bordered"
-              size="md"
-              isDisabled={!isbranchselected}
-              isInvalid={
-                !!error?.errors?.user_division_id &&
-                user_division_id.length === 0
-              }
-              errorMessage={error?.errors?.user_division_id?.[0]}
-            >
-              <SelectItem value="">เลือกฝ่าย</SelectItem>
-              {filtereddivision.map((division) => (
-                <SelectItem
-                  key={division.division_id}
-                  value={division.division_id}
-                >
-                  {division.division_name}
-                </SelectItem>
-              ))}
-            </Select>
-          </div> */}
-
-          {/* <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Select
-                label="เลือกแผนก"
-                placeholder="กรุณาเลือกแผนก"
+                label="เลือก ไซต์"
+                placeholder="กรุณาระบุ ไซต์"
+                id="user_site_id"
+                name="user_site_id"
+                value={user_site_id}
+                onChange={(e) => setUser_site_id(e.target.value)}
+                variant="bordered"
+                isDisabled={!isbranchselected}
+                size="md"
+                isInvalid={
+                  !!error?.errors?.user_site_id && user_site_id.length === 0
+                }
+                errorMessage={error?.errors?.user_site_id?.[0]}
+              >
+                {filteredsite.map((site) => (
+                  <SelectItem key={site.site_id} value={site.site_id}>
+                    {site.site_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+          </div>
+
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก ฝ่าย"
+                placeholder="กรุณาระบุ ฝ่าย"
+                id="user_division_id"
+                name="user_division_id"
+                value={user_division_id}
+                onChange={(e) => setUser_division_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isDisabled={!isbranchselected}
+                isInvalid={
+                  !!error?.errors?.user_division_id &&
+                  user_division_id.length === 0
+                }
+                errorMessage={error?.errors?.user_division_id?.[0]}
+              >
+                {filtereddivision.map((division) => (
+                  <SelectItem
+                    key={division.division_id}
+                    value={division.division_id}
+                  >
+                    {division.division_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก แผนก"
+                placeholder="กรุณาระบุ แผนก"
                 id="user_department_id"
                 name="user_department_id"
                 value={user_department_id}
@@ -816,7 +911,6 @@ export default function UserCreate() {
                 }
                 errorMessage={error?.errors?.user_department_id?.[0]}
               >
-                <SelectItem value="">เลือกแผนก</SelectItem>
                 {filtereddepartment.map((department) => (
                   <SelectItem
                     key={department.department_id}
@@ -828,24 +922,106 @@ export default function UserCreate() {
               </Select>
             </div>
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก ตำแหน่ง"
+                placeholder="กรุณาระบุ ตำแหน่ง"
+                id="user_position_id"
+                name="user_position_id"
+                value={user_position_id}
+                onChange={(e) => setUser_position_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isDisabled={!isdepartmentanddivisionandbranchselected}
+                isInvalid={
+                  !!error?.errors?.user_position_id &&
+                  user_position_id.length === 0
+                }
+                errorMessage={error?.errors?.user_position_id?.[0]}
+              >
+                {filteredposition.map((position) => (
+                  <SelectItem
+                    key={position.position_id}
+                    value={position.position_id}
+                  >
+                    {position.position_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+          </div>
+
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก บทบาทหน้าที่"
+                placeholder="กรุณาระบุ บทบาทหน้าที่"
+                id="user_role_id"
+                name="user_role_id"
+                value={user_role_id}
+                onChange={(e) => setUser_role_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isInvalid={
+                  !!error?.errors?.user_role_id && user_role_id.length === 0
+                }
+                errorMessage={error?.errors?.user_role_id?.[0]}
+              >
+                {role.map((role) => (
+                  <SelectItem key={role.role_id} value={role.role_id}>
+                    {role.role_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก สายบังคับบัญชา"
+                placeholder="กรุณาระบุ สายบังคับบัญชา"
+                id="user_parent_id"
+                name="user_parent_id"
+                value={user_parent_id}
+                onChange={(e) => setUser_parent_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isDisabled={!isdivisionselected}
+                isInvalid={
+                  !!error?.errors?.user_parent_id && user_parent_id.length === 0
+                }
+                errorMessage={error?.errors?.user_parent_id?.[0]}
+              >
+                {filteredparent.map((parent) => (
+                  <SelectItem key={parent.user_id} value={parent.user_id}>
+                    {parent.user_firstname}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Input
-                type="text"
-                id="user_number"
-                name="user_number"
-                label="ชื่อผู้ใช้งาน"
+                type="date"
+                id="user_start_work"
+                name="user_start_work"
+                label="วันที่เริ่มงาน"
                 placeholder="กรุณาระบุข้อมูล"
                 size="md"
                 variant="bordered"
                 isRequired
-                value={user_number}
-                onChange={(e) => setUser_name(e.target.value)}
+                value={user_start_work}
+                onChange={(e) => setUser_start_work(e.target.value)}
                 isInvalid={
-                  !!error?.errors?.user_number && user_number.length === 0
+                  !!error?.errors?.user_start_work &&
+                  user_start_work.length === 0
                 }
-                errorMessage={error?.errors?.user_number?.[0]}
+                errorMessage={error?.errors?.user_start_work?.[0]}
               />
             </div>
-          </div> */}
+          </div>
+
+          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              react signature
+            </div>
+          </div>
 
           <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
