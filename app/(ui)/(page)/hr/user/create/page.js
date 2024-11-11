@@ -116,10 +116,10 @@ export default function UserCreate() {
   const loadDivision = async () => {
     try {
       const data = await FetchDivision();
-      const activedivision = data.filter(
+      const activeDivision = data.filter(
         (division) => division.division_status === 1
       );
-      setDivision(activedivision);
+      setDivision(activeDivision);
     } catch (error) {
       toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
     }
@@ -128,10 +128,10 @@ export default function UserCreate() {
   const loadDepartment = async () => {
     try {
       const data = await FetchDepartment();
-      const activedepartment = data.filter(
+      const activeDepartment = data.filter(
         (department) => department.department_status === 1
       );
-      setDepartment(activedepartment);
+      setDepartment(activeDepartment);
     } catch (error) {
       toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
     }
@@ -170,7 +170,7 @@ export default function UserCreate() {
       );
       setParent(activeUser);
     } catch (error) {
-      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
+      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูลuser");
     }
   };
 
