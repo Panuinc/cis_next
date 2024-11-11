@@ -10,8 +10,9 @@ import { FetchDivision } from "@/app/functions/hr/division/division";
 import { FetchDepartment } from "@/app/functions/hr/department/department";
 import { FetchPosition } from "@/app/functions/hr/position/position";
 import { EditOutlined, AddHomeOutlined } from "@mui/icons-material";
-import { Input, Button, Select, SelectItem } from "@nextui-org/react";
+import { Input, Button, Select, SelectItem, Checkbox } from "@nextui-org/react";
 import PaginationControls from "@/app/components/PaginationControls";
+import * as XLSX from "xlsx";
 
 export default function User() {
   const { data: session } = useSession();
@@ -29,8 +30,20 @@ export default function User() {
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [selectedPosition, setSelectedPosition] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedUserType, setSelectedUserType] = useState("");
+  const [selectedCitizen, setSelectedCitizen] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [selectedColumns, setSelectedColumns] = useState({
+    user_number: { label: "รหัสพนักงาน", selected: true },
+    user_firstname: { label: "ชื่อ", selected: true },
+    user_lastname: { label: "นามสกุล", selected: true },
+    user_tel: { label: "เบอร์โทรศัพท์", selected: true },
+    user_email: { label: "อีเมลล์", selected: true },
+    branch_name: { label: "สาขา", selected: true },
+    division_name: { label: "ฝ่าย", selected: true },
+    department_name: { label: "แผนก", selected: true },
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,7 +132,63 @@ export default function User() {
           : true) &&
         (selectedPosition
           ? item.position_id.toString() === selectedPosition
-          : true)
+          : true) &&
+        (selectedUserType ? item.user_type === selectedUserType : true)
+    );
+
+    setFilteredUser(filteredUsers);
+  };
+
+  const handleUserTypeChange = (keys) => {
+    const value = [...keys][0];
+    setSelectedUserType(value);
+
+    const filteredUsers = user.filter(
+      (item) =>
+        (value === "" || item.user_type === value) &&
+        (selectedBranch
+          ? item.branch_id.toString() === selectedBranch
+          : true) &&
+        (selectedSite ? item.site_id.toString() === selectedSite : true) &&
+        (selectedDivision
+          ? item.division_id.toString() === selectedDivision
+          : true) &&
+        (selectedDepartment
+          ? item.department_id.toString() === selectedDepartment
+          : true) &&
+        (selectedPosition
+          ? item.position_id.toString() === selectedPosition
+          : true) &&
+        (selectedStatus ? item.user_status.toString() === selectedStatus : true)
+    );
+
+    setFilteredUser(filteredUsers);
+  };
+
+  const handleCitizenChange = (keys) => {
+    const value = [...keys][0];
+    setSelectedCitizen(value);
+
+    const filteredUsers = user.filter(
+      (item) =>
+        (value === "" || item.user_citizen === value) &&
+        (selectedBranch
+          ? item.branch_id.toString() === selectedBranch
+          : true) &&
+        (selectedSite ? item.site_id.toString() === selectedSite : true) &&
+        (selectedDivision
+          ? item.division_id.toString() === selectedDivision
+          : true) &&
+        (selectedDepartment
+          ? item.department_id.toString() === selectedDepartment
+          : true) &&
+        (selectedPosition
+          ? item.position_id.toString() === selectedPosition
+          : true) &&
+        (selectedStatus
+          ? item.user_status.toString() === selectedStatus
+          : true) &&
+        (selectedUserType ? item.user_type === selectedUserType : true)
     );
 
     setFilteredUser(filteredUsers);
@@ -135,6 +204,31 @@ export default function User() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredUser.slice(indexOfFirstItem, indexOfLastItem);
 
+  const exportToExcel = () => {
+    const selectedKeys = Object.keys(selectedColumns).filter(
+      (key) => selectedColumns[key].selected
+    );
+
+    const filteredData = filteredUser.map((user) =>
+      selectedKeys.reduce((obj, key) => {
+        obj[selectedColumns[key].label] = user[key];
+        return obj;
+      }, {})
+    );
+
+    const ws = XLSX.utils.json_to_sheet(filteredData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "UsersData");
+    XLSX.writeFile(wb, "UsersData.xlsx");
+  };
+
+  const handleColumnChange = (key) => {
+    setSelectedColumns((prev) => ({
+      ...prev,
+      [key]: { ...prev[key], selected: !prev[key].selected },
+    }));
+  };
+
   return (
     <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-6">
       <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
@@ -149,12 +243,16 @@ export default function User() {
         </div>
       </div>
       <div className="flex flex-col items-center justify-between w-full h-full p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
+        <div className="aflex items-center justify-center w-full h-full p-2 gap-2 font-[600]">
+          ค้นหารายชื่อพนักงาน
+        </div>
         <div className="flex flex-col xl:flex-row items-center justify-between w-full h-full p-2 gap-2">
           <div className="flex items-center justify-center w-full h-full xl:w-1/2 p-2 gap-2">
             <Input
               type="text"
+              label="ค้นหา"
               placeholder="ค้นหาโดยข้อความ"
-              size="lg"
+              size="md"
               variant="bordered"
               value={searchText}
               onChange={handleSearch}
@@ -172,6 +270,40 @@ export default function User() {
               <SelectItem key="">เลือกทั้งหมด</SelectItem>
               <SelectItem key="1">พนักงาน</SelectItem>
               <SelectItem key="0">ลาออก</SelectItem>
+            </Select>
+          </div>
+          <div className="flex items-center justify-center w-full h-full xl:w-1/2 p-2 gap-2">
+            <Select
+              label="ประเภทพนักงาน"
+              placeholder="เลือกประเภท"
+              size="md"
+              variant="bordered"
+              selectedKeys={selectedUserType ? [selectedUserType] : []}
+              onSelectionChange={handleUserTypeChange}
+            >
+              <SelectItem key="">เลือกทั้งหมด</SelectItem>
+              <SelectItem key="รายเดือน">รายเดือน</SelectItem>
+              <SelectItem key="รายวัน">รายวัน</SelectItem>
+              <SelectItem key="รายเดือน (คนพิการ)">
+                รายเดือน (คนพิการ)
+              </SelectItem>
+            </Select>
+          </div>
+          <div className="flex items-center justify-center w-full h-full xl:w-1/2 p-2 gap-2">
+            <Select
+              label="สัญชาติ"
+              placeholder="เลือกสัญชาติ"
+              size="md"
+              variant="bordered"
+              selectedKeys={selectedCitizen ? [selectedCitizen] : []}
+              onSelectionChange={handleCitizenChange}
+            >
+              <SelectItem key="">เลือกทั้งหมด</SelectItem>
+              <SelectItem key="ไทย">ไทย</SelectItem>
+              <SelectItem key="พม่า">พม่า</SelectItem>
+              <SelectItem key="ลาว">ลาว</SelectItem>
+              <SelectItem key="กัมพูชา">กัมพูชา</SelectItem>
+              <SelectItem key="เวียดนาม">เวียดนาม</SelectItem>
             </Select>
           </div>
         </div>
@@ -266,63 +398,86 @@ export default function User() {
             </Select>
           </div>
         </div>
+        <div className="flex flex-col w-full gap-2 p-4 bg-[#F3F7FB] rounded-xl">
+          <div className="font-[600]">เลือกคอลัมน์ที่จะ Export:</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {Object.keys(selectedColumns).map((key) => (
+              <Checkbox
+                key={key}
+                isSelected={selectedColumns[key].selected}
+                onChange={() => handleColumnChange(key)}
+              >
+                {selectedColumns[key].label}
+              </Checkbox>
+            ))}
+          </div>
+        </div>
       </div>
       <div className="flex flex-col items-center justify-center w-full h-full p-6 gap-6 bg-[#FFFFFF] rounded-xl shadow-sm">
         <div className="flex items-center justify-between w-full h-full p-2 gap-2 font-[600] border-b-2">
           ข้อมูล ผู้ใช้งาน
           {(session.user.user_level === "superadmin" ||
             session.user.user_level === "admin") && (
-            <Link href="/hr/user/create">
-              <Button size="md" className=" bg-[#615DFF] text-[#FFFFFF]">
-                เพิ่มข้อมูล
+            <>
+              <Button
+                size="md"
+                onClick={exportToExcel}
+                className="bg-[#16cdc7] text-[#FFFFFF]"
+              >
+                Export to Excel
               </Button>
-            </Link>
+              <Link href="/hr/user/create">
+                <Button size="md" className="bg-[#615DFF] text-[#FFFFFF]">
+                  เพิ่มข้อมูล
+                </Button>
+              </Link>
+            </>
           )}
         </div>
         <div className="overflow-auto w-full rounded-xl border">
           <table className="table-auto w-full">
             <thead>
               <tr>
-                <th className="border-b p-2 py-4">ลำดับ</th>
-                <th className="border-b p-2">รูปถ่าย</th>
-                <th className="border-b p-2">รหัสพนักงาน</th>
-                <th className="border-b p-2">เลขบัตรพนักงาน</th>
-                <th className="border-b p-2">คำนำหน้าชื่อ</th>
+                <th className="min-w-40 border-b p-2 py-4">ลำดับ</th>
+                <th className="min-w-40 border-b p-2">รูปถ่าย</th>
+                <th className="min-w-40 border-b p-2">รหัสพนักงาน</th>
+                <th className="min-w-40 border-b p-2">เลขบัตรพนักงาน</th>
+                <th className="min-w-40 border-b p-2">คำนำหน้าชื่อ</th>
 
-                <th className="border-b p-2">ชื่อ</th>
-                <th className="border-b p-2">นามสกุล</th>
-                <th className="border-b p-2">ชื่อเล่น</th>
-                <th className="border-b p-2">เบอร์โทรศัพท์</th>
-                <th className="border-b p-2">อีเมลล์</th>
+                <th className="min-w-40 border-b p-2">ชื่อ</th>
+                <th className="min-w-40 border-b p-2">นามสกุล</th>
+                <th className="min-w-40 border-b p-2">ชื่อเล่น</th>
+                <th className="min-w-40 border-b p-2">เบอร์โทรศัพท์</th>
+                <th className="min-w-40 border-b p-2">อีเมลล์</th>
 
-                <th className="border-b p-2">ระดับการใช้งาน</th>
-                <th className="border-b p-2">วันเกิด</th>
-                <th className="border-b p-2">เพศ</th>
-                <th className="border-b p-2">เลขบัตรประชาชน</th>
-                <th className="border-b p-2">สัญชาติ</th>
+                <th className="min-w-40 border-b p-2">ระดับการใช้งาน</th>
+                <th className="min-w-40 border-b p-2">วันเกิด</th>
+                <th className="min-w-40 border-b p-2">เพศ</th>
+                <th className="min-w-40 border-b p-2">เลขบัตรประชาชน</th>
+                <th className="min-w-40 border-b p-2">สัญชาติ</th>
 
-                <th className="border-b p-2">ชนิดของพนักงาน</th>
-                <th className="border-b p-2">สาขา</th>
-                <th className="border-b p-2">ไซต์งาน</th>
-                <th className="border-b p-2">ฝ่าย</th>
-                <th className="border-b p-2">แผนก</th>
+                <th className="min-w-40 border-b p-2">ชนิดของพนักงาน</th>
+                <th className="min-w-40 border-b p-2">สาขา</th>
+                <th className="min-w-40 border-b p-2">ไซต์งาน</th>
+                <th className="min-w-40 border-b p-2">ฝ่าย</th>
+                <th className="min-w-40 border-b p-2">แผนก</th>
 
-                <th className="border-b p-2">ตำแหน่ง</th>
-                <th className="border-b p-2">บทบาทหน้าที่</th>
-                <th className="border-b p-2">ผู้บังคับบัญชา</th>
-                <th className="border-b p-2">วันที่เริ่มงาน</th>
+                <th className="min-w-40 border-b p-2">ตำแหน่ง</th>
+                <th className="min-w-40 border-b p-2">บทบาทหน้าที่</th>
+                <th className="min-w-40 border-b p-2">ผู้บังคับบัญชา</th>
+                <th className="min-w-40 border-b p-2">วันที่เริ่มงาน</th>
 
-                <th className="border-b p-2">ลายเซ็น</th>
+                <th className="min-w-40 border-b p-2">ลายเซ็น</th>
 
                 {(session.user.user_level === "superadmin" ||
                   session.user.user_level === "admin") && (
                   <>
-                    <th className="border-b p-2">สร้างโดย</th>
-                    <th className="border-b p-2">วันที่สร้าง</th>
-                    <th className="border-b p-2">แก้ไขโดย</th>
-                    <th className="border-b p-2">วันที่แก้ไข</th>
-                    <th className="border-b p-2">สถานะ</th>
-                    <th className="border-b p-2">แก้ไข</th>
+                    <th className="min-w-40 border-b p-2">สร้างโดย</th>
+                    <th className="min-w-40 border-b p-2">วันที่สร้าง</th>
+                    <th className="min-w-40 border-b p-2">แก้ไขโดย</th>
+                    <th className="min-w-40 border-b p-2">วันที่แก้ไข</th>
+                    <th className="min-w-40 border-b p-2">สถานะ</th>
+                    <th className="min-w-40 border-b p-2">แก้ไข</th>
                   </>
                 )}
               </tr>
@@ -464,7 +619,7 @@ export default function User() {
                     colSpan={
                       session.user.user_level === "superadmin" ||
                       session.user.user_level === "admin"
-                        ? 8
+                        ? 31
                         : 2
                     }
                     className="border p-2 text-center text-sm"
