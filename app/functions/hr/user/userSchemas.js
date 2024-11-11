@@ -13,7 +13,7 @@ export const createUserSchema = z.object({
   user_email: z.string().email({ message: "กรุณาระบุ อีเมลล์ที่ถูกต้อง" }).min(1, { message: "กรุณาระบุ อีเมลล์" }),
 
   user_level: z.string().min(1, { message: "กรุณาระบุ ระดับการใช้งาน" }),
-  user_birthday: z.date().min(new Date(1900, 0, 1), { message: "กรุณาระบุ วันเกิด" }),
+  user_birthday: z.string().min(1, { message: "กรุณาระบุ วันเกิด" }),
   user_gender: z.string().min(1, { message: "กรุณาระบุ เพศ" }),
   user_id_card: z.string().min(1, { message: "กรุณาระบุ เลขบัตรประชาชน" }),
   user_citizen: z.string().min(1, { message: "กรุณาระบุ สัญชาติ" }),
@@ -27,7 +27,7 @@ export const createUserSchema = z.object({
   user_position_id: z.coerce.number().positive("กรุณาระบุ ตำแหน่ง" ),
   user_role_id: z.coerce.number().positive("กรุณาระบุ บทบาทหน้าที่" ),
   user_parent_id: z.coerce.number().positive("กรุณาระบุ ผู้บังคับบัญชา" ),
-  user_start_work: z.date().min(new Date(1900, 0, 1), { message: "กรุณาระบุ วันที่เริ่มงาน" }),
+  user_start_work: z.string().min(1, { message: "กรุณาระบุ วันที่เริ่มงาน" }),
   user_create_by: z.coerce.number().positive("กรุณาระบุ ผู้ดำเนินการ"),
 });
 
@@ -44,7 +44,7 @@ export const updateUserSchema = z.object({
   user_email: z.string().email({ message: "กรุณาระบุ อีเมลล์ที่ถูกต้อง" }).min(1, { message: "กรุณาระบุ อีเมลล์" }),
 
   user_level: z.string().min(1, { message: "กรุณาระบุ ระดับการใช้งาน" }),
-  user_birthday: z.date().min(new Date(1900, 0, 1), { message: "กรุณาระบุ วันเกิด" }),
+  user_birthday: z.string().min(1, { message: "กรุณาระบุ วันเกิด" }),
   user_gender: z.string().min(1, { message: "กรุณาระบุ เพศ" }),
   user_id_card: z.string().min(1, { message: "กรุณาระบุ เลขบัตรประชาชน" }),
   user_citizen: z.string().min(1, { message: "กรุณาระบุ สัญชาติ" }),
@@ -58,7 +58,7 @@ export const updateUserSchema = z.object({
   user_position_id: z.coerce.number().positive("กรุณาระบุ ตำแหน่ง" ),
   user_role_id: z.coerce.number().positive("กรุณาระบุ บทบาทหน้าที่" ),
   user_parent_id: z.coerce.number().positive("กรุณาระบุ ผู้บังคับบัญชา" ),
-  user_start_work: z.date().min(new Date(1900, 0, 1), { message: "กรุณาระบุ วันที่เริ่มงาน" }),
+  user_start_work: z.string().min(1, { message: "กรุณาระบุ วันที่เริ่มงาน" }),
   user_status: z.enum(["0", "1"], {message: "สถานะต้องเป็น 0 (Inactive) หรือ 1 (Active) เท่านั้น",}),
   
   user_update_by: z.coerce.number().positive("กรุณาระบุ ผู้ดำเนินการ"),

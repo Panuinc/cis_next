@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "react-hot-toast";
 import { CreateUser } from "@/app/functions/hr/user/user";
@@ -15,6 +15,7 @@ import { useSession } from "next-auth/react";
 import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
 import imageCompression from "browser-image-compression";
 import Face5OutlinedIcon from "@mui/icons-material/Face5Outlined";
+import SignatureCanvas from "react-signature-canvas";
 
 export default function UserCreate() {
   const { data: session } = useSession();
@@ -46,7 +47,7 @@ export default function UserCreate() {
 
   const [user_number, setUser_number] = useState("");
   const [user_card_number, setUser_card_number] = useState("");
-  const [user_password, setUser_password] = useState("12345");
+  const [user_password, setUser_password] = useState("");
   const [user_title, setUser_title] = useState("");
 
   const [user_firstname, setUser_firstname] = useState("");
@@ -77,6 +78,20 @@ export default function UserCreate() {
 
   const [preview_picture_file, setPreview_picture_file] = useState(null);
   const [preview_signature_file, setPreview_signature_file] = useState(null);
+
+  const signatureRef = useRef(null);
+
+  const handleClearSignature = () => {
+    if (signatureRef.current) {
+      signatureRef.current.clear();
+    }
+  };
+  const handleSaveSignature = () => {
+    if (signatureRef.current) {
+      const signatureData = signatureRef.current.toDataURL();
+      setUser_signature_file(signatureData); // เก็บข้อมูลลายเซ็นใน state
+    }
+  };
 
   const loadBranch = async () => {
     try {
@@ -339,15 +354,19 @@ export default function UserCreate() {
 
   const handleChange = (e) => {
     const { name, files } = e.target;
-    if (name === "user_picture_file" && files.length > 0) {
-      const file = files[0];
-      setUser_picture_file(file);
-      setPreview_picture_file(URL.createObjectURL(file));
-    }
-    if (name === "user_signature_file" && files.length > 0) {
-      const file = files[0];
-      setUser_signature_file(file);
-      setPreview_signature_file(URL.createObjectURL(file));
+    if (files && files[0] instanceof File) {
+      if (name === "user_picture_file") {
+        const file = files[0];
+        setUser_picture_file(file);
+        setPreview_picture_file(URL.createObjectURL(file));
+      }
+      if (name === "user_signature_file") {
+        const file = files[0];
+        setUser_signature_file(file);
+        setPreview_signature_file(URL.createObjectURL(file));
+      }
+    } else {
+      console.error("The selected file is not valid.");
     }
   };
 
@@ -366,6 +385,14 @@ export default function UserCreate() {
     };
 
     const compressImage = async (imageFile) => {
+      if (
+        !imageFile ||
+        !(imageFile instanceof Blob || imageFile instanceof File)
+      ) {
+        console.warn("Invalid file type provided for compression.");
+        return null; // or handle it in another way, such as returning an error or fallback image
+      }
+
       const options = {
         maxSizeMB: 1,
         maxWidthOrHeight: 800,
@@ -382,12 +409,16 @@ export default function UserCreate() {
 
     if (user_picture_file) {
       const compressedPictureFile = await compressImage(user_picture_file);
-      base64Picture = await fileToBase64(compressedPictureFile);
+      base64Picture = compressedPictureFile
+        ? await fileToBase64(compressedPictureFile)
+        : null;
     }
 
     if (user_signature_file) {
       const compressedSignatureFile = await compressImage(user_signature_file);
-      base64Signature = await fileToBase64(compressedSignatureFile);
+      base64Signature = compressedSignatureFile
+        ? await fileToBase64(compressedSignatureFile)
+        : null;
     }
 
     const formData = new FormData(event.target);
@@ -482,7 +513,7 @@ export default function UserCreate() {
               name="user_picture_file"
               onChange={handleChange}
               className="hidden"
-              isRequired
+              isrequired="true"
             />
             {preview_picture_file && (
               <img
@@ -497,7 +528,7 @@ export default function UserCreate() {
             ข้อมูลทั่วไป
           </div>
 
-          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Input
                 type="text"
@@ -507,7 +538,7 @@ export default function UserCreate() {
                 placeholder="กรุณาระบุข้อมูล"
                 size="md"
                 variant="bordered"
-                isRequired
+                isrequired="true"
                 value={user_number}
                 onChange={(e) => setUser_number(e.target.value)}
                 isInvalid={
@@ -525,7 +556,7 @@ export default function UserCreate() {
                 placeholder="กรุณาระบุข้อมูล"
                 size="md"
                 variant="bordered"
-                isRequired
+                isrequired="true"
                 value={user_card_number}
                 onChange={(e) => setUser_card_number(e.target.value)}
                 isInvalid={
@@ -537,16 +568,17 @@ export default function UserCreate() {
             </div>
           </div>
 
-          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Input
                 type="text"
                 id="user_password"
                 name="user_password"
+                value={user_password}
                 label="รหัสผ่าน"
                 placeholder="กำหนดให้รหัสผ่านเริ่มต้นเป็น 12345"
                 size="md"
-                isReadOnly
+                isrequired="true"
                 onChange={(e) => setUser_password(e.target.value)}
                 isInvalid={
                   !!error?.errors?.user_password && user_password.length === 0
@@ -556,7 +588,7 @@ export default function UserCreate() {
             </div>
           </div>
 
-          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Select
                 label="คำนำหน้าชื่อ"
@@ -592,7 +624,7 @@ export default function UserCreate() {
                 placeholder="กรุณาระบุข้อมูล"
                 size="md"
                 variant="bordered"
-                isRequired
+                isrequired="true"
                 value={user_firstname}
                 onChange={(e) => setUser_firstname(e.target.value)}
                 isInvalid={
@@ -610,7 +642,7 @@ export default function UserCreate() {
                 placeholder="กรุณาระบุข้อมูล"
                 size="md"
                 variant="bordered"
-                isRequired
+                isrequired="true"
                 value={user_lastname}
                 onChange={(e) => setUser_lastname(e.target.value)}
                 isInvalid={
@@ -621,7 +653,7 @@ export default function UserCreate() {
             </div>
           </div>
 
-          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Input
                 type="text"
@@ -631,7 +663,7 @@ export default function UserCreate() {
                 placeholder="กรุณาระบุข้อมูล"
                 size="md"
                 variant="bordered"
-                isRequired
+                isrequired="true"
                 value={user_nickname}
                 onChange={(e) => setUser_nickname(e.target.value)}
                 isInvalid={
@@ -649,7 +681,7 @@ export default function UserCreate() {
                 placeholder="กรุณาระบุข้อมูล"
                 size="md"
                 variant="bordered"
-                isRequired
+                isrequired="true"
                 value={user_tel}
                 onChange={(e) => setUser_tel(e.target.value)}
                 isInvalid={!!error?.errors?.user_tel && user_tel.length === 0}
@@ -665,7 +697,7 @@ export default function UserCreate() {
                 placeholder="กรุณาระบุข้อมูล"
                 size="md"
                 variant="bordered"
-                isRequired
+                isrequired="true"
                 value={user_email}
                 onChange={(e) => setUser_email(e.target.value)}
                 isInvalid={
@@ -676,7 +708,7 @@ export default function UserCreate() {
             </div>
           </div>
 
-          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Select
                 label="ระดับการใช้งาน"
@@ -709,7 +741,7 @@ export default function UserCreate() {
                 placeholder="กรุณาระบุข้อมูล"
                 size="md"
                 variant="bordered"
-                isRequired
+                isrequired="true"
                 value={user_birthday}
                 onChange={(e) => setUser_birthday(e.target.value)}
                 isInvalid={
@@ -746,7 +778,7 @@ export default function UserCreate() {
             </div>
           </div>
 
-          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Input
                 type="text"
@@ -756,7 +788,7 @@ export default function UserCreate() {
                 placeholder="กรุณาระบุข้อมูล"
                 size="md"
                 variant="bordered"
-                isRequired
+                isrequired="true"
                 value={user_id_card}
                 onChange={(e) => setUser_id_card(e.target.value)}
                 isInvalid={
@@ -790,11 +822,11 @@ export default function UserCreate() {
             </div>
           </div>
 
-          <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
+          <div className="flex flex-col xl:flex-row items-center justify-start w-full h-full p-2 gap-2 font-[600]">
             ข้อมูลการจ้างงาน
           </div>
 
-          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Select
                 label="ประเภทพนักงาน"
@@ -866,7 +898,7 @@ export default function UserCreate() {
             </div>
           </div>
 
-          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Select
                 label="เลือก ฝ่าย"
@@ -950,7 +982,7 @@ export default function UserCreate() {
             </div>
           </div>
 
-          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Select
                 label="เลือก บทบาทหน้าที่"
@@ -991,7 +1023,7 @@ export default function UserCreate() {
               >
                 {filteredparent.map((parent) => (
                   <SelectItem key={parent.user_id} value={parent.user_id}>
-                    {parent.user_firstname}
+                    {parent.user_firstname + " " + parent.user_lastname}
                   </SelectItem>
                 ))}
               </Select>
@@ -1005,7 +1037,7 @@ export default function UserCreate() {
                 placeholder="กรุณาระบุข้อมูล"
                 size="md"
                 variant="bordered"
-                isRequired
+                isrequired="true"
                 value={user_start_work}
                 onChange={(e) => setUser_start_work(e.target.value)}
                 isInvalid={
@@ -1017,13 +1049,26 @@ export default function UserCreate() {
             </div>
           </div>
 
-          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-              react signature
+              <label className="font-semibold">ลายเซ็น</label>
+              <SignatureCanvas
+                ref={signatureRef}
+                penColor="black"
+                canvasProps={{
+                  width: 500,
+                  height: 200,
+                  className: "border-2 border-gray-300 rounded-md",
+                }}
+              />
+            </div>
+            <div className="flex flex-row gap-2 mt-2">
+              <Button onClick={handleSaveSignature}>บันทึกลายเซ็น</Button>
+              <Button onClick={handleClearSignature}>ล้างลายเซ็น</Button>
             </div>
           </div>
 
-          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Input
                 type="text"

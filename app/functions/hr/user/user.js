@@ -236,6 +236,10 @@ export const CreateUser = async ({ formData }) => {
   });
 
   if (!validatedFields.success) {
+    console.log(
+      "Validation errors:",
+      validatedFields.error.flatten().fieldErrors
+    );
     return {
       code: 402,
       errors: validatedFields.error.flatten().fieldErrors,
@@ -461,8 +465,8 @@ export const CreateUser = async ({ formData }) => {
 
 //   const promisePool = mysqlPool.promise();
 //   const [result] = await promisePool.query(
-//     `UPDATE user 
-//        SET user_number = ?, user_status = ?, user_update_by = ?, user_update_time = NOW() 
+//     `UPDATE user
+//        SET user_number = ?, user_status = ?, user_update_by = ?, user_update_time = NOW()
 //        WHERE user_id = ?`,
 //     [user_number, user_status, user_update_by, user_id]
 //   );
