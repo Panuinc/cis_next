@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { FetchUser } from "@/app/functions/hr/user/user";
-import { FetchBranch } from "@/app/functions/hr/branch";
-import { FetchSite } from "@/app/functions/hr/site";
-import { FetchDivision } from "@/app/functions/hr/division";
-import { FetchDepartment } from "@/app/functions/hr/department";
-import { FetchPosition } from "@/app/functions/hr/position";
+import { FetchBranch } from "@/app/functions/hr/branch/branch";
+import { FetchSite } from "@/app/functions/hr/site/site";
+import { FetchDivision } from "@/app/functions/hr/division/division";
+import { FetchDepartment } from "@/app/functions/hr/department/department";
+import { FetchPosition } from "@/app/functions/hr/position/position";
 import { EditOutlined, AddHomeOutlined } from "@mui/icons-material";
 import { Input, Button, Select, SelectItem } from "@nextui-org/react";
 import PaginationControls from "@/app/components/PaginationControls";
@@ -21,325 +21,119 @@ export default function User() {
   const [department, setDepartment] = useState([]);
   const [position, setPosition] = useState([]);
   const [user, setUser] = useState([]);
-  const [filteredbranch, setFilteredBranch] = useState([]);
-  const [filteredsite, setFilteredSite] = useState([]);
-  const [filtereddivision, setFilteredDivision] = useState([]);
-  const [filtereddepartment, setFilteredDepartment] = useState([]);
-  const [filteredposition, setFilteredPosition] = useState([]);
-  const [filtereduser, setFilteredUser] = useState([]);
+  const [filteredUser, setFilteredUser] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [selectedbranch, setSelectedBranch] = useState("");
-  const [selectedsite, setSelectedSite] = useState("");
-  const [selecteddivision, setSelectedDivision] = useState("");
-  const [selecteddepartment, setSelectedDepartment] = useState("");
-  const [selectedposition, setSelectedPosition] = useState("");
-  const [selecteduser, setSelectedUser] = useState("");
+  const [selectedBranch, setSelectedBranch] = useState("");
+  const [selectedSite, setSelectedSite] = useState("");
+  const [selectedDivision, setSelectedDivision] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [selectedPosition, setSelectedPosition] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
-    const loadBranchData = async () => {
+    const fetchData = async () => {
       try {
-        const data = await FetchBranch();
-        const activeBranch = data.filter(
-          (branch) => branch.branch_status === 1
-        );
-        setBranch(activeBranch);
+        const [
+          branchData,
+          siteData,
+          divisionData,
+          departmentData,
+          positionData,
+          userData,
+        ] = await Promise.all([
+          FetchBranch(),
+          FetchSite(),
+          FetchDivision(),
+          FetchDepartment(),
+          FetchPosition(),
+          FetchUser(),
+        ]);
+
+        setBranch(branchData.filter((b) => b.branch_status === 1));
+        setSite(siteData.filter((s) => s.site_status === 1));
+        setDivision(divisionData.filter((d) => d.division_status === 1));
+        setDepartment(departmentData.filter((d) => d.department_status === 1));
+        setPosition(positionData.filter((p) => p.position_status === 1));
+
+        const filteredUsers =
+          session?.user.user_level === "superadmin"
+            ? userData
+            : userData.filter((u) => u.user_status === 1);
+        setUser(filteredUsers);
+        setFilteredUser(filteredUsers);
       } catch (error) {
         toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
       }
     };
 
-    const loadSiteData = async () => {
-      try {
-        const data = await FetchSite();
-        const activeSite = data.filter((site) => site.site_status === 1);
-        setSite(activeSite);
-      } catch (error) {
-        toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
-      }
-    };
-
-    const loadDivisionData = async () => {
-      try {
-        const data = await FetchDivision();
-        const activeDivision = data.filter(
-          (division) => division.division_status === 1
-        );
-        setDivision(activeDivision);
-      } catch (error) {
-        toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
-      }
-    };
-
-    const loadDepartmentData = async () => {
-      try {
-        const data = await FetchDepartment();
-        const activeDepartment = data.filter(
-          (department) => department.department_status === 1
-        );
-        setDepartment(activeDepartment);
-      } catch (error) {
-        toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
-      }
-    };
-
-    const loadPositionData = async () => {
-      try {
-        const data = await FetchPosition();
-        const activePosition = data.filter(
-          (position) => position.position_status === 1
-        );
-        setPosition(activePosition);
-      } catch (error) {
-        toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
-      }
-    };
-
-    const loadUserData = async () => {
-      try {
-        const data = await FetchUser();
-        if (session.user.user_level === "superadmin") {
-          setUser(data || []);
-          setFilteredUser(data || []);
-        } else {
-          const filtereduser = (data || []).filter(
-            (user) => user.user_status === 1
-          );
-          setUser(filtereduser);
-          setFilteredUser(filtereduser);
-        }
-      } catch (error) {
-        toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
-      }
-    };
-
-    loadBranchData();
-    loadSiteData();
-    loadDivisionData();
-    loadDepartmentData();
-    loadPositionData();
-    loadUserData();
-  }, [session.user.user_level]);
+    if (session?.user) {
+      fetchData();
+    }
+  }, [session]);
 
   const handleSearch = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchText(value);
 
-    const filtereduser = user.filter((item) => {
-      return Object.values(item)
-        .filter((val) => typeof val === "string")
-        .some((val) => val.toLowerCase().includes(value));
-    });
-
-    setFilteredUser(filtereduser);
+    const filteredUsers = user.filter((item) =>
+      Object.values(item).some(
+        (val) => typeof val === "string" && val.toLowerCase().includes(value)
+      )
+    );
+    setFilteredUser(filteredUsers);
     setCurrentPage(1);
   };
-  const filteredbranch = branch.filter((item) => {
-    return Object.values(item)
-        .filter((val) => typeof val === "string")
-        .some((val) => val.toLowerCase().includes(value));
-});
 
-setFilteredBranch(filteredbranch);
+  const handleSelectChange = (setter, keyField) => (keys) => {
+    const value = [...keys][0];
+    setter(value);
 
-const filteredsite = site.filter((item) => {
-    return Object.values(item)
-        .filter((val) => typeof val === "string")
-        .some((val) => val.toLowerCase().includes(value));
-});
-
-setFilteredSite(filteredsite);
-
-const filtereddivision = division.filter((item) => {
-    return Object.values(item)
-        .filter((val) => typeof val === "string")
-        .some((val) => val.toLowerCase().includes(value));
-});
-
-setFilteredDivision(filtereddivision);
-
-const filtereddepartment = department.filter((item) => {
-    return Object.values(item)
-        .filter((val) => typeof val === "string")
-        .some((val) => val.toLowerCase().includes(value));
-});
-
-setFilteredDepartment(filtereddepartment);
-
-const filteredposition = position.filter((item) => {
-    return Object.values(item)
-        .filter((val) => typeof val === "string")
-        .some((val) => val.toLowerCase().includes(value));
-});
-
-setFilteredPosition(filteredposition);
-
-};
-
-const handleSelectUserChange = (keys) => {
-const value = [...keys][0];
-setSelectedUser(value);
-
-if (value === "") {
-    setFilteredUser(user);
-} else {
-    const filtereduser = user.filter((item) => {
-        return item.user_id.toString() === value;
-    });
-
-    if (filtereduser.length > 0) {
-        setFilteredUser(filtereduser);
+    if (!value) {
+      setFilteredUser(user);
     } else {
-        setFilteredUser(user);
+      const filteredUsers = user.filter(
+        (item) => item[keyField] && item[keyField].toString() === value
+      );
+      setFilteredUser(filteredUsers.length > 0 ? filteredUsers : []);
     }
-}
-};
-
-const handleSelectBranchChange = (keys) => {
-const value = [...keys][0];
-if (value === selectedbranch) {
-    setSelectedBranch("");
-    setFilteredUser(user);
-} else {
-    setSelectedBranch(value);
-
-    if (value === "" || value === undefined) {
-        setFilteredUser(user);
-    } else {
-        console.log(value)
-
-        const filtereduser = user.filter((item) => {
-            return item.branch_id.toString() === value;
-        });
-
-        if (filtereduser.length > 0) {
-            setFilteredUser(filtereduser);
-        } else {
-            setFilteredUser([]);
-        }
-    }
-};
-};
-
-const handleSelectSiteChange = (keys) => {
-const value = [...keys][0];
-if (value === selectedsite) {
-    setSelectedSite("");
-    setFilteredUser(user);
-} else {
-    setSelectedSite(value);
-
-    if (value === "" || value === undefined) {
-        setFilteredUser(user);
-    } else {
-        console.log(value)
-
-        const filtereduser = user.filter((item) => {
-            return item.site_id.toString() === value;
-        });
-
-        if (filtereduser.length > 0) {
-            setFilteredUser(filtereduser);
-        } else {
-            setFilteredUser([]);
-        }
-    }
-};
-};
-
-const handleSelectDivisionChange = (keys) => {
-const value = [...keys][0];
-if (value === selecteddivision) {
-    setSelectedDivision("");
-    setFilteredUser(user);
-} else {
-    setSelectedDivision(value);
-
-    if (value === "" || value === undefined) {
-        setFilteredUser(user);
-    } else {
-        console.log(value)
-
-        const filtereduser = user.filter((item) => {
-            return item.division_id.toString() === value;
-        });
-
-        if (filtereduser.length > 0) {
-            setFilteredUser(filtereduser);
-        } else {
-            setFilteredUser([]);
-        }
-    }
-};
-};
-
-const handleSelectDepartmentChange = (keys) => {
-const value = [...keys][0];
-if (value === selecteddepartment) {
-    setSelectedDepartment("");
-    setFilteredUser(user);
-} else {
-    setSelectedDepartment(value);
-
-    if (value === "" || value === undefined) {
-        setFilteredUser(user);
-    } else {
-        console.log(value)
-
-        const filtereduser = user.filter((item) => {
-            return item.department_id.toString() === value;
-        });
-
-        if (filtereduser.length > 0) {
-            setFilteredUser(filtereduser);
-        } else {
-            setFilteredUser([]);
-        }
-    }
-};
-};
-
-const handleSelectPositionChange = (keys) => {
-const value = [...keys][0];
-if (value === selectedposition) {
-    setSelectedPosition("");
-    setFilteredUser(user);
-} else {
-    setSelectedPosition(value);
-
-    if (value === "" || value === undefined) {
-        setFilteredUser(user);
-    } else {
-        console.log(value);
-
-        const filtereduser = user.filter((item) => {
-            return item.position_id && item.position_id.toString() === value;
-        });
-
-        if (filtereduser.length > 0) {
-            setFilteredUser(filtereduser);
-        } else {
-            setFilteredUser([]);
-        }
-    }
-}
-};
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = Array.isArray(filtereduser)
-    ? filtereduser.slice(indexOfFirstItem, indexOfLastItem)
-    : [];
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
   };
 
+  const handleStatusChange = (keys) => {
+    const value = [...keys][0];
+    setSelectedStatus(value);
+
+    const filteredUsers = user.filter(
+      (item) =>
+        (value === "" || item.user_status.toString() === value) &&
+        (selectedBranch
+          ? item.branch_id.toString() === selectedBranch
+          : true) &&
+        (selectedSite ? item.site_id.toString() === selectedSite : true) &&
+        (selectedDivision
+          ? item.division_id.toString() === selectedDivision
+          : true) &&
+        (selectedDepartment
+          ? item.department_id.toString() === selectedDepartment
+          : true) &&
+        (selectedPosition
+          ? item.position_id.toString() === selectedPosition
+          : true)
+    );
+
+    setFilteredUser(filteredUsers);
+  };
+
+  const handlePageChange = (page) => setCurrentPage(page);
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
     setCurrentPage(1);
   };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredUser.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-6">
@@ -366,6 +160,20 @@ if (value === selectedposition) {
               onChange={handleSearch}
             />
           </div>
+          <div className="flex items-center justify-center w-full h-full xl:w-1/2 p-2 gap-2">
+            <Select
+              label="สถานะพนักงาน"
+              placeholder="เลือกสถานะ"
+              size="md"
+              variant="bordered"
+              selectedKeys={selectedStatus ? [selectedStatus] : []}
+              onSelectionChange={handleStatusChange}
+            >
+              <SelectItem key="">เลือกทั้งหมด</SelectItem>
+              <SelectItem key="1">พนักงาน</SelectItem>
+              <SelectItem key="0">ลาออก</SelectItem>
+            </Select>
+          </div>
         </div>
         <div className="flex flex-col xl:flex-row items-center justify-between w-full h-full p-2 gap-2">
           <div className="flex items-center justify-center w-full h-full xl:w-1/2 p-2 gap-2">
@@ -374,14 +182,15 @@ if (value === selectedposition) {
               placeholder="เลือกสาขา"
               size="md"
               variant="bordered"
-              selectedKeys={selectedbranch ? [selectedbranch] : []}
-              onSelectionChange={handleSelectBranchChange}
+              selectedKeys={selectedBranch ? [selectedBranch] : []}
+              onSelectionChange={handleSelectChange(
+                setSelectedBranch,
+                "branch_id"
+              )}
             >
               <SelectItem key="">เลือกทั้งหมด</SelectItem>
-              {branch.map((branch) => (
-                <SelectItem key={branch.branch_id}>
-                  {branch.branch_name}
-                </SelectItem>
+              {branch.map((b) => (
+                <SelectItem key={b.branch_id}>{b.branch_name}</SelectItem>
               ))}
             </Select>
           </div>
@@ -391,12 +200,12 @@ if (value === selectedposition) {
               placeholder="เลือกไซต์"
               size="md"
               variant="bordered"
-              selectedKeys={selectedsite ? [selectedsite] : []}
-              onSelectionChange={handleSelectSiteChange}
+              selectedKeys={selectedSite ? [selectedSite] : []}
+              onSelectionChange={handleSelectChange(setSelectedSite, "site_id")}
             >
               <SelectItem key="">เลือกทั้งหมด</SelectItem>
-              {site.map((site) => (
-                <SelectItem key={site.site_id}>{site.site_name}</SelectItem>
+              {site.map((s) => (
+                <SelectItem key={s.site_id}>{s.site_name}</SelectItem>
               ))}
             </Select>
           </div>
@@ -406,14 +215,15 @@ if (value === selectedposition) {
               placeholder="เลือกฝ่าย"
               size="md"
               variant="bordered"
-              selectedKeys={selecteddivision ? [selecteddivision] : []}
-              onSelectionChange={handleSelectDivisionChange}
+              selectedKeys={selectedDivision ? [selectedDivision] : []}
+              onSelectionChange={handleSelectChange(
+                setSelectedDivision,
+                "division_id"
+              )}
             >
               <SelectItem key="">เลือกทั้งหมด</SelectItem>
-              {division.map((division) => (
-                <SelectItem key={division.division_id}>
-                  {division.division_name}
-                </SelectItem>
+              {division.map((d) => (
+                <SelectItem key={d.division_id}>{d.division_name}</SelectItem>
               ))}
             </Select>
           </div>
@@ -423,13 +233,16 @@ if (value === selectedposition) {
               placeholder="เลือกแผนก"
               size="md"
               variant="bordered"
-              selectedKeys={selecteddepartment ? [selecteddepartment] : []}
-              onSelectionChange={handleSelectDepartmentChange}
+              selectedKeys={selectedDepartment ? [selectedDepartment] : []}
+              onSelectionChange={handleSelectChange(
+                setSelectedDepartment,
+                "department_id"
+              )}
             >
               <SelectItem key="">เลือกทั้งหมด</SelectItem>
-              {department.map((department) => (
-                <SelectItem key={department.department_id}>
-                  {department.department_name}
+              {department.map((d) => (
+                <SelectItem key={d.department_id}>
+                  {d.department_name}
                 </SelectItem>
               ))}
             </Select>
@@ -440,14 +253,15 @@ if (value === selectedposition) {
               placeholder="เลือกตำแหน่ง"
               size="md"
               variant="bordered"
-              selectedKeys={selectedposition ? [selectedposition] : []}
-              onSelectionChange={handleSelectPositionChange}
+              selectedKeys={selectedPosition ? [selectedPosition] : []}
+              onSelectionChange={handleSelectChange(
+                setSelectedPosition,
+                "position_id"
+              )}
             >
               <SelectItem key="">เลือกทั้งหมด</SelectItem>
-              {position.map((position) => (
-                <SelectItem key={position.position_id}>
-                  {position.position_name}
-                </SelectItem>
+              {position.map((p) => (
+                <SelectItem key={p.position_id}>{p.position_name}</SelectItem>
               ))}
             </Select>
           </div>
@@ -470,9 +284,9 @@ if (value === selectedposition) {
             <thead>
               <tr>
                 <th className="border-b p-2 py-4">ลำดับ</th>
+                <th className="border-b p-2">รูปถ่าย</th>
                 <th className="border-b p-2">รหัสพนักงาน</th>
                 <th className="border-b p-2">เลขบัตรพนักงาน</th>
-                {/* <th className="border-b p-2">รหัสผ่าน</th> */}
                 <th className="border-b p-2">คำนำหน้าชื่อ</th>
 
                 <th className="border-b p-2">ชื่อ</th>
@@ -498,7 +312,6 @@ if (value === selectedposition) {
                 <th className="border-b p-2">ผู้บังคับบัญชา</th>
                 <th className="border-b p-2">วันที่เริ่มงาน</th>
 
-                <th className="border-b p-2">รูปถ่าย</th>
                 <th className="border-b p-2">ลายเซ็น</th>
 
                 {(session.user.user_level === "superadmin" ||
@@ -515,8 +328,8 @@ if (value === selectedposition) {
               </tr>
             </thead>
             <tbody>
-              {{Array.isArray(filtereduser) ? filtereduser : []}.length > 0 ? (
-                {Array.isArray(filtereduser) ? filtereduser : []}.map((row, index) => (
+              {currentItems.length > 0 ? (
+                currentItems.map((row, index) => (
                   <tr key={row.user_id}>
                     <td className="min-w-40 border-b p-2 text-center text-sm py-6">
                       {indexOfFirstItem + index + 1 || "-"}
@@ -535,9 +348,6 @@ if (value === selectedposition) {
                     <td className="min-w-40 border-b p-2 text-center text-sm">
                       {row.user_card_number || "-"}
                     </td>
-                    {/* <td className="min-w-40 border-b p-2 text-center text-sm">
-                      {row.user_password || "-"}
-                    </td> */}
                     <td className="min-w-40 border-b p-2 text-center text-sm">
                       {row.user_title || "-"}
                     </td>
@@ -604,10 +414,10 @@ if (value === selectedposition) {
                     </td>
                     <td className="min-w-40 border-b p-2 text-center text-sm">
                       <img
-                        src={`/images/user_picture/${row.user_signature_file}`}
-                        alt="user picture"
-                        width={50}
-                        height={50}
+                        src={`/images/signature/${row.user_signature_file}`}
+                        alt="signature"
+                        width={250}
+                        height={250}
                       />
                     </td>
                     {(session.user.user_level === "superadmin" ||
@@ -670,7 +480,7 @@ if (value === selectedposition) {
           itemsPerPage={itemsPerPage}
           handleItemsPerPageChange={handleItemsPerPageChange}
           currentPage={currentPage}
-          totalItems={filtereduser.length}
+          totalItems={filteredUser.length}
           handlePageChange={handlePageChange}
         />
       </div>
