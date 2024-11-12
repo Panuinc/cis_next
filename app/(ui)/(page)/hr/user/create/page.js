@@ -89,7 +89,7 @@ export default function UserCreate() {
   const handleSaveSignature = () => {
     if (signatureRef.current) {
       const signatureData = signatureRef.current.toDataURL();
-      setUser_signature_file(signatureData); // เก็บข้อมูลลายเซ็นใน state
+      setUser_signature_file(signatureData);
     }
   };
 
@@ -390,7 +390,7 @@ export default function UserCreate() {
         !(imageFile instanceof Blob || imageFile instanceof File)
       ) {
         console.warn("Invalid file type provided for compression.");
-        return null; // or handle it in another way, such as returning an error or fallback image
+        return null;
       }
 
       const options = {
