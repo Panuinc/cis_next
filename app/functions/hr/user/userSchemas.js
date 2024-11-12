@@ -28,6 +28,10 @@ export const createUserSchema = z.object({
   user_role_id: z.coerce.number().positive("กรุณาระบุ บทบาทหน้าที่" ),
   user_parent_id: z.coerce.number().positive("กรุณาระบุ ผู้บังคับบัญชา" ),
   user_start_work: z.string().min(1, { message: "กรุณาระบุ วันที่เริ่มงาน" }),
+
+  user_picture_file: z.string().min(1, { message: "กรุณาระบุ รูปภาพ" }),
+  user_signature_file: z.string().min(1, { message: "กรุณาระบุ ลายเซ็น" }),
+
   user_create_by: z.coerce.number().positive("กรุณาระบุ ผู้ดำเนินการ"),
 });
 

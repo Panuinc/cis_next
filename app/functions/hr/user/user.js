@@ -200,7 +200,7 @@ export const FetchUserById = async (user_id) => {
 
 const base64ToBuffer = (base64String) => {
   if (!base64String) return null;
-  const base64Data = base64String.split(",")[1] || base64String;
+  const base64Data = base64String.split(",")[1];
   return Buffer.from(base64Data, "base64");
 };
 
@@ -302,6 +302,8 @@ export const CreateUser = async ({ formData }) => {
 
   let PictureName = "";
   let PathPicture = "";
+  console.log(user_picture_file);
+
   if (user_picture_file) {
     PictureName = `${user_number}.png`;
     PathPicture = path

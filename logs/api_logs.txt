@@ -44,3 +44,13 @@
 [11/12/2024, 9:55:47 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: sfddsfdsdsf
 [11/12/2024, 10:02:03 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: weqweqw
 [11/12/2024, 10:11:28 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: 2321312323
+[11/12/2024, 10:24:34 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: sdsds
+[11/12/2024, 10:26:41 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: 121212
+[11/12/2024, 10:31:44 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: 1212assaasas12
+[11/12/2024, 10:38:37 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: 1212assaasdsdas12
+[11/12/2024, 10:42:04 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: 1212assaasdsdaasas12
+[11/12/2024, 10:43:27 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: 1212assasasasaasdsdaasas12
+[11/12/2024, 10:53:38 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: 333424234
+[11/12/2024, 10:55:21 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: 333424234dssd
+[11/12/2024, 11:04:59 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: dssfdsf
+[11/12/2024, 11:05:22 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: dssfdsfห

@@ -14,7 +14,7 @@ import { Input, Button, Select, SelectItem } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { AddHomeOutlined, Face5Outlined } from "@mui/icons-material";
 import imageCompression from "browser-image-compression";
-import SignatureCanvas from "react-signature-canvas";
+// import SignatureCanvas from "react-signature-canvas";
 
 export default function UserCreate() {
   const { data: session } = useSession();
@@ -78,20 +78,20 @@ export default function UserCreate() {
   const [preview_picture_file, setPreview_picture_file] = useState(null);
   const [preview_signature_file, setPreview_signature_file] = useState(null);
 
-  const signatureRef = useRef(null);
+  // const signatureRef = useRef(null);
 
-  const handleClearSignature = () => {
-    if (signatureRef.current) {
-      signatureRef.current.clear();
-    }
-  };
+  // const handleClearSignature = () => {
+  //   if (signatureRef.current) {
+  //     signatureRef.current.clear();
+  //   }
+  // };
 
-  const handleSaveSignature = () => {
-    if (signatureRef.current) {
-      const signatureData = signatureRef.current.toDataURL();
-      setUser_signature_file(signatureData);
-    }
-  };
+  // const handleSaveSignature = () => {
+  //   if (signatureRef.current) {
+  //     const signatureData = signatureRef.current.toDataURL();
+  //     setUser_signature_file(signatureData);
+  //   }
+  // };
 
   const loadBranch = async () => {
     try {
@@ -270,24 +270,21 @@ export default function UserCreate() {
 
   const handleChange = (e) => {
     const { name, files } = e.target;
-    if (files && files[0] instanceof File) {
-      if (name === "user_picture_file") {
-        const file = files[0];
-        setUser_picture_file(file);
-        setPreview_picture_file(URL.createObjectURL(file));
-      }
-      if (name === "user_signature_file") {
-        const file = files[0];
-        setUser_signature_file(file);
-        setPreview_signature_file(URL.createObjectURL(file));
-      }
-    } else {
-      console.error("The selected file is not valid.");
+    if (name === "user_picture_file" && files.length > 0) {
+      const file = files[0];
+      setUser_picture_file(file);
+      setPreview_picture_file(URL.createObjectURL(file));
+    }
+    if (name === "user_signature_file" && files.length > 0) {
+      const file = files[0];
+      setUser_signature_file(file);
+      setPreview_signature_file(URL.createObjectURL(file));
     }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     let base64Picture = null;
     let base64Signature = null;
 
@@ -301,14 +298,6 @@ export default function UserCreate() {
     };
 
     const compressImage = async (imageFile) => {
-      if (
-        !imageFile ||
-        !(imageFile instanceof Blob || imageFile instanceof File)
-      ) {
-        console.warn("Invalid file type provided for compression.");
-        return null;
-      }
-
       const options = {
         maxSizeMB: 1,
         maxWidthOrHeight: 800,
@@ -325,19 +314,15 @@ export default function UserCreate() {
 
     if (user_picture_file) {
       const compressedPictureFile = await compressImage(user_picture_file);
-      base64Picture = compressedPictureFile
-        ? await fileToBase64(compressedPictureFile)
-        : null;
+      base64Picture = await fileToBase64(compressedPictureFile);
     }
 
     if (user_signature_file) {
       const compressedSignatureFile = await compressImage(user_signature_file);
-      base64Signature = compressedSignatureFile
-        ? await fileToBase64(compressedSignatureFile)
-        : null;
+      base64Signature = await fileToBase64(compressedSignatureFile);
     }
 
-    const formData = new FormData(event.target);
+    const formData = new FormData();
     formData.append("user_number", user_number);
     formData.append("user_card_number", user_card_number);
     formData.append("user_password", user_password);
@@ -378,9 +363,9 @@ export default function UserCreate() {
 
       if (response.status === 201) {
         toast.success(response.message);
-        setTimeout(() => {
-          router.push("/hr/user");
-        }, 2000);
+        // setTimeout(() => {
+        //   router.push("/hr/user");
+        // }, 2000);
       } else {
         setError(response);
         toast.error(response.message);
@@ -389,6 +374,63 @@ export default function UserCreate() {
       setError({ message: "Error creating user: " + error.message });
       toast.error("Error creating user: " + error.message);
     }
+  };
+
+  const canvasRef = useRef(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [signatureImage, setSignatureImage] = useState(null);
+
+  const getCanvasCoordinates = (e) => {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    const y = e.touches ? e.touches[0].clientY : e.clientY;
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    return {
+      x: (x - rect.left) * scaleX,
+      y: (y - rect.top) * scaleY,
+    };
+  };
+
+  const startDrawing = (e) => {
+    setIsDrawing(true);
+    const { x, y } = getCanvasCoordinates(e);
+    const ctx = canvasRef.current.getContext("2d");
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  };
+
+  const draw = (e) => {
+    if (!isDrawing) return;
+    const { x, y } = getCanvasCoordinates(e);
+    const ctx = canvasRef.current.getContext("2d");
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  };
+
+  const stopDrawing = () => {
+    setIsDrawing(false);
+  };
+
+  const clearCanvas = () => {
+    const ctx = canvasRef.current.getContext("2d");
+    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    setSignatureImage(null);
+  };
+
+  const saveSignature = () => {
+    const dataURL = canvasRef.current.toDataURL("image/png");
+
+    fetch(dataURL)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const file = new File([blob], "signature.png", { type: "image/png" });
+        setUser_signature_file(file);
+        setPreview_signature_file(dataURL);
+      });
+
+    setSignatureImage(dataURL);
   };
 
   return (
@@ -966,7 +1008,7 @@ export default function UserCreate() {
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+          {/* <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
             <label className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
               ลายเซ็น
             </label>
@@ -982,6 +1024,103 @@ export default function UserCreate() {
             <div className="flex flex-row gap-2 mt-2">
               <Button onClick={handleSaveSignature}>บันทึกลายเซ็น</Button>
               <Button onClick={handleClearSignature}>ล้างลายเซ็น</Button>
+            </div>
+          </div> */}
+
+          {/* <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-start w-full h-full p-2 gap-2 text-[#000000]">
+              รูปภาพ
+            </div>
+            <div className="flex items-center justify-center w-full">
+              <label
+                htmlFor="user_picture_file"
+                className="flex flex-col items-center justify-center w-full h-64 text-[#000000] border-2 border-[#000000] rounded-lg cursor-pointer"
+              >
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <svg
+                    className="w-10 h-10 mb-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    ></path>
+                  </svg>
+                  <p className="mb-2 text-sm">
+                    <span className="font-semibold">Click to upload</span> or
+                    drag and drop
+                  </p>
+                  <p className="text-xs">
+                    SVG, PNG, JPG or GIF (MAX. 800x400px)
+                  </p>
+                </div>
+                <input
+                  type="file"
+                  id="user_picture_file"
+                  name="user_picture_file"
+                  onChange={handleChange}
+                  className="hidden"
+                />
+                {preview_picture_file && (
+                  <img
+                    src={preview_picture_file}
+                    alt="Preview"
+                    className="min-w-20 min-h-20 object-contain"
+                  />
+                )}
+              </label>
+            </div>
+          </div> */}
+
+          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-start w-full h-full p-2 gap-2 text-[#000000]">
+              ลายเซ็น
+            </div>
+            <div className="flex items-center justify-center w-full h-full ">
+              <div className="flex flex-col items-center justify-center w-full h-full">
+                <canvas
+                  ref={canvasRef}
+                  className="flex items-center justify-center w-full h-64 p-2 gap-2 border-2 border-[#000000]"
+                  style={{ backgroundColor: "#f0f0f0" }}
+                  onTouchStart={startDrawing}
+                  onTouchMove={draw}
+                  onTouchEnd={stopDrawing}
+                  onMouseDown={startDrawing}
+                  onMouseMove={draw}
+                  onMouseUp={stopDrawing}
+                  onMouseLeave={stopDrawing}
+                  id="user_signature_file"
+                  name="user_signature_file"
+                />
+                {signatureImage && (
+                  <img
+                    src={signatureImage}
+                    alt="Signature Preview"
+                    className="flex items-center justify-center w-full h-64 p-2 gap-2 border-2 border-[#000000]"
+                  />
+                )}
+                <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={clearCanvas}
+                    className="flex items-center justify-center w-1/2 h-full p-4 gap-2 bg-[#000000] border-dashed text-[#FFFFFF] rounded-xl"
+                  >
+                    Clear
+                  </button>
+                  <button
+                    type="button"
+                    onClick={saveSignature}
+                    className="flex items-center justify-center w-1/2 h-full p-4 gap-2 bg-[#000000] border-dashed text-[#FFFFFF] rounded-xl"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
