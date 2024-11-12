@@ -62,6 +62,10 @@ export const CreateBranch = async ({ formData }) => {
   });
 
   if (!validatedFields.success) {
+    console.log(
+      "Validation errors:",
+      validatedFields.error.flatten().fieldErrors
+    );
     return {
       code: 402,
       errors: validatedFields.error.flatten().fieldErrors,
@@ -102,6 +106,10 @@ export const UpdateBranch = async ({ formData, branch_id }) => {
   });
 
   if (!validatedFields.success) {
+    console.log(
+      "Validation errors:",
+      validatedFields.error.flatten().fieldErrors
+    );
     return {
       code: 402,
       errors: validatedFields.error.flatten().fieldErrors,

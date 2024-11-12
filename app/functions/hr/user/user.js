@@ -451,6 +451,10 @@ export const CreateUser = async ({ formData }) => {
 //   });
 
 //   if (!validatedFields.success) {
+//     console.log(
+//       "Validation errors:",
+//       validatedFields.error.flatten().fieldErrors
+//     );
 //     return {
 //       code: 402,
 //       errors: validatedFields.error.flatten().fieldErrors,

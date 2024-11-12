@@ -95,6 +95,10 @@ export const CreatePosition = async ({ formData }) => {
   });
 
   if (!validatedFields.success) {
+    console.log(
+      "Validation errors:",
+      validatedFields.error.flatten().fieldErrors
+    );
     return {
       code: 402,
       errors: validatedFields.error.flatten().fieldErrors,
@@ -152,6 +156,10 @@ export const UpdatePosition = async ({ formData, position_id }) => {
   });
 
   if (!validatedFields.success) {
+    console.log(
+      "Validation errors:",
+      validatedFields.error.flatten().fieldErrors
+    );
     return {
       code: 402,
       errors: validatedFields.error.flatten().fieldErrors,

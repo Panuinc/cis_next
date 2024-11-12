@@ -84,6 +84,10 @@ export const CreateDepartment = async ({ formData }) => {
   });
 
   if (!validatedFields.success) {
+    console.log(
+      "Validation errors:",
+      validatedFields.error.flatten().fieldErrors
+    );
     return {
       code: 402,
       errors: validatedFields.error.flatten().fieldErrors,
@@ -134,6 +138,10 @@ export const UpdateDepartment = async ({ formData, department_id }) => {
   });
 
   if (!validatedFields.success) {
+    console.log(
+      "Validation errors:",
+      validatedFields.error.flatten().fieldErrors
+    );
     return {
       code: 402,
       errors: validatedFields.error.flatten().fieldErrors,
