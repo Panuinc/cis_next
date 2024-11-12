@@ -200,7 +200,7 @@ export const FetchUserById = async (user_id) => {
 
 const base64ToBuffer = (base64String) => {
   if (!base64String) return null;
-  const base64Data = base64String.split(",")[1];
+  const base64Data = base64String.split(",")[1] || base64String;
   return Buffer.from(base64Data, "base64");
 };
 
@@ -300,6 +300,7 @@ export const CreateUser = async ({ formData }) => {
   const promisePool = mysqlPool.promise();
   const Hashed_Password = await bcrypt.hash(user_password, 10);
 
+  // Save picture file if exists
   let PictureName = "";
   let PathPicture = "";
   if (user_picture_file) {
@@ -307,12 +308,18 @@ export const CreateUser = async ({ formData }) => {
     PathPicture = path
       .join("public/images/user_picture", PictureName)
       .replace(/\\/g, "/");
-    const pictureBuffer = base64ToBuffer(user_picture_file);
-    if (pictureBuffer) {
-      await writeFile(path.join(process.cwd(), PathPicture), pictureBuffer);
+    try {
+      const pictureBuffer = base64ToBuffer(user_picture_file);
+      if (pictureBuffer) {
+        await writeFile(path.join(process.cwd(), PathPicture), pictureBuffer);
+      }
+    } catch (error) {
+      console.error("Error writing picture file:", error);
+      return { message: "เกิดข้อผิดพลาดในการบันทึกรูปภาพ", status: 500 };
     }
   }
 
+  // Save signature file if exists
   let SignatureName = "";
   let PathSignature = "";
   if (user_signature_file) {
@@ -320,9 +327,17 @@ export const CreateUser = async ({ formData }) => {
     PathSignature = path
       .join("public/images/signature", SignatureName)
       .replace(/\\/g, "/");
-    const signatureBuffer = base64ToBuffer(user_signature_file);
-    if (signatureBuffer) {
-      await writeFile(path.join(process.cwd(), PathSignature), signatureBuffer);
+    try {
+      const signatureBuffer = base64ToBuffer(user_signature_file);
+      if (signatureBuffer) {
+        await writeFile(
+          path.join(process.cwd(), PathSignature),
+          signatureBuffer
+        );
+      }
+    } catch (error) {
+      console.error("Error writing signature file:", error);
+      return { message: "เกิดข้อผิดพลาดในการบันทึกลายเซ็น", status: 500 };
     }
   }
 
