@@ -46,7 +46,7 @@ export default function UserCreate() {
 
   const [user_number, setUser_number] = useState("");
   const [user_card_number, setUser_card_number] = useState("");
-  const [user_password, setUser_password] = useState("");
+  const [user_password, setUser_password] = useState("12345");
   const [user_title, setUser_title] = useState("");
 
   const [user_firstname, setUser_firstname] = useState("");
@@ -362,22 +362,25 @@ export default function UserCreate() {
   };
 
   const [signatureImage, setSignatureImage] = useState(null);
-  const [isSaved, setIsSaved] = useState(false);
   const sigCanvas = useRef(null);
-
   const clearCanvas = () => {
-    if (sigCanvas.current) {
-      sigCanvas.current.clear();
-    }
+    sigCanvas.current.clear();
     setSignatureImage(null);
-    setIsSaved(false);
-  };
-  const saveSignature = () => {
-    const dataURL = sigCanvas.current.toDataURL();
-    setSignatureImage(dataURL);
-    setIsSaved(true);
   };
 
+  const saveSignature = () => {
+    const dataURL = sigCanvas.current.toDataURL("image/png", {
+      backgroundColor: "rgba(0,0,0,0)",
+    });
+    setSignatureImage(dataURL);
+    fetch(dataURL)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const file = new File([blob], "signature.png", { type: "image/png" });
+        setUser_signature_file(file);
+        setPreview_signature_file(dataURL);
+      });
+  };
   return (
     <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-6">
       <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
@@ -482,7 +485,7 @@ export default function UserCreate() {
                 placeholder="กำหนดให้รหัสผ่านเริ่มต้นเป็น 12345"
                 size="md"
                 variant="bordered"
-                isrequired="true"
+                isReadOnly
                 onChange={(e) => setUser_password(e.target.value)}
                 isInvalid={
                   !!error?.errors?.user_password && user_password.length === 0
@@ -957,23 +960,21 @@ export default function UserCreate() {
             <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
               ลายเซ็น
             </div>
-            <div className="flex flex-col items-center justify-center w-full h-full">
-              {!isSaved && (
-                <SignatureCanvas
-                  ref={sigCanvas}
-                  penColor="black"
-                  canvasProps={{
-                    className:
-                      "flex items-center justify-center w-10/12 h-60 xl:w-6/12 p-2 gap-2 border-2 rounded-xl",
-                  }}
-                  backgroundColor="#F3F7FB"
-                />
-              )}
-              {isSaved && signatureImage && (
+            <div className="flex flex-col items-center justify-center w-full h-full relative">
+              <SignatureCanvas
+                ref={sigCanvas}
+                penColor="black"
+                canvasProps={{
+                  className:
+                    "flex items-center justify-center w-10/12 h-60 xl:w-6/12 p-2 gap-2 border-2 rounded-xl",
+                }}
+                backgroundColor="transparent"
+              />
+              {signatureImage && (
                 <img
                   src={signatureImage}
                   alt="Signature Preview"
-                  className="flex items-center justify-center w-10/12 h-60 xl:w-6/12 p-2 gap-2 border-2 rounded-xl"
+                  className="flex items-center justify-center w-10/12 h-60 xl:w-6/12 p-2 gap-2 border-2 rounded-xl absolute z-10 top-0"
                 />
               )}
               <div className="flex flex-row items-center justify-end w-6/12 h-full p-2 gap-2">
