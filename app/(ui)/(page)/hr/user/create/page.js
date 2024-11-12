@@ -381,6 +381,7 @@ export default function UserCreate() {
         setPreview_signature_file(dataURL);
       });
   };
+
   return (
     <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-6">
       <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
