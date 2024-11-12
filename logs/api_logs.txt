@@ -43,3 +43,4 @@
 [11/12/2024, 9:42:01 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: terewre
 [11/12/2024, 9:55:47 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: sfddsfdsdsf
 [11/12/2024, 10:02:03 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: weqweqw
+[11/12/2024, 10:11:28 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: 2321312323
