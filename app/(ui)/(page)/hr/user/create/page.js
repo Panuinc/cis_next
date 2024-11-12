@@ -14,7 +14,6 @@ import { Input, Button, Select, SelectItem } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { AddHomeOutlined, Face5Outlined } from "@mui/icons-material";
 import imageCompression from "browser-image-compression";
-// import SignatureCanvas from "react-signature-canvas";
 
 export default function UserCreate() {
   const { data: session } = useSession();
