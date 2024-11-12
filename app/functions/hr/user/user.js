@@ -302,8 +302,6 @@ export const CreateUser = async ({ formData }) => {
 
   let PictureName = "";
   let PathPicture = "";
-  console.log(user_picture_file);
-
   if (user_picture_file) {
     PictureName = `${user_number}.png`;
     PathPicture = path

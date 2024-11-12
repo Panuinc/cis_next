@@ -78,21 +78,6 @@ export default function UserCreate() {
   const [preview_picture_file, setPreview_picture_file] = useState(null);
   const [preview_signature_file, setPreview_signature_file] = useState(null);
 
-  // const signatureRef = useRef(null);
-
-  // const handleClearSignature = () => {
-  //   if (signatureRef.current) {
-  //     signatureRef.current.clear();
-  //   }
-  // };
-
-  // const handleSaveSignature = () => {
-  //   if (signatureRef.current) {
-  //     const signatureData = signatureRef.current.toDataURL();
-  //     setUser_signature_file(signatureData);
-  //   }
-  // };
-
   const loadBranch = async () => {
     try {
       const data = await FetchBranch();
@@ -363,9 +348,9 @@ export default function UserCreate() {
 
       if (response.status === 201) {
         toast.success(response.message);
-        // setTimeout(() => {
-        //   router.push("/hr/user");
-        // }, 2000);
+        setTimeout(() => {
+          router.push("/hr/user");
+        }, 2000);
       } else {
         setError(response);
         toast.error(response.message);
@@ -1007,75 +992,6 @@ export default function UserCreate() {
               />
             </div>
           </div>
-
-          {/* <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <label className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
-              ลายเซ็น
-            </label>
-            <SignatureCanvas
-              ref={signatureRef}
-              penColor="black"
-              canvasProps={{
-                // width: 500,
-                // height: 200,
-                className: "w-1/2 h-40 border-2 border-gray-300 rounded-md",
-              }}
-            />
-            <div className="flex flex-row gap-2 mt-2">
-              <Button onClick={handleSaveSignature}>บันทึกลายเซ็น</Button>
-              <Button onClick={handleClearSignature}>ล้างลายเซ็น</Button>
-            </div>
-          </div> */}
-
-          {/* <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 text-[#000000]">
-              รูปภาพ
-            </div>
-            <div className="flex items-center justify-center w-full">
-              <label
-                htmlFor="user_picture_file"
-                className="flex flex-col items-center justify-center w-full h-64 text-[#000000] border-2 border-[#000000] rounded-lg cursor-pointer"
-              >
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <svg
-                    className="w-10 h-10 mb-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                    ></path>
-                  </svg>
-                  <p className="mb-2 text-sm">
-                    <span className="font-semibold">Click to upload</span> or
-                    drag and drop
-                  </p>
-                  <p className="text-xs">
-                    SVG, PNG, JPG or GIF (MAX. 800x400px)
-                  </p>
-                </div>
-                <input
-                  type="file"
-                  id="user_picture_file"
-                  name="user_picture_file"
-                  onChange={handleChange}
-                  className="hidden"
-                />
-                {preview_picture_file && (
-                  <img
-                    src={preview_picture_file}
-                    alt="Preview"
-                    className="min-w-20 min-h-20 object-contain"
-                  />
-                )}
-              </label>
-            </div>
-          </div> */}
 
           <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-start w-full h-full p-2 gap-2 text-[#000000]">
