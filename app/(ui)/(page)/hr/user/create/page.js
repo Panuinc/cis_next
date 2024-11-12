@@ -14,6 +14,7 @@ import { Input, Button, Select, SelectItem } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { AddHomeOutlined, Face5Outlined } from "@mui/icons-material";
 import imageCompression from "browser-image-compression";
+import SignatureCanvas from "react-signature-canvas";
 
 export default function UserCreate() {
   const { data: session } = useSession();
@@ -360,61 +361,21 @@ export default function UserCreate() {
     }
   };
 
-  const canvasRef = useRef(null);
-  const [isDrawing, setIsDrawing] = useState(false);
   const [signatureImage, setSignatureImage] = useState(null);
-
-  const getCanvasCoordinates = (e) => {
-    const canvas = canvasRef.current;
-    const rect = canvas.getBoundingClientRect();
-    const x = e.touches ? e.touches[0].clientX : e.clientX;
-    const y = e.touches ? e.touches[0].clientY : e.clientY;
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
-    return {
-      x: (x - rect.left) * scaleX,
-      y: (y - rect.top) * scaleY,
-    };
-  };
-
-  const startDrawing = (e) => {
-    setIsDrawing(true);
-    const { x, y } = getCanvasCoordinates(e);
-    const ctx = canvasRef.current.getContext("2d");
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-  };
-
-  const draw = (e) => {
-    if (!isDrawing) return;
-    const { x, y } = getCanvasCoordinates(e);
-    const ctx = canvasRef.current.getContext("2d");
-    ctx.lineTo(x, y);
-    ctx.stroke();
-  };
-
-  const stopDrawing = () => {
-    setIsDrawing(false);
-  };
+  const [isSaved, setIsSaved] = useState(false);
+  const sigCanvas = useRef(null);
 
   const clearCanvas = () => {
-    const ctx = canvasRef.current.getContext("2d");
-    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    if (sigCanvas.current) {
+      sigCanvas.current.clear();
+    }
     setSignatureImage(null);
+    setIsSaved(false);
   };
-
   const saveSignature = () => {
-    const dataURL = canvasRef.current.toDataURL("image/png");
-
-    fetch(dataURL)
-      .then((res) => res.blob())
-      .then((blob) => {
-        const file = new File([blob], "signature.png", { type: "image/png" });
-        setUser_signature_file(file);
-        setPreview_signature_file(dataURL);
-      });
-
+    const dataURL = sigCanvas.current.toDataURL();
     setSignatureImage(dataURL);
+    setIsSaved(true);
   };
 
   return (
@@ -449,7 +410,7 @@ export default function UserCreate() {
                 <span className="font-[600]">รูปพนักงาน</span>
               </p>
             </div>
-            <input
+            <Input
               type="file"
               id="user_picture_file"
               name="user_picture_file"
@@ -993,48 +954,43 @@ export default function UserCreate() {
           </div>
 
           <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 text-[#000000]">
+            <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
               ลายเซ็น
             </div>
-            <div className="flex items-center justify-center w-full h-full ">
-              <div className="flex flex-col items-center justify-center w-full h-full">
-                <canvas
-                  ref={canvasRef}
-                  className="flex items-center justify-center w-full h-64 p-2 gap-2 border-2 border-[#000000]"
-                  style={{ backgroundColor: "#f0f0f0" }}
-                  onTouchStart={startDrawing}
-                  onTouchMove={draw}
-                  onTouchEnd={stopDrawing}
-                  onMouseDown={startDrawing}
-                  onMouseMove={draw}
-                  onMouseUp={stopDrawing}
-                  onMouseLeave={stopDrawing}
-                  id="user_signature_file"
-                  name="user_signature_file"
+            <div className="flex flex-col items-center justify-center w-full h-full">
+              {!isSaved && (
+                <SignatureCanvas
+                  ref={sigCanvas}
+                  penColor="black"
+                  canvasProps={{
+                    className:
+                      "flex items-center justify-center w-10/12 h-60 xl:w-6/12 p-2 gap-2 border-2 rounded-xl",
+                  }}
+                  backgroundColor="#F3F7FB"
                 />
-                {signatureImage && (
-                  <img
-                    src={signatureImage}
-                    alt="Signature Preview"
-                    className="flex items-center justify-center w-full h-64 p-2 gap-2 border-2 border-[#000000]"
-                  />
-                )}
-                <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={clearCanvas}
-                    className="flex items-center justify-center w-1/2 h-full p-4 gap-2 bg-[#000000] border-dashed text-[#FFFFFF] rounded-xl"
-                  >
-                    Clear
-                  </button>
-                  <button
-                    type="button"
-                    onClick={saveSignature}
-                    className="flex items-center justify-center w-1/2 h-full p-4 gap-2 bg-[#000000] border-dashed text-[#FFFFFF] rounded-xl"
-                  >
-                    Save
-                  </button>
-                </div>
+              )}
+              {isSaved && signatureImage && (
+                <img
+                  src={signatureImage}
+                  alt="Signature Preview"
+                  className="flex items-center justify-center w-10/12 h-60 xl:w-6/12 p-2 gap-2 border-2 rounded-xl"
+                />
+              )}
+              <div className="flex flex-row items-center justify-end w-6/12 h-full p-2 gap-2">
+                <Button
+                  size="md"
+                  className="w-1/12 bg-[#F07294]/25 text-[#F07294]"
+                  onClick={clearCanvas}
+                >
+                  วาดใหม่
+                </Button>
+                <Button
+                  size="md"
+                  onClick={saveSignature}
+                  className="w-1/12 bg-[#615DFF]/25 text-[#615DFF]"
+                >
+                  บันทึก
+                </Button>
               </div>
             </div>
           </div>

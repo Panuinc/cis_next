@@ -55,3 +55,4 @@
 [11/12/2024, 11:04:59 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: dssfdsf
 [11/12/2024, 11:05:22 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: dssfdsfห
 [11/12/2024, 11:23:27 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: Test000001
+[11/12/2024, 1:16:14 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: Test000002
