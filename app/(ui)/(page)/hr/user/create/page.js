@@ -222,91 +222,7 @@ export default function UserCreate() {
         (department) =>
           department.department_status == 1 &&
           department.department_branch_id &&
-          department.department_branch_id == selectedBranchIdandDivisionId
-      );
-      setFilteredDepartment(filtered);
-      setIsDivisionAndBranchSelected(true);
-    } else {
-      setFilteredDepartment([]);
-      setIsDivisionAndBranchSelected(false);
-    }
-  }, [user_branch_id && user_division_id, department]);
-
-  useEffect(() => {
-    if (user_branch_id && user_division_id && user_department_id) {
-      const selectedBranchIdandDivisionIdandDepartmentId =
-        user_branch_id && user_division_id && user_department_id;
-      const filtered = position.filter(
-        (position) =>
-          position.position_status == 1 &&
-          position.position_branch_id &&
-          position.position_division_id &&
-          position.position_department_id ==
-            selectedBranchIdandDivisionIdandDepartmentId
-      );
-      setFilteredPosition(filtered);
-      setIsDepartmentandDivisionAndBranchSelected(true);
-    } else {
-      setFilteredPosition([]);
-      setIsDepartmentandDivisionAndBranchSelected(false);
-    }
-  }, [user_branch_id && user_division_id && user_department_id, position]);
-
-  useEffect(() => {
-    if (user_division_id) {
-      const selectedDivisionId = user_division_id;
-      const filtered = parent.filter(
-        (parent) =>
-          parent.user_status == 1 &&
-          parent.user_division_id == selectedDivisionId
-      );
-      setFilteredParent(filtered);
-      setIsDivisionSelected(true);
-    } else {
-      setFilteredParent([]);
-      setIsDivisionSelected(false);
-    }
-  }, [user_division_id, parent]);
-
-  useEffect(() => {
-    if (user_branch_id) {
-      const selectedBranchId = user_branch_id;
-      const filtered = division.filter(
-        (division) =>
-          division.division_status == 1 &&
-          division.division_branch_id == selectedBranchId
-      );
-      setFilteredDivision(filtered);
-      setIsBranchSelected(true);
-    } else {
-      setFilteredDivision([]);
-      setIsBranchSelected(false);
-    }
-  }, [user_branch_id, division]);
-
-  useEffect(() => {
-    if (user_branch_id) {
-      const selectedBranchId = user_branch_id;
-      const filtered = site.filter(
-        (site) =>
-          site.site_status == 1 && site.site_branch_id == selectedBranchId
-      );
-      setFilteredSite(filtered);
-      setIsBranchSelected(true);
-    } else {
-      setFilteredSite([]);
-      setIsBranchSelected(false);
-    }
-  }, [user_branch_id, site]);
-
-  useEffect(() => {
-    if (user_branch_id && user_division_id) {
-      const selectedBranchIdandDivisionId = user_branch_id && user_division_id;
-      const filtered = department.filter(
-        (department) =>
-          department.department_status == 1 &&
-          department.department_branch_id &&
-          department.department_branch_id == selectedBranchIdandDivisionId
+          department.department_division_id == selectedBranchIdandDivisionId
       );
       setFilteredDepartment(filtered);
       setIsDivisionAndBranchSelected(true);
@@ -354,19 +270,15 @@ export default function UserCreate() {
 
   const handleChange = (e) => {
     const { name, files } = e.target;
-    if (files && files[0] instanceof File) {
-      if (name === "user_picture_file") {
-        const file = files[0];
-        setUser_picture_file(file);
-        setPreview_picture_file(URL.createObjectURL(file));
-      }
-      if (name === "user_signature_file") {
-        const file = files[0];
-        setUser_signature_file(file);
-        setPreview_signature_file(URL.createObjectURL(file));
-      }
-    } else {
-      console.error("The selected file is not valid.");
+    if (name === "user_picture_file" && files.length > 0) {
+      const file = files[0];
+      setUser_picture_file(file);
+      setPreview_picture_file(URL.createObjectURL(file));
+    }
+    if (name === "user_signature_file" && files.length > 0) {
+      const file = files[0];
+      setUser_signature_file(file);
+      setPreview_signature_file(URL.createObjectURL(file));
     }
   };
 
@@ -385,14 +297,6 @@ export default function UserCreate() {
     };
 
     const compressImage = async (imageFile) => {
-      if (
-        !imageFile ||
-        !(imageFile instanceof Blob || imageFile instanceof File)
-      ) {
-        console.warn("Invalid file type provided for compression.");
-        return null;
-      }
-
       const options = {
         maxSizeMB: 1,
         maxWidthOrHeight: 800,
@@ -407,20 +311,20 @@ export default function UserCreate() {
       }
     };
 
-    if (user_picture_file) {
+    if (user_picture_file instanceof File || user_picture_file instanceof Blob) {
       const compressedPictureFile = await compressImage(user_picture_file);
-      base64Picture = compressedPictureFile
-        ? await fileToBase64(compressedPictureFile)
-        : null;
+      base64Picture = await fileToBase64(compressedPictureFile);
+    } else {
+      console.error("user_picture_file is not a File or Blob instance");
     }
-
-    if (user_signature_file) {
+    
+    if (user_signature_file instanceof File || user_signature_file instanceof Blob) {
       const compressedSignatureFile = await compressImage(user_signature_file);
-      base64Signature = compressedSignatureFile
-        ? await fileToBase64(compressedSignatureFile)
-        : null;
+      base64Signature = await fileToBase64(compressedSignatureFile);
+    } else {
+      console.error("user_signature_file is not a File or Blob instance");
     }
-
+    
     const formData = new FormData(event.target);
     formData.append("user_number", user_number);
     formData.append("user_card_number", user_card_number);
