@@ -12,9 +12,8 @@ import { FetchRole } from "@/app/functions/hr/role/role";
 import { FetchUser } from "@/app/functions/hr/user/user";
 import { Input, Button, Select, SelectItem } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
-import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
+import { AddHomeOutlined, Face5Outlined } from "@mui/icons-material";
 import imageCompression from "browser-image-compression";
-import Face5OutlinedIcon from "@mui/icons-material/Face5Outlined";
 import SignatureCanvas from "react-signature-canvas";
 
 export default function UserCreate() {
@@ -86,6 +85,7 @@ export default function UserCreate() {
       signatureRef.current.clear();
     }
   };
+
   const handleSaveSignature = () => {
     if (signatureRef.current) {
       const signatureData = signatureRef.current.toDataURL();
@@ -270,15 +270,19 @@ export default function UserCreate() {
 
   const handleChange = (e) => {
     const { name, files } = e.target;
-    if (name === "user_picture_file" && files.length > 0) {
-      const file = files[0];
-      setUser_picture_file(file);
-      setPreview_picture_file(URL.createObjectURL(file));
-    }
-    if (name === "user_signature_file" && files.length > 0) {
-      const file = files[0];
-      setUser_signature_file(file);
-      setPreview_signature_file(URL.createObjectURL(file));
+    if (files && files[0] instanceof File) {
+      if (name === "user_picture_file") {
+        const file = files[0];
+        setUser_picture_file(file);
+        setPreview_picture_file(URL.createObjectURL(file));
+      }
+      if (name === "user_signature_file") {
+        const file = files[0];
+        setUser_signature_file(file);
+        setPreview_signature_file(URL.createObjectURL(file));
+      }
+    } else {
+      console.error("The selected file is not valid.");
     }
   };
 
@@ -297,6 +301,14 @@ export default function UserCreate() {
     };
 
     const compressImage = async (imageFile) => {
+      if (
+        !imageFile ||
+        !(imageFile instanceof Blob || imageFile instanceof File)
+      ) {
+        console.warn("Invalid file type provided for compression.");
+        return null;
+      }
+
       const options = {
         maxSizeMB: 1,
         maxWidthOrHeight: 800,
@@ -311,20 +323,20 @@ export default function UserCreate() {
       }
     };
 
-    if (user_picture_file instanceof File || user_picture_file instanceof Blob) {
+    if (user_picture_file) {
       const compressedPictureFile = await compressImage(user_picture_file);
-      base64Picture = await fileToBase64(compressedPictureFile);
-    } else {
-      console.error("user_picture_file is not a File or Blob instance");
+      base64Picture = compressedPictureFile
+        ? await fileToBase64(compressedPictureFile)
+        : null;
     }
-    
-    if (user_signature_file instanceof File || user_signature_file instanceof Blob) {
+
+    if (user_signature_file) {
       const compressedSignatureFile = await compressImage(user_signature_file);
-      base64Signature = await fileToBase64(compressedSignatureFile);
-    } else {
-      console.error("user_signature_file is not a File or Blob instance");
+      base64Signature = compressedSignatureFile
+        ? await fileToBase64(compressedSignatureFile)
+        : null;
     }
-    
+
     const formData = new FormData(event.target);
     formData.append("user_number", user_number);
     formData.append("user_card_number", user_card_number);
@@ -386,7 +398,7 @@ export default function UserCreate() {
           เพิ่ม ผู้ใช้งาน
         </div>
         <div className="flex items-center justify-end w-full h-full p-2 gap-2">
-          <AddHomeOutlinedIcon />
+          <AddHomeOutlined />
           <span className="px-4 text-[#635bff] bg-[#635bff]/25 rounded-xl">
             เพิ่ม ผู้ใช้งาน
           </span>
@@ -406,7 +418,7 @@ export default function UserCreate() {
             className="flex flex-col items-center justify-center w-48 h-48 border-4 hover:border-[#635bff] rounded-full p-2 gap-2 cursor-pointer relative"
           >
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
-              <Face5OutlinedIcon style={{ fontSize: "48px" }} />
+              <Face5Outlined style={{ fontSize: "48px" }} />
               <p className="mt-4">
                 <span className="font-[600]">รูปพนักงาน</span>
               </p>
@@ -482,6 +494,7 @@ export default function UserCreate() {
                 label="รหัสผ่าน"
                 placeholder="กำหนดให้รหัสผ่านเริ่มต้นเป็น 12345"
                 size="md"
+                variant="bordered"
                 isrequired="true"
                 onChange={(e) => setUser_password(e.target.value)}
                 isInvalid={
@@ -953,19 +966,19 @@ export default function UserCreate() {
             </div>
           </div>
 
-          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-              <label className="font-semibold">ลายเซ็น</label>
-              <SignatureCanvas
-                ref={signatureRef}
-                penColor="black"
-                canvasProps={{
-                  width: 500,
-                  height: 200,
-                  className: "border-2 border-gray-300 rounded-md",
-                }}
-              />
-            </div>
+          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+            <label className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
+              ลายเซ็น
+            </label>
+            <SignatureCanvas
+              ref={signatureRef}
+              penColor="black"
+              canvasProps={{
+                // width: 500,
+                // height: 200,
+                className: "w-1/2 h-40 border-2 border-gray-300 rounded-md",
+              }}
+            />
             <div className="flex flex-row gap-2 mt-2">
               <Button onClick={handleSaveSignature}>บันทึกลายเซ็น</Button>
               <Button onClick={handleClearSignature}>ล้างลายเซ็น</Button>

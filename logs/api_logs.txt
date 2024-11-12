@@ -39,3 +39,7 @@
 [11/11/2024, 4:58:40 PM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: IT67070001
 [11/12/2024, 8:54:00 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: Test000001
 [11/12/2024, 9:22:28 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: TEST00000002
+[11/12/2024, 9:33:37 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: t
+[11/12/2024, 9:42:01 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: terewre
+[11/12/2024, 9:55:47 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: sfddsfdsdsf
+[11/12/2024, 10:02:03 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/user/create, Action: Created user: weqweqw

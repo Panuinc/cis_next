@@ -198,6 +198,12 @@ export const FetchUserById = async (user_id) => {
   return Array.isArray(rows) ? rows[0] : rows;
 };
 
+const base64ToBuffer = (base64String) => {
+  if (!base64String) return null;
+  const base64Data = base64String.split(",")[1];
+  return Buffer.from(base64Data, "base64");
+};
+
 // Create a new user
 export const CreateUser = async ({ formData }) => {
   const validatedFields = createUserSchema.safeParse({
@@ -297,23 +303,27 @@ export const CreateUser = async ({ formData }) => {
   let PictureName = "";
   let PathPicture = "";
   if (user_picture_file) {
-      PictureName = `${user_number}.png`;
-      PathPicture = path.join("public/images/user_picture", PictureName).replace(/\\/g, "/");
-      const pictureBuffer = base64ToBuffer(user_picture_file);
-      if (pictureBuffer) {
-          await writeFile(path.join(process.cwd(), PathPicture), pictureBuffer);
-      }
+    PictureName = `${user_number}.png`;
+    PathPicture = path
+      .join("public/images/user_picture", PictureName)
+      .replace(/\\/g, "/");
+    const pictureBuffer = base64ToBuffer(user_picture_file);
+    if (pictureBuffer) {
+      await writeFile(path.join(process.cwd(), PathPicture), pictureBuffer);
+    }
   }
 
   let SignatureName = "";
   let PathSignature = "";
   if (user_signature_file) {
-      SignatureName = `${user_number}.png`;
-      PathSignature = path.join("public/images/signature", SignatureName).replace(/\\/g, "/");
-      const signatureBuffer = base64ToBuffer(user_signature_file);
-      if (signatureBuffer) {
-          await writeFile(path.join(process.cwd(), PathSignature), signatureBuffer);
-      }
+    SignatureName = `${user_number}.png`;
+    PathSignature = path
+      .join("public/images/signature", SignatureName)
+      .replace(/\\/g, "/");
+    const signatureBuffer = base64ToBuffer(user_signature_file);
+    if (signatureBuffer) {
+      await writeFile(path.join(process.cwd(), PathSignature), signatureBuffer);
+    }
   }
 
   const [result] = await promisePool.query(
