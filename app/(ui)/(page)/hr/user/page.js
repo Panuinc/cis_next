@@ -9,7 +9,11 @@ import { FetchSite } from "@/app/functions/hr/site/site";
 import { FetchDivision } from "@/app/functions/hr/division/division";
 import { FetchDepartment } from "@/app/functions/hr/department/department";
 import { FetchPosition } from "@/app/functions/hr/position/position";
-import { EditOutlined, AddHomeOutlined } from "@mui/icons-material";
+import {
+  EditOutlined,
+  AddHomeOutlined,
+  SearchOutlined,
+} from "@mui/icons-material";
 import { Input, Button, Select, SelectItem, Checkbox } from "@nextui-org/react";
 import PaginationControls from "@/app/components/PaginationControls";
 import * as XLSX from "xlsx";
@@ -438,7 +442,6 @@ export default function User() {
           <table className="table-auto w-full">
             <thead>
               <tr>
-                <th className="min-w-40 border-b p-2 py-4">ลำดับ</th>
                 <th className="min-w-40 border-b p-2">รูปถ่าย</th>
                 <th className="min-w-40 border-b p-2">รหัสพนักงาน</th>
                 <th className="min-w-40 border-b p-2">เลขบัตรพนักงาน</th>
@@ -479,6 +482,7 @@ export default function User() {
                     <th className="min-w-40 border-b p-2">สถานะการใช้งาน</th>
                     <th className="min-w-40 border-b p-2">สถานะพนักงาน</th>
                     <th className="min-w-40 border-b p-2">แก้ไข</th>
+                    <th className="min-w-20 border-b p-2 py-4">ดู</th>
                     <th className="min-w-40 border-b p-2">รีเซ็ตพาสเวิร์ด</th>
                   </>
                 )}
@@ -488,9 +492,6 @@ export default function User() {
               {currentItems.length > 0 ? (
                 currentItems.map((row, index) => (
                   <tr key={row.user_id}>
-                    <td className="min-w-40 border-b p-2 text-center text-sm py-6">
-                      {indexOfFirstItem + index + 1 || "-"}
-                    </td>
                     <td className="min-w-40 border-b p-2 text-center text-sm">
                       <img
                         src={`/images/user_picture/${row.user_picture_file}`}
@@ -620,6 +621,14 @@ export default function User() {
                             className="text-[#f8c20a]"
                           >
                             <EditOutlined />
+                          </Link>
+                        </td>
+                        <td className="min-w-10 border-b p-2 text-center text-sm">
+                          <Link
+                            href={`/hr/user/detail/${row.user_id}`}
+                            className="text-[#615DFF]"
+                          >
+                            <SearchOutlined />
                           </Link>
                         </td>
                         <td className="min-w-40 border-b p-2 text-center text-sm">
