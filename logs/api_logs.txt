@@ -64,3 +64,5 @@
 [11/13/2024, 8:49:44 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/1, Action: PUT branch 1
 [11/13/2024, 9:07:21 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/1, Action: PUT branch 1
 [11/13/2024, 9:08:56 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/1, Action: PUT branch 1
+[11/13/2024, 10:04:55 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/1, Action: PUT branch 1
+[11/13/2024, 10:05:56 AM] UserID: 1, IP: ::1, URL: http://localhost:3000/hr/branch/1, Action: PUT branch 1
