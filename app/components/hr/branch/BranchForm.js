@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Button, RadioGroup, Radio } from "@nextui-org/react";
+import { Input, Button, Select, SelectItem } from "@nextui-org/react";
 import { Toaster } from "react-hot-toast";
 import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
 import { useRouter } from "next/navigation";
@@ -66,20 +66,28 @@ export default function BranchForm({
 
             {isUpdate && (
               <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-                <RadioGroup
+                <Select
                   label="สถานะการใช้งาน"
-                  color="primary"
-                  orientation="horizontal"
+                  placeholder={branch_status === "1" ? "ใช้งาน" : "ไม่ใช้งาน"}
+                  id="branch_status"
+                  name="branch_status"
                   value={branch_status}
-                  onValueChange={(value) => setBranch_status(value)}
+                  selectedKeys={[branch_status]}
+                  onChange={(event) => setBranch_status(event.target.value)}
+                  variant="bordered"
+                  size="md"
                   isInvalid={
                     !!error?.errors?.branch_status && branch_status.length === 0
                   }
                   errorMessage={error?.errors?.branch_status?.[0]}
                 >
-                  <Radio value="0">ไม่ใช้งาน</Radio>
-                  <Radio value="1">ใช้งาน</Radio>
-                </RadioGroup>
+                  <SelectItem value="0" key="0">
+                    ไม่ใช้งาน
+                  </SelectItem>
+                  <SelectItem value="1" key="1">
+                    ใช้งาน
+                  </SelectItem>
+                </Select>
               </div>
             )}
           </div>
