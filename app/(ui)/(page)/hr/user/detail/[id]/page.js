@@ -108,218 +108,220 @@ export default function UserUpdate({ params }) {
         <div className="flex items-center justify-start w-full h-full p-4 gap-2 font-[600] border-b-2">
           รายละเอียด ผู้ใช้งาน
         </div>
-        <div className="flex items-center justify-center w-48 h-48 hover:border-[#635bff] p-2 gap-2 border-4 rounded-full">
-          <img
-            src={`/images/user_picture/${user_picture_file}`}
-            alt="user picture"
-            width={100}
-            height={100}
-          />
-        </div>
-        <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
-          ข้อมูลทั่วไป
-        </div>
+        <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+          <div className="flex items-center justify-center w-48 h-48 hover:border-[#635bff] p-2 gap-2 border-4 rounded-full">
+            <img
+              src={`/images/user_picture/${user_picture_file}`}
+              alt="user picture"
+              width={100}
+              height={100}
+            />
+          </div>
+          <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
+            ข้อมูลทั่วไป
+          </div>
 
-        <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              รหัสพนักงาน
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                รหัสพนักงาน
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {user_number}
+              </div>
             </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {user_number}
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                เลขบัตรพนักงาน
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {user_card_number}
+              </div>
             </div>
           </div>
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              เลขบัตรพนักงาน
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {user_card_number}
-            </div>
-          </div>
-        </div>
 
-        <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              คำนำหน้าชื่อ
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                คำนำหน้าชื่อ
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {user_title}
+              </div>
             </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {user_title}
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                ชื่อ
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {user_firstname}
+              </div>
+            </div>
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                นามสกุล
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {user_lastname}
+              </div>
             </div>
           </div>
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              ชื่อ
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {user_firstname}
-            </div>
-          </div>
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              นามสกุล
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {user_lastname}
-            </div>
-          </div>
-        </div>
 
-        <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              ชื่อเล่น
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                ชื่อเล่น
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {user_nickname}
+              </div>
             </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {user_nickname}
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                เบอร์โทรศัพท์
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {user_tel}
+              </div>
+            </div>
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                อีเมลล์
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {user_email}
+              </div>
             </div>
           </div>
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              เบอร์โทรศัพท์
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {user_tel}
-            </div>
-          </div>
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              อีเมลล์
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {user_email}
-            </div>
-          </div>
-        </div>
 
-        <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              ระดับการใช้งาน
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                ระดับการใช้งาน
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {user_level}
+              </div>
             </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {user_level}
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                วันเกิด
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {user_birthday}
+              </div>
+            </div>
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                เพศ
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {user_gender}
+              </div>
             </div>
           </div>
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              วันเกิด
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {user_birthday}
-            </div>
-          </div>
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              เพศ
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {user_gender}
-            </div>
-          </div>
-        </div>
 
-        <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              เลขบัตรประชาชน
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                เลขบัตรประชาชน
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {user_id_card}
+              </div>
             </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {user_id_card}
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                สัญชาติ
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {user_citizen}
+              </div>
             </div>
           </div>
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              สัญชาติ
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {user_citizen}
-            </div>
-          </div>
-        </div>
 
-        <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
-          ข้อมูลการจ้างงาน
-        </div>
+          <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
+            ข้อมูลการจ้างงาน
+          </div>
 
-        <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              ประเภทพนักงาน
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                ประเภทพนักงาน
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {user_type}
+              </div>
             </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {user_type}
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                สาขา
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {branch_name}
+              </div>
+            </div>
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                ไซต์งาน
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {site_name}
+              </div>
             </div>
           </div>
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              สาขา
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {branch_name}
-            </div>
-          </div>
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              ไซต์งาน
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {site_name}
-            </div>
-          </div>
-        </div>
 
-        <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              ฝ่าย
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                ฝ่าย
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {division_name}
+              </div>
             </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {division_name}
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                แผนก
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {department_name}
+              </div>
+            </div>
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                ตำแหน่ง
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {position_name}
+              </div>
             </div>
           </div>
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              แผนก
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {department_name}
-            </div>
-          </div>
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              ตำแหน่ง
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {position_name}
-            </div>
-          </div>
-        </div>
 
-        <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              บทบาทหน้าที่
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2 border-2">
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                บทบาทหน้าที่
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {role_name}
+              </div>
             </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {role_name}
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                ผู้บังคับบัญชา
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {parent_name}
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              ผู้บังคับบัญชา
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {parent_name}
-            </div>
-          </div>
-          <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2">
-              วันที่เริ่มงาน
-            </div>
-            <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
-              {user_start_work}
+            <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-2">
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2">
+                วันที่เริ่มงาน
+              </div>
+              <div className="flex items-center justify-start w-full h-full p-2 gap-2 border-2 rounded-xl">
+                {user_start_work}
+              </div>
             </div>
           </div>
         </div>
