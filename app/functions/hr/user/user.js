@@ -8,6 +8,7 @@ import {
 import {
   createUserSchema,
   updateUserSchema,
+  resetPasswordSchema,
 } from "@/app/functions/hr/user/userSchemas";
 import bcrypt from "bcrypt";
 import { writeFile } from "fs/promises";
@@ -443,47 +444,212 @@ export const CreateUser = async ({ formData }) => {
 };
 
 // Update user data
-// export const UpdateUser = async ({ formData, user_id }) => {
-//   const validatedFields = updateUserSchema.safeParse({
-//     user_number: formData.get("user_number"),
-//     user_status: formData.get("user_status"),
-//     user_update_by: parseInt(formData.get("user_update_by"), 10),
-//   });
+export const UpdateUser = async ({ formData, user_id }) => {
+  const validatedFields = updateUserSchema.safeParse({
+    user_number: formData.get("user_number"),
+    user_card_number: formData.get("user_card_number"),
+    user_title: formData.get("user_title"),
 
-//   if (!validatedFields.success) {
-//     console.log(
-//       "Validation errors:",
-//       validatedFields.error.flatten().fieldErrors
-//     );
-//     return {
-//       code: 402,
-//       errors: validatedFields.error.flatten().fieldErrors,
-//       message: "ข้อมูลที่ได้รับไม่ถูกต้อง",
-//     };
-//   }
+    user_firstname: formData.get("user_firstname"),
+    user_lastname: formData.get("user_lastname"),
+    user_nickname: formData.get("user_nickname"),
+    user_tel: formData.get("user_tel"),
+    user_email: formData.get("user_email"),
 
-//   const { user_number, user_status, user_update_by } = validatedFields.data;
-//   const { userId, ipAddress, url } = await getSessionAndHeaders();
-//   const existingUser = await queryDatabase(
-//     `SELECT 1 FROM user WHERE user_id = ? LIMIT 1`,
-//     [user_id]
-//   );
+    user_level: formData.get("user_level"),
+    user_birthday: formData.get("user_birthday"),
+    user_gender: formData.get("user_gender"),
+    user_id_card: formData.get("user_id_card"),
+    user_citizen: formData.get("user_citizen"),
 
-//   if (!existingUser || existingUser.length === 0) {
-//     return { message: "ไม่พบข้อมูล", status: 400 };
-//   }
+    user_type: formData.get("user_type"),
+    user_branch_id: formData.get("user_branch_id"),
+    user_site_id: formData.get("user_site_id"),
+    user_division_id: formData.get("user_division_id"),
+    user_department_id: formData.get("user_department_id"),
 
-//   const promisePool = mysqlPool.promise();
-//   const [result] = await promisePool.query(
-//     `UPDATE user
-//        SET user_number = ?, user_status = ?, user_update_by = ?, user_update_time = NOW()
-//        WHERE user_id = ?`,
-//     [user_number, user_status, user_update_by, user_id]
-//   );
+    user_position_id: formData.get("user_position_id"),
+    user_role_id: formData.get("user_role_id"),
+    user_parent_id: formData.get("user_parent_id"),
+    user_start_work: formData.get("user_start_work"),
+    user_status: formData.get("user_status"),
 
-//   if (result.affectedRows === 1) {
-//     logToFile(userId, `PUT user ${user_id}`, ipAddress, url);
-//     return { message: "อัพเดทข้อมูลสำเร็จ", status: 200 };
-//   }
-//   throw new Error("ไม่สามารถอัพเดทข้อมูลได้");
-// };
+    user_update_by: parseInt(formData.get("user_update_by"), 10),
+  });
+
+  if (!validatedFields.success) {
+    console.log(
+      "Validation errors:",
+      validatedFields.error.flatten().fieldErrors
+    );
+    return {
+      code: 402,
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "ข้อมูลที่ได้รับไม่ถูกต้อง",
+    };
+  }
+
+  const {
+    user_number,
+    user_card_number,
+    user_title,
+
+    user_firstname,
+    user_lastname,
+    user_nickname,
+    user_tel,
+    user_email,
+
+    user_level,
+    user_birthday,
+    user_gender,
+    user_id_card,
+    user_citizen,
+
+    user_type,
+    user_branch_id,
+    user_site_id,
+    user_division_id,
+    user_department_id,
+
+    user_position_id,
+    user_role_id,
+    user_parent_id,
+    user_start_work,
+    user_status,
+    user_update_by,
+  } = validatedFields.data;
+  const { userId, ipAddress, url } = await getSessionAndHeaders();
+  const existingUser = await queryDatabase(
+    `SELECT 1 FROM user WHERE user_id = ? LIMIT 1`,
+    [user_id]
+  );
+
+  if (!existingUser || existingUser.length === 0) {
+    return { message: "ไม่พบข้อมูล", status: 400 };
+  }
+
+  const promisePool = mysqlPool.promise();
+  const [result] = await promisePool.query(
+    `UPDATE user
+       SET 
+       user_number = ?, 
+       user_card_number = ?, 
+       user_title = ?, 
+
+       user_firstname = ?, 
+       user_lastname = ?, 
+       user_nickname = ?, 
+       user_tel = ?, 
+       user_email = ?, 
+
+       user_level = ?, 
+       user_birthday = ?, 
+       user_gender = ?, 
+       user_id_card = ?, 
+       user_citizen = ?, 
+       
+       user_type = ?, 
+       user_branch_id = ?, 
+       user_site_id = ?, 
+       user_division_id = ?, 
+       user_department_id = ?, 
+
+       user_position_id = ?, 
+       user_role_id = ?, 
+       user_parent_id = ?, 
+       user_start_work = ?, 
+
+       user_status = ?, 
+       user_update_by = ?, 
+       user_update_time = NOW()
+       WHERE user_id = ?`,
+    [
+      user_number,
+      user_card_number,
+      user_title,
+
+      user_firstname,
+      user_lastname,
+      user_nickname,
+      user_tel,
+      user_email,
+
+      user_level,
+      user_birthday,
+      user_gender,
+      user_id_card,
+      user_citizen,
+
+      user_type,
+      user_branch_id,
+      user_site_id,
+      user_division_id,
+      user_department_id,
+
+      user_position_id,
+      user_role_id,
+      user_parent_id,
+      user_start_work,
+
+      user_status,
+      user_update_by,
+      user_id,
+    ]
+  );
+
+  if (result.affectedRows === 1) {
+    logToFile(userId, `PUT user ${user_id}`, ipAddress, url);
+    return { message: "อัพเดทข้อมูลสำเร็จ", status: 200 };
+  }
+  throw new Error("ไม่สามารถอัพเดทข้อมูลได้");
+};
+
+// ResetPassword
+export const ResetPassword = async ({ formData, user_id }) => {
+  const validatedFields = resetPasswordSchema.safeParse({
+    user_password: "12345",
+    user_update_by: parseInt(formData.get("user_update_by"), 10),
+  });
+
+  if (!validatedFields.success) {
+    console.log(
+      "Validation errors:",
+      validatedFields.error.flatten().fieldErrors
+    );
+    return {
+      code: 402,
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "ข้อมูลที่ได้รับไม่ถูกต้อง",
+    };
+  }
+
+  const { user_password, user_update_by } = validatedFields.data;
+  const { userId, ipAddress, url } = await getSessionAndHeaders();
+  const existingUser = await queryDatabase(
+    `SELECT 1 FROM user WHERE user_id = ? LIMIT 1`,
+    [user_id]
+  );
+
+  if (!existingUser || existingUser.length === 0) {
+    return { message: "ไม่พบข้อมูล", status: 400 };
+  }
+
+  const promisePool = mysqlPool.promise();
+  const Hashed_Password = await bcrypt.hash(user_password, 10);
+  const [result] = await promisePool.query(
+    `UPDATE user
+       SET 
+       user_password = ?, 
+       user_update_by = ?, 
+       user_update_time = NOW()
+       WHERE user_id = ?`,
+    [Hashed_Password, user_update_by, user_id]
+  );
+
+  if (result.affectedRows === 1) {
+    logToFile(userId, `PUT user ${user_id}`, ipAddress, url);
+    return { message: "อัพเดทข้อมูลสำเร็จ", status: 200 };
+  }
+  throw new Error("ไม่สามารถอัพเดทข้อมูลได้");
+};

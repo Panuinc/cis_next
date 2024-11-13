@@ -38,7 +38,6 @@ export const createUserSchema = z.object({
 export const updateUserSchema = z.object({
   user_number: z.string().min(1, { message: "กรุณาระบุ รหัสพนักงาน" }),
   user_card_number: z.string().min(1, { message: "กรุณาระบุ เลขบัตรพนักงาน" }),
-  user_password: z.string().min(1, { message: "กรุณาระบุ รหัสผ่าน" }),
   user_title: z.string().min(1, { message: "กรุณาระบุ คำนำหน้าชื่อ" }),
 
   user_firstname: z.string().min(1, { message: "กรุณาระบุ ชื่อ" }),
@@ -65,5 +64,10 @@ export const updateUserSchema = z.object({
   user_start_work: z.string().min(1, { message: "กรุณาระบุ วันที่เริ่มงาน" }),
   user_status: z.enum(["0", "1"], {message: "สถานะต้องเป็น 0 (Inactive) หรือ 1 (Active) เท่านั้น",}),
   
+  user_update_by: z.coerce.number().positive("กรุณาระบุ ผู้ดำเนินการ"),
+});
+
+export const resetPasswordSchema = z.object({
+  user_password: z.string().min(1, { message: "กรุณาระบุ รหัสผ่าน" }),  
   user_update_by: z.coerce.number().positive("กรุณาระบุ ผู้ดำเนินการ"),
 });

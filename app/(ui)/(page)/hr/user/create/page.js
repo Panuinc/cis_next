@@ -739,106 +739,21 @@ export default function UserCreate() {
                 <SelectItem value="ไทย" key="ไทย">
                   ไทย
                 </SelectItem>
-                <SelectItem value="ต่างชาติ" key="ต่างชาติ">
-                  ต่างชาติ
+                <SelectItem value="พม่า" key="พม่า">
+                  พม่า
+                </SelectItem>
+                <SelectItem value="ลาว" key="ลาว">
+                  ลาว
+                </SelectItem>
+                <SelectItem value="กัมพูชา" key="กัมพูชา">
+                  กัมพูชา
+                </SelectItem>
+                <SelectItem value="เวียดนาม" key="เวียดนาม">
+                  เวียดนาม
                 </SelectItem>
               </Select>
             </div>
           </div>
-
-          {user_citizen === "ไทย" && (
-            <div className="flex flex-col items-center justify-center w-full h-full gap-2">
-              <div className="flex flex-col xl:flex-row items-center justify-start w-full h-full p-2 gap-2 font-[600]">
-                รายละเอียดเพิ่มเติม (คนไทย)
-              </div>
-
-              <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
-                <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-                  <Input
-                    type="file"
-                    id="user_id_card"
-                    name="user_id_card"
-                    label="สำเนาบัตรประชาชน"
-                    placeholder="กรุณาระบุข้อมูล"
-                    size="md"
-                    variant="bordered"
-                    isrequired="true"
-                    value={user_id_card}
-                    onChange={(e) => setUser_id_card(e.target.value)}
-                    isInvalid={
-                      !!error?.errors?.user_id_card && user_id_card.length === 0
-                    }
-                    errorMessage={error?.errors?.user_id_card?.[0]}
-                  />
-                </div>
-                <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-                  <Input
-                    type="file"
-                    id="user_id_card"
-                    name="user_id_card"
-                    label="สำเนาบัตรประชาชน"
-                    placeholder="กรุณาระบุข้อมูล"
-                    size="md"
-                    variant="bordered"
-                    isrequired="true"
-                    value={user_id_card}
-                    onChange={(e) => setUser_id_card(e.target.value)}
-                    isInvalid={
-                      !!error?.errors?.user_id_card && user_id_card.length === 0
-                    }
-                    errorMessage={error?.errors?.user_id_card?.[0]}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {user_citizen === "ต่างชาติ" && (
-            <div className="flex flex-col items-center justify-center w-full h-full gap-2">
-              <div className="flex flex-col xl:flex-row items-center justify-start w-full h-full p-2 gap-2 font-[600]">
-                รายละเอียดเพิ่มเติม (คนต่างชาติ)
-              </div>
-
-              <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
-                <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-                  <Input
-                    type="file"
-                    id="user_id_card"
-                    name="user_id_card"
-                    label="สำเนาบัตรประชาชน"
-                    placeholder="กรุณาระบุข้อมูล"
-                    size="md"
-                    variant="bordered"
-                    isrequired="true"
-                    value={user_id_card}
-                    onChange={(e) => setUser_id_card(e.target.value)}
-                    isInvalid={
-                      !!error?.errors?.user_id_card && user_id_card.length === 0
-                    }
-                    errorMessage={error?.errors?.user_id_card?.[0]}
-                  />
-                </div>
-                <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-                  <Input
-                    type="file"
-                    id="user_id_card"
-                    name="user_id_card"
-                    label="สำเนาบัตรประชาชน"
-                    placeholder="กรุณาระบุข้อมูล"
-                    size="md"
-                    variant="bordered"
-                    isrequired="true"
-                    value={user_id_card}
-                    onChange={(e) => setUser_id_card(e.target.value)}
-                    isInvalid={
-                      !!error?.errors?.user_id_card && user_id_card.length === 0
-                    }
-                    errorMessage={error?.errors?.user_id_card?.[0]}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
 
           <div className="flex flex-col xl:flex-row items-center justify-start w-full h-full p-2 gap-2 font-[600]">
             ข้อมูลการจ้างงาน

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
-import { FetchUser } from "@/app/functions/hr/user/user";
+import { FetchUser, ResetPassword } from "@/app/functions/hr/user/user";
 import { FetchBranch } from "@/app/functions/hr/branch/branch";
 import { FetchSite } from "@/app/functions/hr/site/site";
 import { FetchDivision } from "@/app/functions/hr/division/division";
@@ -476,8 +476,10 @@ export default function User() {
                     <th className="min-w-40 border-b p-2">วันที่สร้าง</th>
                     <th className="min-w-40 border-b p-2">แก้ไขโดย</th>
                     <th className="min-w-40 border-b p-2">วันที่แก้ไข</th>
-                    <th className="min-w-40 border-b p-2">สถานะ</th>
+                    <th className="min-w-40 border-b p-2">สถานะการใช้งาน</th>
+                    <th className="min-w-40 border-b p-2">สถานะพนักงาน</th>
                     <th className="min-w-40 border-b p-2">แก้ไข</th>
+                    <th className="min-w-40 border-b p-2">รีเซ็ตพาสเวิร์ด</th>
                   </>
                 )}
               </tr>
@@ -591,6 +593,17 @@ export default function User() {
                           {row.user_update_time || "-"}
                         </td>
                         <td className="min-w-40 border-b p-2 text-center text-sm">
+                          {row.status === "online" ? (
+                            <span className="px-4 py-2 text-[#16cdc7] bg-[#16cdc725] rounded-xl">
+                              Online
+                            </span>
+                          ) : (
+                            <span className="px-4 py-2 text-[#ff6692] bg-[#ff669225] rounded-xl">
+                              Offline
+                            </span>
+                          )}
+                        </td>
+                        <td className="min-w-40 border-b p-2 text-center text-sm">
                           {row.user_status === 1 ? (
                             <span className="px-4 py-2 text-[#16cdc7] bg-[#16cdc725] rounded-xl">
                               พนักงาน
@@ -608,6 +621,38 @@ export default function User() {
                           >
                             <EditOutlined />
                           </Link>
+                        </td>
+                        <td className="min-w-40 border-b p-2 text-center text-sm">
+                          <Button
+                            size="sm"
+                            className="bg-[#ff669225] text-[#ff6692]"
+                            onClick={async () => {
+                              try {
+                                const formData = new FormData();
+                                formData.append(
+                                  "user_update_by",
+                                  session.user.user_id
+                                );
+                                const response = await ResetPassword({
+                                  formData,
+                                  user_id: row.user_id,
+                                });
+                                if (response.status === 200) {
+                                  toast.success("รีเซ็ตรหัสผ่านสำเร็จ");
+                                } else {
+                                  toast.error(
+                                    response.message || "เกิดข้อผิดพลาด"
+                                  );
+                                }
+                              } catch (error) {
+                                toast.error(
+                                  "เกิดข้อผิดพลาดในการรีเซ็ตรหัสผ่าน"
+                                );
+                              }
+                            }}
+                          >
+                            Reset Password
+                          </Button>
                         </td>
                       </>
                     )}

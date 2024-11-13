@@ -2,71 +2,347 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "react-hot-toast";
-import {
-  UpdatePosition,
-  FetchPositionById,
-} from "@/app/functions/hr/position/position";
-import { Input, Button, RadioGroup, Radio } from "@nextui-org/react";
+import { UpdateUser, FetchUserById } from "@/app/functions/hr/user/user";
+import { FetchBranch } from "@/app/functions/hr/branch/branch";
+import { FetchSite } from "@/app/functions/hr/site/site";
+import { FetchDivision } from "@/app/functions/hr/division/division";
+import { FetchDepartment } from "@/app/functions/hr/department/department";
+import { FetchPosition } from "@/app/functions/hr/position/position";
+import { FetchRole } from "@/app/functions/hr/role/role";
+import { FetchUser } from "@/app/functions/hr/user/user";
+import { Input, Button, Select, SelectItem } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
-import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
+import { AddHomeOutlined, Face5Outlined } from "@mui/icons-material";
+import Image from "next/image";
 
-export default function PositionUpdate({ params }) {
+export default function UserUpdate({ params }) {
   const { data: session } = useSession();
-  const position_id = params.id;
+  const user_id = params.id;
   const router = useRouter();
   const [error, setError] = useState(null);
-  const [position_branch_id, setPosition_branch_id] = useState("");
-  const [position_division_id, setPosition_division_id] = useState("");
-  const [position_department_id, setPosition_department_id] = useState("");
-  const [position_name, setPosition_name] = useState("");
-  const [position_status, setPosition_status] = useState("");
+
+  const [branch, setBranch] = useState([]);
+  const [site, setSite] = useState([]);
+  const [division, setDivision] = useState([]);
+  const [department, setDepartment] = useState([]);
+  const [position, setPosition] = useState([]);
+  const [role, setRole] = useState([]);
+  const [parent, setParent] = useState([]);
+
+  const [filteredsite, setFilteredSite] = useState([]);
+  const [filtereddivision, setFilteredDivision] = useState([]);
+  const [filtereddepartment, setFilteredDepartment] = useState([]);
+  const [filteredposition, setFilteredPosition] = useState([]);
+  const [filteredparent, setFilteredParent] = useState([]);
+
+  const [isbranchselected, setIsBranchSelected] = useState(false);
+  const [isdivisionselected, setIsDivisionSelected] = useState(false);
+  const [isdivisionandbranchselected, setIsDivisionAndBranchSelected] =
+    useState(false);
+  const [
+    isdepartmentanddivisionandbranchselected,
+    setIsDepartmentandDivisionAndBranchSelected,
+  ] = useState(false);
+
+  const [user_number, setUser_number] = useState("");
+  const [user_card_number, setUser_card_number] = useState("");
+  const [user_title, setUser_title] = useState("");
+
+  const [user_firstname, setUser_firstname] = useState("");
+  const [user_lastname, setUser_lastname] = useState("");
+  const [user_nickname, setUser_nickname] = useState("");
+  const [user_tel, setUser_tel] = useState("");
+  const [user_email, setUser_email] = useState("");
+
+  const [user_level, setUser_level] = useState("");
+  const [user_birthday, setUser_birthday] = useState("");
+  const [user_gender, setUser_gender] = useState("");
+  const [user_id_card, setUser_id_card] = useState("");
+  const [user_citizen, setUser_citizen] = useState("");
+
+  const [user_type, setUser_type] = useState("");
+  const [user_branch_id, setUser_branch_id] = useState("");
+  const [user_site_id, setUser_site_id] = useState("");
+  const [user_division_id, setUser_division_id] = useState("");
+  const [user_department_id, setUser_department_id] = useState("");
+
+  const [user_position_id, setUser_position_id] = useState("");
+  const [user_role_id, setUser_role_id] = useState("");
+  const [user_parent_id, setUser_parent_id] = useState("");
+  const [user_start_work, setUser_start_work] = useState("");
+  const [user_status, setUser_status] = useState("");
 
   useEffect(() => {
-    const fetchPosition = async () => {
+    const fetchUser = async () => {
       try {
-        const data = await FetchPositionById(position_id);
+        const data = await FetchUserById(user_id);
         if (data.message) {
           toast.error(data.message);
         } else {
-          setPosition_branch_id(data.branch_name || "");
-          setPosition_division_id(data.division_name || "");
-          setPosition_department_id(data.department_name || "");
-          setPosition_name(data.position_name || "");
-          setPosition_status(data.position_status?.toString() || "");
+          setUser_number(data.user_number || "");
+          setUser_card_number(data.user_card_number || "");
+          setUser_title(data.user_title || "");
+
+          setUser_firstname(data.user_firstname || "");
+          setUser_lastname(data.user_lastname || "");
+          setUser_nickname(data.user_nickname || "");
+          setUser_tel(data.user_tel || "");
+          setUser_email(data.user_email || "");
+
+          setUser_level(data.user_level || "");
+          setUser_birthday(data.user_birthday || "");
+          setUser_gender(data.user_gender || "");
+          setUser_id_card(data.user_id_card || "");
+          setUser_citizen(data.user_citizen || "");
+
+          setUser_type(data.user_type || "");
+          setUser_branch_id(data.user_branch_id?.toString() || "");
+          setUser_site_id(data.user_site_id?.toString() || "");
+          setUser_division_id(data.user_division_id?.toString() || "");
+          setUser_department_id(data.user_department_id?.toString() || "");
+          setUser_citizen(data.user_citizen || "");
+
+          setUser_position_id(data.user_position_id?.toString() || "");
+          setUser_role_id(data.user_role_id?.toString() || "");
+          setUser_parent_id(data.user_parent_id?.toString() || "");
+          setUser_start_work(data.user_start_work || "");
+
+          setUser_status(data.user_status?.toString() || "");
         }
       } catch (error) {
-        toast.error("Error fetching position data");
+        toast.error("Error fetching user data");
       }
     };
 
-    fetchPosition();
-  }, [position_id]);
+    fetchUser();
+  }, [user_id]);
+
+  const loadBranch = async () => {
+    try {
+      const data = await FetchBranch();
+      const activeBranch = data.filter((branch) => branch.branch_status === 1);
+      setBranch(activeBranch);
+    } catch (error) {
+      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+  };
+
+  const loadSite = async () => {
+    try {
+      const data = await FetchSite();
+      const activeSite = data.filter((site) => site.site_status === 1);
+      setSite(activeSite);
+    } catch (error) {
+      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+  };
+
+  const loadDivision = async () => {
+    try {
+      const data = await FetchDivision();
+      const activeDivision = data.filter(
+        (division) => division.division_status === 1
+      );
+      setDivision(activeDivision);
+    } catch (error) {
+      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+  };
+
+  const loadDepartment = async () => {
+    try {
+      const data = await FetchDepartment();
+      const activeDepartment = data.filter(
+        (department) => department.department_status === 1
+      );
+      setDepartment(activeDepartment);
+    } catch (error) {
+      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+  };
+
+  const loadPosition = async () => {
+    try {
+      const data = await FetchPosition();
+      const activePosition = data.filter(
+        (position) => position.position_status === 1
+      );
+      setPosition(activePosition);
+    } catch (error) {
+      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+  };
+
+  const loadRole = async () => {
+    try {
+      const data = await FetchRole();
+      const activeRole = data.filter((role) => role.role_status === 1);
+      setRole(activeRole);
+    } catch (error) {
+      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+  };
+
+  const loadUser = async () => {
+    try {
+      const data = await FetchUser();
+      const activeUser = data.filter(
+        (parent) =>
+          (parent.user_status === 1 && parent.user_role_id === 1) ||
+          parent.user_role_id === 2 ||
+          parent.user_role_id === 3
+      );
+      setParent(activeUser);
+    } catch (error) {
+      toast.error("เกิดข้อผิดพลาดในการดึงข้อมูลuser");
+    }
+  };
+
+  useEffect(() => {
+    loadBranch();
+    loadSite();
+    loadDivision();
+    loadDepartment();
+    loadPosition();
+    loadRole();
+    loadUser();
+  }, []);
+
+  useEffect(() => {
+    if (user_branch_id) {
+      const selectedBranchId = user_branch_id;
+      const filtered = division.filter(
+        (division) =>
+          division.division_status == 1 &&
+          division.division_branch_id == selectedBranchId
+      );
+      setFilteredDivision(filtered);
+      setIsBranchSelected(true);
+    } else {
+      setFilteredDivision([]);
+      setIsBranchSelected(false);
+    }
+  }, [user_branch_id, division]);
+
+  useEffect(() => {
+    if (user_branch_id) {
+      const selectedBranchId = user_branch_id;
+      const filtered = site.filter(
+        (site) =>
+          site.site_status == 1 && site.site_branch_id == selectedBranchId
+      );
+      setFilteredSite(filtered);
+      setIsBranchSelected(true);
+    } else {
+      setFilteredSite([]);
+      setIsBranchSelected(false);
+    }
+  }, [user_branch_id, site]);
+
+  useEffect(() => {
+    if (user_branch_id && user_division_id) {
+      const selectedBranchIdandDivisionId = user_branch_id && user_division_id;
+      const filtered = department.filter(
+        (department) =>
+          department.department_status == 1 &&
+          department.department_branch_id &&
+          department.department_division_id == selectedBranchIdandDivisionId
+      );
+      setFilteredDepartment(filtered);
+      setIsDivisionAndBranchSelected(true);
+    } else {
+      setFilteredDepartment([]);
+      setIsDivisionAndBranchSelected(false);
+    }
+  }, [user_branch_id && user_division_id, department]);
+
+  useEffect(() => {
+    if (user_branch_id && user_division_id && user_department_id) {
+      const selectedBranchIdandDivisionIdandDepartmentId =
+        user_branch_id && user_division_id && user_department_id;
+      const filtered = position.filter(
+        (position) =>
+          position.position_status == 1 &&
+          position.position_branch_id &&
+          position.position_division_id &&
+          position.position_department_id ==
+            selectedBranchIdandDivisionIdandDepartmentId
+      );
+      setFilteredPosition(filtered);
+      setIsDepartmentandDivisionAndBranchSelected(true);
+    } else {
+      setFilteredPosition([]);
+      setIsDepartmentandDivisionAndBranchSelected(false);
+    }
+  }, [user_branch_id && user_division_id && user_department_id, position]);
+
+  useEffect(() => {
+    if (user_division_id) {
+      const selectedDivisionId = user_division_id;
+      const filtered = parent.filter(
+        (parent) =>
+          parent.user_status == 1 &&
+          parent.user_division_id == selectedDivisionId
+      );
+      setFilteredParent(filtered);
+      setIsDivisionSelected(true);
+    } else {
+      setFilteredParent([]);
+      setIsDivisionSelected(false);
+    }
+  }, [user_division_id, parent]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    formData.append("position_name", position_name);
-    formData.append("position_status", position_status);
-    formData.append("position_update_by", session?.user?.user_id);
+    formData.append("user_number", user_number);
+    formData.append("user_card_number", user_card_number);
+    formData.append("user_title", user_title);
+
+    formData.append("user_firstname", user_firstname);
+    formData.append("user_lastname", user_lastname);
+    formData.append("user_nickname", user_nickname);
+    formData.append("user_tel", user_tel);
+    formData.append("user_email", user_email);
+
+    formData.append("user_level", user_level);
+    formData.append("user_birthday", user_birthday);
+    formData.append("user_gender", user_gender);
+    formData.append("user_id_card", user_id_card);
+    formData.append("user_citizen", user_citizen);
+
+    formData.append("user_type", user_type);
+    formData.append("user_branch_id", user_branch_id);
+    formData.append("user_site_id", user_site_id);
+    formData.append("user_division_id", user_division_id);
+    formData.append("user_department_id", user_department_id);
+
+    formData.append("user_position_id", user_position_id);
+    formData.append("user_role_id", user_role_id);
+    formData.append("user_parent_id", user_parent_id);
+    formData.append("user_start_work", user_start_work);
+
+    formData.append("user_status", user_status);
+    formData.append("user_update_by", session?.user?.user_id);
 
     try {
-      const response = await UpdatePosition({
+      const response = await UpdateUser({
         formData,
-        position_id,
+        user_id,
       });
 
       if (response.status === 200) {
         toast.success(response.message);
         setTimeout(() => {
-          router.push("/hr/position");
+          router.push("/hr/user");
         }, 2000);
       } else {
         setError(response);
         toast.error(response.message);
       }
     } catch (error) {
-      setError({ message: "Error updating position: " + error.message });
-      toast.error("Error updating position: " + error.message);
+      setError({ message: "Error updating user: " + error.message });
+      toast.error("Error updating user: " + error.message);
     }
   };
 
@@ -74,91 +350,590 @@ export default function PositionUpdate({ params }) {
     <div className="flex flex-col items-center justify-center w-full h-full p-2 gap-6">
       <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
         <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
-          แก้ไข ตำแหน่ง
+          แก้ไข ผู้ใช้งาน
         </div>
         <div className="flex items-center justify-end w-full h-full p-2 gap-2">
-          <AddHomeOutlinedIcon />
+          <AddHomeOutlined />
           <span className="px-4 text-[#635bff] bg-[#635bff]/25 rounded-xl">
-            แก้ไข ตำแหน่ง
+            แก้ไข ผู้ใช้งาน
           </span>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center w-full h-f p-2 gap-2 bg-[#FFFFFF] rounded-xl shadow-sm">
         <div className="flex items-center justify-start w-full h-full p-4 gap-2 font-[600] border-b-2">
-          แก้ไข ตำแหน่ง
+          แก้ไข ผู้ใช้งาน
         </div>
         <Toaster position="top-right" reverseOrder={false} />
         <form
           onSubmit={handleSubmit}
           className="flex flex-col items-center justify-center w-full h-full p-2 gap-2"
         >
-          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
-            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-              <Input
-                type="text"
-                label="สาขา"
-                isReadOnly
-                size="md"
-                value={position_branch_id}
-              />
-            </div>
-            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-              <Input
-                type="text"
-                label="ฝ่าย"
-                isReadOnly
-                size="md"
-                value={position_division_id}
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-48 h-48 border-4 rounded-full p-2 gap-2">
+              <Image
+                src={`/images/user_picture/${session?.user?.user_picture_file}`}
+                alt="company_logo"
+                width={100}
+                height={100}
+                priority={true}
               />
             </div>
           </div>
-          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+
+          <div className="flex items-center justify-start w-full h-full p-2 gap-2 font-[600]">
+            ข้อมูลทั่วไป
+          </div>
+
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Input
                 type="text"
-                label="แผนก"
-                isReadOnly
-                size="md"
-                value={position_department_id}
-              />
-            </div>
-            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-              <Input
-                type="text"
-                id="position_name"
-                name="position_name"
-                label="ชื่อตำแหน่ง"
-                placeholder="กรุณากรอกข้อมูล"
+                id="user_number"
+                name="user_number"
+                label="รหัสพนักงาน"
+                placeholder="กรุณาระบุข้อมูล"
                 size="md"
                 variant="bordered"
-                isRequired
-                value={position_name}
-                onChange={(e) => setPosition_name(e.target.value)}
+                isrequired="true"
+                value={user_number}
+                onChange={(e) => setUser_number(e.target.value)}
                 isInvalid={
-                  !!error?.errors?.position_name && position_name.length === 0
+                  !!error?.errors?.user_number && user_number.length === 0
                 }
-                errorMessage={error?.errors?.position_name?.[0]}
+                errorMessage={error?.errors?.user_number?.[0]}
+              />
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                id="user_card_number"
+                name="user_card_number"
+                label="เลขบัตรพนักงาน"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isrequired="true"
+                value={user_card_number}
+                onChange={(e) => setUser_card_number(e.target.value)}
+                isInvalid={
+                  !!error?.errors?.user_card_number &&
+                  user_card_number.length === 0
+                }
+                errorMessage={error?.errors?.user_card_number?.[0]}
               />
             </div>
           </div>
-          <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
+
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
-              <RadioGroup
-                label="สถานะการใช้งาน"
-                color="primary"
-                orientation="horizontal"
-                value={position_status}
-                onValueChange={(value) => setPosition_status(value)}
+              <Select
+                label="คำนำหน้าชื่อ"
+                placeholder="กรุณาระบุข้อมูล"
+                id="user_title"
+                name="user_title"
+                value={user_title}
+                onChange={(e) => setUser_title(e.target.value)}
+                selectedKeys={[user_title]}
+                variant="bordered"
+                size="md"
                 isInvalid={
-                  !!error?.errors?.position_status &&
-                  position_status.length === 0
+                  !!error?.errors?.user_title && user_title.length === 0
                 }
-                errorMessage={error?.errors?.position_status?.[0]}
+                errorMessage={error?.errors?.user_title?.[0]}
               >
-                <Radio value="0">ไม่ใช้งาน</Radio>
-                <Radio value="1">ใช้งาน</Radio>
-              </RadioGroup>
+                <SelectItem value="นาย" key="นาย">
+                  นาย
+                </SelectItem>
+                <SelectItem value="นาง" key="นาง">
+                  นาง
+                </SelectItem>
+                <SelectItem value="นางสาว" key="นานางสาวง">
+                  นางสาว
+                </SelectItem>
+              </Select>
             </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                id="user_firstname"
+                name="user_firstname"
+                label="ขื่อ"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isrequired="true"
+                value={user_firstname}
+                onChange={(e) => setUser_firstname(e.target.value)}
+                isInvalid={
+                  !!error?.errors?.user_firstname && user_firstname.length === 0
+                }
+                errorMessage={error?.errors?.user_firstname?.[0]}
+              />
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                id="user_lastname"
+                name="user_lastname"
+                label="นามสกุล"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isrequired="true"
+                value={user_lastname}
+                onChange={(e) => setUser_lastname(e.target.value)}
+                isInvalid={
+                  !!error?.errors?.user_lastname && user_lastname.length === 0
+                }
+                errorMessage={error?.errors?.user_lastname?.[0]}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                id="user_nickname"
+                name="user_nickname"
+                label="ขื่อเล่น"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isrequired="true"
+                value={user_nickname}
+                onChange={(e) => setUser_nickname(e.target.value)}
+                isInvalid={
+                  !!error?.errors?.user_nickname && user_nickname.length === 0
+                }
+                errorMessage={error?.errors?.user_nickname?.[0]}
+              />
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                id="user_tel"
+                name="user_tel"
+                label="เบอร์โทรศัพท์"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isrequired="true"
+                value={user_tel}
+                onChange={(e) => setUser_tel(e.target.value)}
+                isInvalid={!!error?.errors?.user_tel && user_tel.length === 0}
+                errorMessage={error?.errors?.user_tel?.[0]}
+              />
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="email"
+                id="user_email"
+                name="user_email"
+                label="อีเมลล์"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isrequired="true"
+                value={user_email}
+                onChange={(e) => setUser_email(e.target.value)}
+                isInvalid={
+                  !!error?.errors?.user_email && user_email.length === 0
+                }
+                errorMessage={error?.errors?.user_email?.[0]}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="ระดับการใช้งาน"
+                placeholder="กรุณาระบุข้อมูล"
+                id="user_level"
+                name="user_level"
+                value={user_level}
+                selectedKeys={[user_level]}
+                onChange={(e) => setUser_level(e.target.value)}
+                variant="bordered"
+                size="md"
+                isInvalid={
+                  !!error?.errors?.user_level && user_level.length === 0
+                }
+                errorMessage={error?.errors?.user_level?.[0]}
+              >
+                <SelectItem value="admin" key="admin">
+                  admin
+                </SelectItem>
+                <SelectItem value="user" key="user">
+                  user
+                </SelectItem>
+              </Select>
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="date"
+                id="user_birthday"
+                name="user_birthday"
+                label="วันเกิด"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isrequired="true"
+                value={user_birthday}
+                onChange={(e) => setUser_birthday(e.target.value)}
+                isInvalid={
+                  !!error?.errors?.user_birthday && user_birthday.length === 0
+                }
+                errorMessage={error?.errors?.user_birthday?.[0]}
+              />
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เพศ"
+                placeholder="กรุณาระบุข้อมูล"
+                id="user_gender"
+                name="user_gender"
+                value={user_gender}
+                selectedKeys={[user_gender]}
+                onChange={(e) => setUser_gender(e.target.value)}
+                variant="bordered"
+                size="md"
+                isInvalid={
+                  !!error?.errors?.user_gender && user_gender.length === 0
+                }
+                errorMessage={error?.errors?.user_gender?.[0]}
+              >
+                <SelectItem value="ชาย" key="ชาย">
+                  ชาย
+                </SelectItem>
+                <SelectItem value="หญิง" key="หญิง">
+                  หญิง
+                </SelectItem>
+                <SelectItem value="ไม่ต้องการระบุ" key="ไม่ต้องการระบุ">
+                  ไม่ต้องการระบุ
+                </SelectItem>
+              </Select>
+            </div>
+          </div>
+
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="text"
+                id="user_id_card"
+                name="user_id_card"
+                label="เลขบัตรประชาชน"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isrequired="true"
+                value={user_id_card}
+                onChange={(e) => setUser_id_card(e.target.value)}
+                isInvalid={
+                  !!error?.errors?.user_id_card && user_id_card.length === 0
+                }
+                errorMessage={error?.errors?.user_id_card?.[0]}
+              />
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="สัญชาติ"
+                placeholder="กรุณาระบุข้อมูล"
+                id="user_citizen"
+                name="user_citizen"
+                value={user_citizen}
+                selectedKeys={[user_citizen]}
+                onChange={(e) => setUser_citizen(e.target.value)}
+                variant="bordered"
+                size="md"
+                isInvalid={
+                  !!error?.errors?.user_citizen && user_citizen.length === 0
+                }
+                errorMessage={error?.errors?.user_citizen?.[0]}
+              >
+                <SelectItem value="ไทย" key="ไทย">
+                  ไทย
+                </SelectItem>
+                <SelectItem value="พม่า" key="พม่า">
+                  พม่า
+                </SelectItem>
+                <SelectItem value="ลาว" key="ลาว">
+                  ลาว
+                </SelectItem>
+                <SelectItem value="กัมพูชา" key="กัมพูชา">
+                  กัมพูชา
+                </SelectItem>
+                <SelectItem value="เวียดนาม" key="เวียดนาม">
+                  เวียดนาม
+                </SelectItem>
+              </Select>
+            </div>
+          </div>
+
+          <div className="flex flex-col xl:flex-row items-center justify-start w-full h-full p-2 gap-2 font-[600]">
+            ข้อมูลการจ้างงาน
+          </div>
+
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="ประเภทพนักงาน"
+                placeholder="กรุณาระบุข้อมูล"
+                id="user_type"
+                name="user_type"
+                value={user_type}
+                selectedKeys={[user_type]}
+                onChange={(e) => setUser_type(e.target.value)}
+                variant="bordered"
+                size="md"
+                isInvalid={!!error?.errors?.user_type && user_type.length === 0}
+                errorMessage={error?.errors?.user_type?.[0]}
+              >
+                <SelectItem value="รายเดือน" key="รายเดือน">
+                  รายเดือน
+                </SelectItem>
+                <SelectItem value="รายเดือน (คนพิการ)" key="รายเดือน (คนพิการ)">
+                  รายเดือน (คนพิการ)
+                </SelectItem>
+                <SelectItem value="รายวัน" key="รายวัน">
+                  รายวัน
+                </SelectItem>
+              </Select>
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือกสาขา"
+                placeholder="กรุณาเลือกสาขา"
+                id="user_branch_id"
+                name="user_branch_id"
+                value={user_branch_id}
+                selectedKeys={[user_branch_id]}
+                onChange={(e) => setUser_branch_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isInvalid={
+                  !!error?.errors?.user_branch_id && user_branch_id.length === 0
+                }
+                errorMessage={error?.errors?.user_branch_id?.[0]}
+              >
+                {branch.map((branch) => (
+                  <SelectItem key={branch.branch_id} value={branch.branch_id}>
+                    {branch.branch_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก ไซต์"
+                placeholder="กรุณาระบุ ไซต์"
+                id="user_site_id"
+                name="user_site_id"
+                value={user_site_id}
+                selectedKeys={[user_site_id]}
+                onChange={(e) => setUser_site_id(e.target.value)}
+                variant="bordered"
+                isDisabled={!isbranchselected}
+                size="md"
+                isInvalid={
+                  !!error?.errors?.user_site_id && user_site_id.length === 0
+                }
+                errorMessage={error?.errors?.user_site_id?.[0]}
+              >
+                {filteredsite.map((site) => (
+                  <SelectItem key={site.site_id} value={site.site_id}>
+                    {site.site_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+          </div>
+
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก ฝ่าย"
+                placeholder="กรุณาระบุ ฝ่าย"
+                id="user_division_id"
+                name="user_division_id"
+                value={user_division_id}
+                selectedKeys={[user_division_id]}
+                onChange={(e) => setUser_division_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isDisabled={!isbranchselected}
+                isInvalid={
+                  !!error?.errors?.user_division_id &&
+                  user_division_id.length === 0
+                }
+                errorMessage={error?.errors?.user_division_id?.[0]}
+              >
+                {filtereddivision.map((division) => (
+                  <SelectItem
+                    key={division.division_id}
+                    value={division.division_id}
+                  >
+                    {division.division_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก แผนก"
+                placeholder="กรุณาระบุ แผนก"
+                id="user_department_id"
+                name="user_department_id"
+                value={user_department_id}
+                selectedKeys={[user_department_id]}
+                onChange={(e) => setUser_department_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isDisabled={!isdivisionandbranchselected}
+                isInvalid={
+                  !!error?.errors?.user_department_id &&
+                  user_department_id.length === 0
+                }
+                errorMessage={error?.errors?.user_department_id?.[0]}
+              >
+                {filtereddepartment.map((department) => (
+                  <SelectItem
+                    key={department.department_id}
+                    value={department.department_id}
+                  >
+                    {department.department_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก ตำแหน่ง"
+                placeholder="กรุณาระบุ ตำแหน่ง"
+                id="user_position_id"
+                name="user_position_id"
+                value={user_position_id}
+                selectedKeys={[user_position_id]}
+                onChange={(e) => setUser_position_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isDisabled={!isdepartmentanddivisionandbranchselected}
+                isInvalid={
+                  !!error?.errors?.user_position_id &&
+                  user_position_id.length === 0
+                }
+                errorMessage={error?.errors?.user_position_id?.[0]}
+              >
+                {filteredposition.map((position) => (
+                  <SelectItem
+                    key={position.position_id}
+                    value={position.position_id}
+                  >
+                    {position.position_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+          </div>
+
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก บทบาทหน้าที่"
+                placeholder="กรุณาระบุ บทบาทหน้าที่"
+                id="user_role_id"
+                name="user_role_id"
+                value={user_role_id}
+                selectedKeys={[user_role_id]}
+                onChange={(e) => setUser_role_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isInvalid={
+                  !!error?.errors?.user_role_id && user_role_id.length === 0
+                }
+                errorMessage={error?.errors?.user_role_id?.[0]}
+              >
+                {role.map((role) => (
+                  <SelectItem key={role.role_id} value={role.role_id}>
+                    {role.role_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="เลือก สายบังคับบัญชา"
+                placeholder="กรุณาระบุ สายบังคับบัญชา"
+                id="user_parent_id"
+                name="user_parent_id"
+                value={user_parent_id}
+                selectedKeys={[user_parent_id]}
+                onChange={(e) => setUser_parent_id(e.target.value)}
+                variant="bordered"
+                size="md"
+                isDisabled={!isdivisionselected}
+                isInvalid={
+                  !!error?.errors?.user_parent_id && user_parent_id.length === 0
+                }
+                errorMessage={error?.errors?.user_parent_id?.[0]}
+              >
+                {filteredparent.map((parent) => (
+                  <SelectItem key={parent.user_id} value={parent.user_id}>
+                    {parent.user_firstname + " " + parent.user_lastname}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Input
+                type="date"
+                id="user_start_work"
+                name="user_start_work"
+                label="วันที่เริ่มงาน"
+                placeholder="กรุณาระบุข้อมูล"
+                size="md"
+                variant="bordered"
+                isrequired="true"
+                value={user_start_work}
+                onChange={(e) => setUser_start_work(e.target.value)}
+                isInvalid={
+                  !!error?.errors?.user_start_work &&
+                  user_start_work.length === 0
+                }
+                errorMessage={error?.errors?.user_start_work?.[0]}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
+            <div className="flex items-center justify-center w-full h-full p-2 gap-2">
+              <Select
+                label="สถานะ"
+                placeholder="กรุณาระบุข้อมูล"
+                id="user_status"
+                name="user_status"
+                value={user_status}
+                selectedKeys={[user_status]}
+                onChange={(e) => setUser_status(e.target.value)}
+                variant="bordered"
+                size="md"
+                isInvalid={
+                  !!error?.errors?.user_status && user_status.length === 0
+                }
+                errorMessage={error?.errors?.user_status?.[0]}
+              >
+                <SelectItem value="0" key="0">
+                  ไม่ได้ใช้งาน
+                </SelectItem>
+                <SelectItem value="1" key="1">
+                  ใช้งาน
+                </SelectItem>
+              </Select>
+            </div>
+          </div>
+
+          <div className="flex flex-col xl:flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-center w-full h-full p-2 gap-2">
               <Input
                 type="text"
@@ -169,6 +944,7 @@ export default function PositionUpdate({ params }) {
               />
             </div>
           </div>
+
           <div className="flex flex-row items-center justify-center w-full h-full p-2 gap-2">
             <div className="flex items-center justify-end w-full h-full p-2 gap-2">
               <Button
